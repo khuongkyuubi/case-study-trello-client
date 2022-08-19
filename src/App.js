@@ -1,11 +1,15 @@
-import logo from './logo.svg';
 import './App.css';
+import Home from "./pages/Home";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 
 function App() {
     return (
-        <div>
-            Hello trello app
-        </div>
+        <BrowserRouter>
+            <Routes>
+                //dang demo
+                <Route path="/" element={<Home />} />
+            </Routes>
+        </BrowserRouter>
     );
 }
 
