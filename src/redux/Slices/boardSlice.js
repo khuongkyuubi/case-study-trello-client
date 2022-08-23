@@ -21,16 +21,6 @@ const boardSlice = createSlice({
             state.loading = action.payload;
         },
         successFetchingBoard: (state, action) => {
-            const {
-                _id: id,
-                title,
-                backgroundImageLink,
-                isImage,
-                lists,
-                members,
-                activity,
-                description
-            } = action.payload;
             state.id = action.payload._id;
             state.title = action.payload.title;
             state.backgroundImageLink = action.payload.backgroundImageLink;
@@ -41,9 +31,9 @@ const boardSlice = createSlice({
             state.description = action.payload.description;
         },
         updateTitle: (state, action) => {
-            state.tiles = action.payload;
+            state.title = action.payload;
         },
-        setActivityBoard: (state, action) => {
+        setActivityLoading: (state, action) => {
             state.activityLoading = action.payload;
         },
         updateActivity: (state, action) => {
@@ -67,11 +57,11 @@ export const {
     setLoading,
     successFetchingBoard,
     updateTitle,
-    setActivityBoard,
+    setActivityLoading,
     updateActivity,
     updateDescription,
     updateBackground,
-    addMembers
+    addMembers,
 } = boardSlice.actions;
 
 export default boardSlice.reducer;

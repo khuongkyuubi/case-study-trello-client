@@ -6,7 +6,7 @@ import {
     successFetchingBoard
 } from "../redux/Slices/boardSlice";
 import board from "../pages/BoardPage/Board";
-const baseUrl = process.env.REACT_APP_API_ENDPOINT;
+const baseUrl = process.env.REACT_APP_API_ENDPOINT + "/board";
 
 export const getBoard = async (boardId, dispatch) => {
     dispatch(setLoading(true));
@@ -16,7 +16,7 @@ export const getBoard = async (boardId, dispatch) => {
         setTimeout(()=> {
             dispatch(setLoading(false))
         }, 1000);
-    } catch (err) {
+    } catch (error) {
         dispatch(setLoading(false));
         dispatch(
             openAlert({
