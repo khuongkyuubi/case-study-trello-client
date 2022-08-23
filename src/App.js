@@ -5,7 +5,7 @@ import BoardsPage from "./pages/Boards/BoardsPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import AlertSnackBar from "./components/AlertSnackBar";
 import Register from "./pages/RegisterPage/Register";
-
+import Index from "./pages/IndexPage/Index";
 
 
 function App() {
@@ -13,10 +13,11 @@ function App() {
         <BrowserRouter>
             <AlertSnackBar/>
             <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/boards" element={<BoardsPage />} />
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/register" element={<Register />} />
+                <Route path="/" element={<Index/>}/>
+                <Route path="/home" element={<HomePage/>}/>
+                <Route path="/boards" element={<BoardsPage/>}/>
+                <Route path="/login" element={<LoginPage/>}/>
+                <Route path="/register" element={<Register/>}/>
 
             </Routes>
         </BrowserRouter>
