@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from "styled-components";
 import {Cards, IconWorkSpaceRecently, NameWorkSpaceRecently, Card} from "./BoardsRecently";
+import {IconProject} from "../Home/HomeLeft";
 
 
 const BoardsWorkSpace = styled.div`

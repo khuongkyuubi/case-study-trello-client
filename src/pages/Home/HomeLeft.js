@@ -42,7 +42,7 @@ const Item = styled.li`
     border-radius: 5px;
   }
 `
- const IconItem = styled.span`
+const IconItem = styled.span`
   margin: 0 5px;
   color: #42526e;
 `
@@ -87,7 +87,37 @@ const ProjectOld = styled.div`
 
 `
 
+const ContentProject = styled.div`
+  height: 45px;
+  margin-top: 7px;
+  //margin-left:2px;
+  display: flex;
+  align-items: center;
 
+  &:hover {
+    background-color: #e6eaee;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+
+`
+
+export const IconProject = styled.div`
+  width: 21px;
+  height: 21px;
+  display: flex;
+  margin-left: 10px;
+  margin-right: 7px;
+  justify-content: center;
+  color: white;
+  border-radius: 3px;
+  font-weight: bold;
+  background: linear-gradient(#b22865, #cd5a91)
+`
+
+const NameProject = styled.div`
+  font-weight: bold;
+`
 
 const HomeLeft = () => {
 

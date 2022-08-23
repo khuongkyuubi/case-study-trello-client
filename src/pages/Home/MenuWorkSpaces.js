@@ -11,10 +11,10 @@ import SendIcon from '@mui/icons-material/Send';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import StarBorder from '@mui/icons-material/StarBorder';
-import {IconProject} from "./HomeLeft";
 import AnalyticsIcon from "@mui/icons-material/Analytics";
 import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
 import SettingsIcon from '@mui/icons-material/Settings';
+import {IconProject} from "./HomeLeft";
 
 
 
