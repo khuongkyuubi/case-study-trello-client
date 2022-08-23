@@ -11,12 +11,13 @@ import {
     fetchingStart,
     fetchingFinish,
 } from "../redux/Slices/userSlice";
-
+import {openAlert} from "../redux/Slices/alertSlice";
 import setBearer from "../utils/setBearer";
-const baseUrl = "http://localhost:3001/user/";
+
+const baseUrl = process.env.REACT_APP_API_ENDPOINT + "/user/";
 
 export const register = async (
-    { name, surname, email, password, repassword },
+    {name, surname, email, password, repassword},
     dispatch
 ) => {
     dispatch(registrationStart());
@@ -57,15 +58,15 @@ export const register = async (
     dispatch(registrationEnd());
 };
 
-export const login = async ({ email, password }, dispatch) => {
+export const login = async ({email, password}, dispatch) => {
     dispatch(loginStart());
     try {
-        const res = await axios.post(baseUrl + "login", { email, password });
-        const { user, message } = res.data;
+        const res = await axios.post(baseUrl + "login", {email, password});
+        const {user, message} = res.data;
         console.log(res.data)
         localStorage.setItem("token", user.token);
         setBearer(user.token);
-        dispatch(loginSuccess({ user }));
+        dispatch(loginSuccess({user}));
         dispatch(
             openAlert({
                 message,
@@ -93,7 +94,7 @@ export const loadUser = async (dispatch) => {
     setBearer(localStorage.token);
     try {
         const res = await axios.get(baseUrl + "get-user");
-        dispatch(loadSuccess({ user: res.data }));
+        dispatch(loadSuccess({user: res.data}));
     } catch (error) {
         dispatch(loadFailure());
     }
@@ -113,7 +114,7 @@ export const getUserFromEmail = async (email, dispatch) => {
     }
 
     try {
-        const res = await axios.post(baseUrl + "get-user-with-email", { email });
+        const res = await axios.post(baseUrl + "get-user-with-email", {email});
         dispatch(fetchingFinish());
         return res.data;
     } catch (error) {
