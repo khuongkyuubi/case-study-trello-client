@@ -9,7 +9,7 @@ const ProtectedRoute = () => {
         if (!user.isAuthenticated && !user.pending) navigate("/");
     });
     return (
-        user.isAuthenticated && user.pending && <Outlet/>
+        user.isAuthenticated && !user.pending && <Outlet/>
     );
 };
 
