@@ -21,6 +21,12 @@ const Board = (props) => {
         document.title = title + ' | Trello'
     }, [title])
 
+    return (
+        <div>
+
+        </div>
+    )
+
 
 
 }
