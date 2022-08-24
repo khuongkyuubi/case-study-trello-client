@@ -10,6 +10,7 @@ import {
     loadStart,
     fetchingStart,
     fetchingFinish,
+    logout
 } from "../redux/Slices/userSlice";
 import {openAlert} from "../redux/Slices/alertSlice";
 import setBearer from "../utils/setBearer";
@@ -47,8 +48,8 @@ export const register = async (
         } catch (error) {
             dispatch(
                 openAlert({
-                    message: error?.response?.data?.errMessage
-                        ? error.response.data.errMessage
+                    message: error?.response?.data?.errMessage[0].msg
+                        ? error.response.data.errMessage[0].msg
                         : error.message,
                     severity: "error",
                 })
@@ -79,8 +80,8 @@ export const login = async ({email, password}, dispatch) => {
         dispatch(loginFailure());
         dispatch(
             openAlert({
-                message: error?.response?.data?.errMessage
-                    ? error.response.data.errMessage
+                message: error?.response?.data?.errMessage[0].msg
+                    ? error.response.data.errMessage[0].msg
                     : error.message,
                 severity: "error",
             })
@@ -130,3 +131,7 @@ export const getUserFromEmail = async (email, dispatch) => {
         return null;
     }
 };
+
+export const logOut = async(user, dispatch) =>{
+    dispatch(logout(user))
+}
