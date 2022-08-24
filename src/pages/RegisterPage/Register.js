@@ -34,8 +34,12 @@ const Register = () => {
     });
     useEffect(() => {
         document.title = "Create a Trello Account";
-        setUserInformations({...userInformations,
-            email: state.email})
+        if(state){
+            setUserInformations({
+                ...userInformations,
+                email: state.email
+            })
+        }
     }, [])
 
     const handleSubmit = async (e) => {

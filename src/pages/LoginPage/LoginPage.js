@@ -29,9 +29,11 @@ const Login = () => {
     });
 
     useEffect(() => {
-        setUserInformations({
-            email:state.email
-        })
+        if(state){
+            setUserInformations({
+                email: state.email
+            })
+        }
         document.title = "Log in to Trello Clone"
     }, [])
     const handleSubmit = (e) => {
@@ -55,7 +57,7 @@ const Login = () => {
                                 type="text"
                                 placeholder="Enter email"
                                 required
-                                value={userInformations.email}
+                                value={userInformations.email||''}
                                 onChange={(e) =>
                                     setUserInformations({
                                         ...userInformations,
@@ -67,7 +69,7 @@ const Login = () => {
                                 type="password"
                                 placeholder="Enter password"
                                 required
-                                value={userInformations.password}
+                                value={userInformations.password||''}
                                 onChange={(e) =>
                                     setUserInformations({
                                         ...userInformations,

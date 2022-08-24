@@ -28,7 +28,6 @@ const Index = () => {
         try{
             const res = await axios.get(url + '/user/check-email/' + formData);
             const email = res.data.checkMail;
-            console.log(email)
             if (email) {
                 navigate('/login', {state: {email: formData}})
             } else {
