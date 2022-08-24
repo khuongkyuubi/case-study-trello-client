@@ -3,28 +3,25 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@atlaskit/css-reset": "^6.3.13",
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
     "@mui/icons-material": "^5.8.4",
     "@mui/material": "^5.8.6",
+    "@mui/styles": "^5.10.2",
     "@reduxjs/toolkit": "^1.8.4",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.1.1",
-    "@atlaskit/css-reset": "^6.3.13",
-
-
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.27.2",
     "bootstrap": "^5.2.0",
+    "date-fns": "^2.29.2",
     "react": "^18.0.0",
+    "react-beautiful-dnd": "^13.1.0",
     "react-bootstrap": "^2.5.0",
     "react-dom": "^18.0.0",
     "react-dropdown": "^1.10.0",
     "react-redux": "^8.0.2",
-    "date-fns": "^2.29.2",
-    "react-beautiful-dnd": "^13.1.0",
-
-
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
     "sass": "^1.54.5",
