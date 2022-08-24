@@ -15,7 +15,7 @@ export const alertSlice = createSlice({
         openAlert: (state, action) => {
             state.open = true;
             state.message = action.payload.message;
-            state.serverity = action.payload.serverity;
+            state.severity = action.payload.severity;
             state.duration = action.payload.duration || initialState.duration;
             state.nextRoute = action.payload.nextRoute || initialState.nextRoute;
         },
