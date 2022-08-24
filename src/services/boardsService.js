@@ -15,7 +15,7 @@ import {
 import board from "../pages/BoardPage/Board";
 import { addNewBoard } from "../redux/userSlice";
 
-const baseUrl = "http://localhost:5000/board";
+const baseUrl = process.env.REACT_APP_API_ENDPOINT + "/boards";
 
 export const getBoard = async (boardId, dispatch) => {
     dispatch(setLoading(true));

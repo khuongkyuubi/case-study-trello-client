@@ -10,7 +10,7 @@ import {getBoards} from "../../services/boardsService";
 
 
 
-export default function BoardsPage(){
+export default function Boards(){
     const colors = ['red', "blue", 'green', 'yellow'];
     const dispatch = useDispatch();
     const [backgroundColor, setBackgroundColor] = useState(colors[0]);
