@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { lg, sm } from "../../BreakPoints";
+import {lg, md, sm} from "../../BreakPoints";
 
 export const Container = styled.div`
   background: linear-gradient(rgb(234, 230, 255), rgb(255, 255, 255)) no-repeat;
@@ -63,13 +63,14 @@ export const Text = styled.h3`
   })}
 `;
 
+
 export const Button = styled.button`
-  margin-top: 2rem;
-  font-size: 1.25rem;
+  font-size: 1rem;
   background-color: #0065ff;
-  width: fit-content;
-  border-radius: 0.4rem;
-  padding: 0.75rem 2rem;
+  width: 35%;
+  border-radius: 0.3rem;
+  padding: 0.75rem 1rem 0.8rem;
+  -webkit-box-align: center;
   color: white;
   border: none;
   cursor: pointer;
@@ -81,6 +82,7 @@ export const Button = styled.button`
     width: "100%",
   })}
 `;
+
 
 export const RightSide = styled.div`
   flex: 1;
@@ -99,4 +101,32 @@ export const SvgItem = styled.img`
     width: "300px",
     height: "272px",
   })}
+`;
+export const Input = styled.input`
+  width: 100%;
+  height: 50px;
+  outline: none;
+  font-size: 0.85rem;
+  border-radius: 0.2rem;
+  padding: 0.6rem;
+  border: 2px solid #dfe1e6;
+  background-color: #fafbfc;
+  &:focus {
+    transition: background-color 0.2s ease-in-out 0s,
+      border-color 0.2s ease-in-out 0s;
+    border: 2px solid #68bcff;
+  }
+  ${lg({
+  marginTop: "1.5rem",
+  width: "100%",
+})}
+`;
+export const Form = styled.form`
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 1rem;
+  ${md({
+  gap: "0.7rem",
+})}
 `;

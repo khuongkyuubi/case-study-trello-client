@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import { login } from "../../services/userService";
 import Background from "../../components/Background";
 import {
@@ -20,6 +20,7 @@ import {
 } from "./Styled";
 
 const Login = () => {
+    const {state} = useLocation()
     let navigate = useNavigate();
     const dispatch = useDispatch();
     const [userInformations, setUserInformations] = useState({
@@ -28,6 +29,9 @@ const Login = () => {
     });
 
     useEffect(() => {
+        setUserInformations({
+            email:state.email
+        })
         document.title = "Log in to Trello Clone"
     }, [])
     const handleSubmit = (e) => {
@@ -48,7 +52,7 @@ const Login = () => {
                         <Form onSubmit={(e) => handleSubmit(e)}>
                             <Title>Log in to Trello</Title>
                             <Input
-                                type="email"
+                                type="text"
                                 placeholder="Enter email"
                                 required
                                 value={userInformations.email}

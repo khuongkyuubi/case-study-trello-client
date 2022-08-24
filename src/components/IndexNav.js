@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { lg } from "../BreakPoints";
 import trelloLogo from "../images/trello-logo.svg";
+import {useDispatch, useSelector} from "react-redux";
+import {logOut} from "../services/userService";
 const Container = styled.nav`
   position: fixed;
   top: 0;
@@ -34,7 +36,7 @@ const RightSide = styled.div`
 `;
 
 const Link = styled.a`
-  text-decoration: underline;
+  text-decoration: none;
   cursor: pointer;
   color: #0952cc;
 `;
@@ -53,12 +55,19 @@ const Button = styled.button`
 
 const IndexNav = () => {
   let navigate = useNavigate();
+  const dispatch = useDispatch();
+  const user = useSelector(state => state.user)
+    const onLogout = ()=>{
+      logOut(user, dispatch);
+      navigate('/login')
+    }
   return (
     <Container>
       <Icon src={trelloLogo} />
       <RightSide>
-        <Link onClick={()=>navigate("/login")}>Log in</Link>
-        <Button onClick={()=>navigate("/register")}>Sign up</Button>
+          {user.userInfo?(<Link onClick={onLogout}>Log out</Link>):(<>
+              <Link onClick={() => navigate("/login")}>Log in</Link>
+              <Button onClick={()=>navigate("/register")}>Get Trello for free</Button></>)}
       </RightSide>
     </Container>
   );
