@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import * as style from './Styled';
 
 import {DragDropContext, Droppable} from "react-beautiful-dnd";
-import LoadingScreen from '../../components/LoadingScreeen';
+import LoadingScreen from '../../components/LoadingScreen';
 import {useParams} from "react-router-dom";
 import {getBoard} from "../../services/boardsService";
 import {getLists} from "../../services/boardService";
@@ -30,6 +30,12 @@ const Board = (props) => {
     useEffect(() => {
         document.title = title + ' | Trello'
     }, [title])
+
+    return (
+        <div>
+
+        </div>
+    )
 
 
     const onDragEnd = async (result) => {

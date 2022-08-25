@@ -12,6 +12,12 @@ import {loadUser} from "./services/userService";
 import FreeRoute from "./utils/FreeRoute";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import Board from "./pages/BoardPage/Board";
+import Boards from "./pages/BoardsPage";
+import MyBoardsPage from "./pages/MyBoards/MyBoardsPage";
+import BoardMemberHome from "./pages/BoardMember/BoardMemberHome";
+import SettingHomePage from "./pages/SettingPage/SettingHomePage";
+
+
 
 
 function App() {
@@ -27,6 +33,11 @@ function App() {
                     <Route path="/home" element={<HomePage/>}/>
                     <Route path="/boards" element={<BoardsPage/>}/>
                     <Route path="/board/:id" element={<Board/>}/>
+                    <Route path="/home" element={<HomePage />} />
+                    <Route path="/my-boards" element={<MyBoardsPage />} />
+                    <Route path="/members" element={<BoardMemberHome />} />
+                    <Route path="/setting" element={<SettingHomePage/>} />
+                    <Route path="/boards-create" element={<Boards/>}/>
                 </Route>
                 <Route element={<FreeRoute/>}>
                     <Route path="/" element={<Index/>}/>

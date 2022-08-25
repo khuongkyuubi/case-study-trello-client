@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import Background from "../../components/Background";
 import { register } from "../../services/userService";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,6 +22,7 @@ import { useEffect } from "react";
 
 const Register = () => {
     let navigate = useNavigate();
+    const {state} = useLocation()
     const dispatch = useDispatch();
     const { pending } = useSelector((state) => state.user);
     const [userInformations, setUserInformations] = useState({
@@ -31,9 +32,14 @@ const Register = () => {
         password: "",
         repassword: "",
     });
-
     useEffect(() => {
-        document.title = "Create a Trello Account"
+        document.title = "Create a Trello Account";
+        if(state){
+            setUserInformations({
+                ...userInformations,
+                email: state.email
+            })
+        }
     }, [])
 
     const handleSubmit = async (e) => {
@@ -79,7 +85,7 @@ const Register = () => {
                                 }
                             />
                             <Input
-                                type="email"
+                                type="text"
                                 placeholder="Enter email"
                                 required
                                 value={userInformations.email}
