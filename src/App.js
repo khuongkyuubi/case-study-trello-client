@@ -11,6 +11,7 @@ import Store from "./redux/store";
 import {loadUser} from "./services/userService";
 import FreeRoute from "./utils/FreeRoute";
 import ProtectedRoute from "./utils/ProtectedRoute";
+import Board from "./pages/BoardPage/Board";
 
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
                 <Route element={<ProtectedRoute/>}>
                     <Route path="/home" element={<HomePage/>}/>
                     <Route path="/boards" element={<BoardsPage/>}/>
+                    <Route path="/board/:id" element={<Board/>}/>
                 </Route>
                 <Route element={<FreeRoute/>}>
                     <Route path="/" element={<Index/>}/>
