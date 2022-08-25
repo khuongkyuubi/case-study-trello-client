@@ -46,20 +46,51 @@ const TopBar = ({listMember}) => {
                 <span style={{color: "white", fontSize: "1.25rem"}}>|</span>
 
                 {/*Avatar group, for invite member*/}
-                <AvatarGroup max={5} sx={{
+                {/*<AvatarGroup max={5} sx={{*/}
+                {/*    '& .MuiAvatar-root': { width: 25, height: 25, fontSize: "0.75rem" },*/}
+
+                {/*}}>*/}
+                {/*    {listMember.map(member =>(*/}
+                {/*        <Avatar*/}
+                {/*                src={member?.avatar}*/}
+                {/*                sx={{background:member?.color,*/}
+                {/*                '&:hover':{*/}
+                {/*                    backgroundColor:'#00000029'*/}
+                {/*                }*/}
+                {/*                }}*/}
+                {/*                key={member._id}>{member.name.charAt(0).toUpperCase()}</Avatar>*/}
+                {/*    ))}*/}
+                {/*</AvatarGroup>*/}
+
+                <AvatarGroup  sx={{
                     '& .MuiAvatar-root': { width: 25, height: 25, fontSize: "0.75rem" },
 
                 }}>
-                    {listMember.map(member =>(
-                        <Avatar
+                    {listMember.map((member, index) =>(
+                        index < 4 && (
+                            <Avatar  onClick={()=>console.log(member)}
                                 src={member?.avatar}
                                 sx={{background:member?.color,
-                                '&:hover':{
-                                    backgroundColor:'#00000029'
-                                }
+                                    '&:hover':{
+                                        backgroundColor:'#00000029'
+                                    }
                                 }}
-                                key={member._id}>{member.name.charAt(0).toUpperCase()}</Avatar>
+                                key={member._id}>{member.name.charAt(0).toUpperCase()}
+                            </Avatar>
+                        )
                     ))}
+                    {listMember.length>4 && <Avatar
+
+                        sx={{
+                        '&:hover':{
+                        backgroundColor:'#00000029'
+                    }
+                    }}
+                        onClick={() => console.log(listMember)}
+                        >
+                        +{listMember.length - 4}
+                        </Avatar>}
+
                 </AvatarGroup>
 
                 <style.InviteButton onClick={(event) => setInvitePopover(event.currentTarget)}>
