@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from "styled-components";
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import Navbar from "../../components/Navbar";
+import Navbar from "../../components/Navbar2";
 import HomeLeft from "../Home/HomeLeft";
 import {CreateBoard} from "../Boards/BoardsWorkSpace";
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
@@ -24,16 +24,16 @@ const Nav = styled.div`
 `
 
 const Wrapper = styled.div`
+  margin-top:3%;
   flex: 6;
   display: flex;
   width: 100%;
 `
 const BoardsContent = styled.div`
   display: flex;
-  width: 100%;
+  width: 70%;
   height: auto;
   margin-top: 35px;
-  margin-left: 35px;
   flex-direction: column;
 `
 
@@ -70,7 +70,7 @@ const DefaultName = styled.div`
 
 
 const DivEmpty = styled.div`
-  width: 16%;
+  width: 10%;
 `
 
 const MyBoardsPage = () => {

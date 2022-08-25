@@ -10,7 +10,7 @@ import InfoMenu from "./InfoMenu";
 const Container = styled.div`
 	height: 3rem;
 	width: 100%;
-	background-color: rgba(0, 0, 0, 0.3);
+	background-color: #026aa7;
 	backdrop-filter: blur(24px);
 	position: fixed;
 	top: 0;
