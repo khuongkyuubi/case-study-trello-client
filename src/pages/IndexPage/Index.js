@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
+
 import IndexNav from "../../components/IndexNav";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 import {
     Container,
     Content,
@@ -53,7 +54,8 @@ const Index = () => {
                             </Text>
                             {userInfo ? (
                                     <main>
-                                        Welcome to Trello
+                                        <p>Welcome to Trello</p>
+                                        <Link to={'/boards'}>Back to Boards --></Link>
                                     </main>)
                                 : (
                                     <>

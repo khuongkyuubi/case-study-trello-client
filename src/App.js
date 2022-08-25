@@ -11,6 +11,7 @@ import Store from "./redux/store";
 import {loadUser} from "./services/userService";
 import FreeRoute from "./utils/FreeRoute";
 import ProtectedRoute from "./utils/ProtectedRoute";
+import Settings from "./pages/Settings/Settings";
 
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
                     <Route path="/login" element={<LoginPage/>}/>
                     <Route path="/register" element={<Register/>}/>
                 </Route>
+                    <Route path="/settings" element={<Settings/>}/>
 
             </Routes>
         </BrowserRouter>
