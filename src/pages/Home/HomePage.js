@@ -1,14 +1,9 @@
 import React from 'react';
 import styled from "styled-components";
-import AnalyticsIcon from '@mui/icons-material/Analytics';
-import BubbleChartIcon from '@mui/icons-material/BubbleChart';
-import HolidayVillageIcon from '@mui/icons-material/HolidayVillage';
-
 import Navbar from "../../components/Navbar";
 import HomeLeft from "./HomeLeft";
 import HomeCenter from "./HomeCenter";
 import HomeRight from "./HomeRight";
-
 
 const Container = styled.div`
   width: 100%;
@@ -23,29 +18,17 @@ const Nav = styled.div`
   position: sticky;
   flex: 1
 `
-
 const Wrapper = styled.div`
   flex: 6;
   display: flex;
   width: 100%;
 `
-
 const ContentLeft1 = styled.div`
-  width: 16%;
+  width: 10%;
 `
-
-
-
-
-
-
-
-
 const ContentRight2 = styled.div`
   width: 16%;
 `
-
-
 const HomePage = () => {
     return (
         <Container>

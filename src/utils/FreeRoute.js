@@ -6,7 +6,7 @@ const FreeRoute = () => {
     const navigate = useNavigate();
     const token = localStorage.getItem("token");
     useEffect(() => {
-        token && navigate("/boards", {replace: true});
+        token && navigate("/home", {replace: true});
     })
     return (
         !token && <Outlet/>

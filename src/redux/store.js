@@ -4,6 +4,9 @@ import boardReducer from "./Slices/boardSlice";
 import listReducer from "./Slices/listSlice";
 import alertReducer from "./Slices/alertSlice";
 import userReducer from "./Slices/userSlice";
+import boardsReducer from "./Slices/boardsSlice";
+
+
 
 
 
@@ -13,6 +16,7 @@ const Store = configureStore({
         list: listReducer,
         alert: alertReducer,
         user: userReducer,
+        boards: boardsReducer
     }
 })
 
