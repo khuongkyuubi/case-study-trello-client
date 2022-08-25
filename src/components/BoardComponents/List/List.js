@@ -26,6 +26,7 @@ import {DeleteList, listTitleUpdate} from '../../../services/boardService';
 import {createCard} from '../../../services/listService';
 import {Droppable, Draggable} from 'react-beautiful-dnd';
 import {CircularProgress} from "@mui/material";
+import Card from "../Card/Card";
 
 
 const List = (props) => {
@@ -149,18 +150,17 @@ const List = (props) => {
                                             isDraggingOver={snapshot.isDraggingOver}
                                         >
                                             <CardWrapper dock={clickFooter}>
-                                                {/*{props.info.cards.filter(card => props.searchString ? card.title.toLowerCase().includes(props.searchString.toLowerCase()) : true).map((card, index) => {*/}
-                                                {/*    // console.log("card", card)*/}
-                                                {/*    return (*/}
-                                                {/*        <Card*/}
-                                                {/*            boardId={props.boardId}*/}
-                                                {/*            listId={props.info._id}*/}
-                                                {/*            key={card._id}*/}
-                                                {/*            index={index}*/}
-                                                {/*            info={card}*/}
-                                                {/*        />*/}
-                                                {/*    );*/}
-                                                {/*})}*/}
+                                                {props.info.cards.filter(card => props.searchString ? card.title.toLowerCase().includes(props.searchString.toLowerCase()) : true).map((card, index) => {
+                                                    return (
+                                                        <Card
+                                                            boardId={props.boardId}
+                                                            listId={props.info._id}
+                                                            key={card._id}
+                                                            index={index}
+                                                            info={card}
+                                                        />
+                                                    );
+                                                })}
                                                 {provided.placeholder}
                                             {clickFooter && (
                                                     <AddTitleCardContainer ref={ref}>
