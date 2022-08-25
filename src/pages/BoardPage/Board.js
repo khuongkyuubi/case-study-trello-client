@@ -16,7 +16,7 @@ import {updateCardOrder, updateListOrder} from "../../services/dragAndDropServic
 const Board = (props) => {
     const {id: boardId} = useParams();
     const dispatch = useDispatch();
-    const {backgroundImageLink, isImage, loading, title} = useSelector((state) => state.board);
+    const {backgroundImageLink, isImage, loading, title,members} = useSelector((state) => state.board);
     const {allLists, loadingListService} = useSelector((state) => state.list);
     const [searchString, setSearchString] = useState("");
 
@@ -78,7 +78,7 @@ const Board = (props) => {
                 isImage={isImage}
                 bgImage={isImage ? backgroundImageLink.split('?')[0] : backgroundImageLink}
             >
-                <TopBar/>
+                <TopBar listMember={members}/>
                 {(loading || loadingListService) && <LoadingScreen/>}
                 <DragDropContext onDragEnd={onDragEnd}>
                     <Droppable droppableId='all-columns' direction='horizontal' type='column'>

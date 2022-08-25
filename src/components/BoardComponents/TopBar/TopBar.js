@@ -6,16 +6,20 @@ import * as common from '../../../pages/BoardPage/CommonStyled';
 import {useDispatch, useSelector} from 'react-redux';
 // import {boardTitleUpdate} from '../../../../../Services/boardsService';
 // import RightDrawer from '../../../../Drawers/RightDrawer/RightDrawer';
-// import BasePopover from '../../../../Modals/EditCardModal/ReUsableComponents/BasePopover';
-// import InviteMembers from '../../../../Modals/EditCardModal/Popovers/InviteMembers/InviteMembers';
+import BasePopover from '../../modals/EditCardModal/ReUsableComponents/BasePopover';
+import InviteMembers from '../../modals/EditCardModal/Popovers/InviteMembers/InviteMembers';
 import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import {AvatarGroup} from "@mui/material";
+import {useParams} from "react-router-dom";
+import {getBoard} from "../../../services/boardsService";
+import background from "../../Background";
 
 
-const TopBar = () => {
+const TopBar = ({listMember}) => {
+
     const board = useSelector((state) => state.board);
     const [currentTitle, setCurrentTitle] = useState(board.title);
     const [showDrawer, setShowDrawer] = useState(false);
@@ -28,6 +32,8 @@ const TopBar = () => {
     const handleTitleChange = () => {
         // boardTitleUpdate(currentTitle, board.id, dispatch);
     };
+
+
     return (
         <style.TopBar>
             <style.LeftWrapper>
@@ -40,32 +46,30 @@ const TopBar = () => {
                 <span style={{color: "white", fontSize: "1.25rem"}}>|</span>
 
                 {/*Avatar group, for invite member*/}
-                <AvatarGroup max={4} sx={{
-                    '& .MuiAvatar-root': { width: 32, height: 32, fontSize: "1rem" },
+                <AvatarGroup max={5} sx={{
+                    '& .MuiAvatar-root': { width: 25, height: 25, fontSize: "0.75rem" },
                 }}>
-                    <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg"/>
-                    <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg"/>
-                    <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg"/>
-                    <Avatar alt="Agnes Walker" src="/static/images/avatar/4.jpg"/>
-                    <Avatar alt="Trevor Henderson" src="/static/images/avatar/5.jpg"/>
+                    {listMember.map(member =>(
+                        <Avatar  src={member?.avatar} style={{background:member?.color}}  key={member._id}/>
+                    ))}
                 </AvatarGroup>
 
                 <style.InviteButton onClick={(event) => setInvitePopover(event.currentTarget)}>
                     <PersonAddAltIcon/>
-                    <style.TextSpan>Add Member</style.TextSpan>
+                    <style.TextSpan >Add Member</style.TextSpan>
                 </style.InviteButton>
-                {/*{invitePopover && (*/}
-                {/*    <BasePopover*/}
-                {/*        anchorElement={invitePopover}*/}
-                {/*        closeCallback={() => {*/}
-                {/*            setInvitePopover(null);*/}
-                {/*        }}*/}
-                {/*        title='Invite Members'*/}
-                {/*        contents={<InviteMembers closeCallback={() => {*/}
-                {/*            setInvitePopover(null);*/}
-                {/*        }}/>}*/}
-                {/*    />*/}
-                {/*)}*/}
+                {invitePopover && (
+                    <BasePopover
+                        anchorElement={invitePopover}
+                        closeCallback={() => {
+                            setInvitePopover(null);
+                        }}
+                        title='Invite Members'
+                        contents={<InviteMembers closeCallback={() => {
+                            setInvitePopover(null);
+                        }}/>}
+                    />
+                )}
             </style.LeftWrapper>
 
             <style.RightWrapper>
