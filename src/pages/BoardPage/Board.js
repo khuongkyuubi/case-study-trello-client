@@ -1,7 +1,7 @@
 import {useState, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {DragDropContext, Droppable} from "react-beautiful-dnd";
-import LoadingScreen from '../../components/LoadingScreeen';
+import LoadingScreen from '../../components/LoadingScreen';
 import {useParams} from "react-router-dom";
 import {getBoard} from "../../services/boardsService";
 

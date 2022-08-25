@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    boardsData: {},
+    boardsData: [],
     pending: true,
     backgroundImages: [
         "https://images.unsplash.com/photo-1636471815144-616b00e21f24",
@@ -13,12 +13,12 @@ const initialState = {
         "https://images.unsplash.com/photo-1603932978744-e09fcf98ac00",
         "https://images.unsplash.com/photo-1636207543865-acf3ad382295",
         "https://images.unsplash.com/photo-1597244211919-8a52ab2e40ea",
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/5120x2880-dark-blue-solid-color-background.jpg/2560px-5120x2880-dark-blue-solid-color-background.jpg",
-        "https://www.macmillandictionary.com/external/slideshow/full/Yellow_full.png"
     ],
     smallPostfix:
         "?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=Mnw3MDY2fDB8MXxjb2xsZWN0aW9ufDJ8MzE3MDk5fHx8fHwyfHwxNjM2NjUzNDgz&ixlib=rb-1.2.1&q=80&w=400",
     creating: false,
+    backgroundColors: ['#0079bf', '#d29034', '#519839', '#b04632', '#89609e', '#cd5a91', '#4bbf6b', '#00aecc'],
+
 };
 
 const boardsSlice = createSlice({

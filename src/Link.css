@@ -1,0 +1,15 @@
+.my-board {
+    text-decoration: none !important;
+    color: #42526e !important;
+}
+
+.button-invite-member {
+    background-color: #026aa7;
+    border-radius: 3px;
+}
+
+.NameProject:hover{
+    border-radius:5px !important
+
+}
+

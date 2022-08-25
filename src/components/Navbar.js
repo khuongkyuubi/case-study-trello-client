@@ -6,6 +6,7 @@ import AppsIcon from '@mui/icons-material/Apps';
 import PollIcon from '@mui/icons-material/Poll';
 import InfoIcon from '@mui/icons-material/Info';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import {useNavigate} from "react-router-dom";
 
 const Container = styled.div`
   width: 100%;
@@ -202,6 +203,7 @@ const Avatar=styled.span`
   border-radius:50%;
   display:flex;
   align-items: center;
+  padding: 0 5px;
   &:hover {
     background-color: rgba(255, 255, 255, 0.3);
     cursor: pointer;
@@ -210,6 +212,7 @@ const Avatar=styled.span`
 `
 
 const Navbar = () => {
+    const navigate=useNavigate()
     const [inputL, setInputLong] = useState('');
 
     const MakeInputLong = () => {
@@ -225,7 +228,7 @@ const Navbar = () => {
                     <Span1><AppsIcon/></Span1>
                 </LogoApp>
 
-                <LogoTrello>
+                <LogoTrello onClick={()=>navigate('/home')}>
                     <IconLogoTrello><PollIcon/></IconLogoTrello>
                     <ContentLogoTrello>Trello</ContentLogoTrello>
                 </LogoTrello>

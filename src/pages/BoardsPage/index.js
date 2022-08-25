@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import { Container, Wrapper, Title, Board, AddBoard } from "./styled";
 import {useDispatch, useSelector} from "react-redux";
 import CreateBoard from "../../components/modals/modalCreateBoard/CreateBoard";
-import LoadingScreen from "../../components/LoadingScreeen";
+import LoadingScreen from "../../components/LoadingScreen";
 // import { useHistory } from "react-router";
 import { useNavigate } from "react-router-dom";
 import {getBoards} from "../../services/boardsService";

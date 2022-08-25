@@ -18,6 +18,7 @@ import { addNewBoard } from "../redux/userSlice";
 const baseUrl = process.env.REACT_APP_API_ENDPOINT + "/boards";
 
 export const getBoard = async (boardId, dispatch) => {
+
     dispatch(setLoading(true));
     try {
         const res = await  axios.get(baseUrl + "/" + boardId);
@@ -79,6 +80,8 @@ export const createBoard = async (props, dispatch) => {
                 severity: "success",
             })
         );
+        setTimeout(()=>{window.location.href = `/boards`;},1000)
+
     } catch (error) {
         dispatch(failCreatingBoard());
         dispatch(
