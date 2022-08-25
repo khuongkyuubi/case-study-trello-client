@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from "styled-components";
-import {Cards, IconWorkSpaceRecently, NameWorkSpaceRecently, Card} from "./BoardsRecently";
+import {Cards, IconWorkSpaceRecently, NameWorkSpaceRecently, Card} from "./MyBoardsRecently";
 import {IconProject} from "../Home/HomeLeft";
 
 
-const BoardsWorkSpace = styled.div`
+const MyBoardsWorkSpace = styled.div`
   width: 100%;
   height: 100%;
   margin-top: 5%;
@@ -25,7 +25,7 @@ const ContentWorkspace = styled.div`
 
 `
 
-export const CreateBoard = styled.div`
+const CreateBoard = styled.div`
   width: 23%;
   height: 100px;
   background-color: #f0f2f5;
@@ -43,8 +43,6 @@ export const CreateBoard = styled.div`
     border-radius: 5px;
   }
 `
-
-
 
 
 const TitleNameProject = styled.div`
@@ -73,7 +71,7 @@ const NameProject = styled.div`
 
 const BoardWorkSpace = () => {
     return (
-        <BoardsWorkSpace>
+        <MyBoardsWorkSpace>
             <Workspaces>
                 <Desc>YOUR WORKSPACES</Desc>
                 <ContentWorkspace>
@@ -100,7 +98,7 @@ const BoardWorkSpace = () => {
                 </ContentWorkspace>
 
             </Workspaces>
-        </BoardsWorkSpace>
+        </MyBoardsWorkSpace>
     );
 };
 

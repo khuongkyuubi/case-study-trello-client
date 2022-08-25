@@ -15,7 +15,8 @@ import AnalyticsIcon from "@mui/icons-material/Analytics";
 import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
 import SettingsIcon from '@mui/icons-material/Settings';
 import {IconProject} from "./HomeLeft";
-
+import {Link} from "react-router-dom";
+import "../../Link.css"
 
 
 export default function NestedList() {
@@ -27,7 +28,7 @@ export default function NestedList() {
 
     return (
         <List
-            sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
+            sx={{width: '100%', maxWidth: 360, bgcolor: 'background.paper'}}
             component="nav"
             aria-labelledby="nested-list-subheader"
 
@@ -37,32 +38,41 @@ export default function NestedList() {
                 <ListItemIcon>
                     <IconProject>D</IconProject>
                 </ListItemIcon>
-                <ListItemText primary="C03H_JS" />
-                {open ? <ExpandLess /> : <ExpandMore />}
+                <ListItemText primary="Dự án C03H_JS"/>
+                {open ? <ExpandLess/> : <ExpandMore/>}
             </ListItemButton>
             <Collapse in={open} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
-                    <ListItemButton sx={{ pl: 4 }}>
-                        <ListItemIcon>
-                            <AnalyticsIcon/>
-                        </ListItemIcon>
-                        <ListItemText primary="Board" />
-                    </ListItemButton>
 
-                      <ListItemButton sx={{ pl: 4 }}>
-                        <ListItemIcon>
-                            <SupervisedUserCircleIcon/>
-                        </ListItemIcon>
-                        <ListItemText primary="Members" />
-                    </ListItemButton>
+                    <Link to={'/my-boards'} class="my-board">
+                        <ListItemButton sx={{pl: 4}}>
+                            <ListItemIcon>
+                                <AnalyticsIcon/>
+                            </ListItemIcon>
 
-                      <ListItemButton sx={{ pl: 4 }}>
-                        <ListItemIcon>
-                            <SettingsIcon/>
-                        </ListItemIcon>
-                        <ListItemText primary="Setting" />
-                    </ListItemButton>
+                            <ListItemText primary="Board"/>
 
+                        </ListItemButton>
+                    </Link>
+
+
+                    <Link to={'/members'} class="my-board">
+                        <ListItemButton sx={{pl: 4}}>
+                            <ListItemIcon>
+                                <SupervisedUserCircleIcon/>
+                            </ListItemIcon>
+                            <ListItemText primary="Members"/>
+                        </ListItemButton>
+                    </Link>
+
+                    <Link to={'/setting'} class="my-board">
+                        <ListItemButton sx={{pl: 4}}>
+                            <ListItemIcon>
+                                <SettingsIcon/>
+                            </ListItemIcon>
+                            <ListItemText primary="Setting"/>
+                        </ListItemButton>
+                    </Link>
 
                 </List>
             </Collapse>

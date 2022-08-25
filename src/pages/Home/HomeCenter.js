@@ -7,20 +7,20 @@ const Container = styled.div`
 `
 const WrapperMain = styled.div`
   width: 100%;
-  border: 1px solid #46536b;
-  height:500px;
-  border-radius: 4px;
+  border: 1px solid   #42526e;
+  height:auto;
+  border-radius: 3px;
 `
 
 const ImageDiv = styled.div`
   border-radius: 5px;
-  margin: 10px;
+  margin: 2px;
 
 `
 
 const Image = styled.img`
   width: 100%;
-  height: 300px;
+  height: 250px;
 `
 
 const ContentMain = styled.div`
