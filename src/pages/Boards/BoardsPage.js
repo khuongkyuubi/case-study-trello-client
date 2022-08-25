@@ -3,7 +3,7 @@ import styled from "styled-components";
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import Navbar from "../../components/Navbar";
 import HomeLeft from "../Home/HomeLeft";
-import BoardsRecently from "./BoardsRecently";
+import BoardsRecently from "./MyBoards";
 import BoardsWorkSpace from "./BoardsWorkSpace";
 import LoadingScreen from "../../components/LoadingScreen";
 import {useSelector} from "react-redux";
@@ -46,7 +46,8 @@ const BoardsPage = () => {
 
     return (
         <>
-            {pending && <LoadingScreen/>} <Container>
+            {pending && <LoadingScreen/>}
+            <Container>
             <Nav>
                 <Navbar/>
             </Nav>

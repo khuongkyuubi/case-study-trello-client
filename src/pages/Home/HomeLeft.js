@@ -4,7 +4,6 @@ import 'react-dropdown/style.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import AddIcon from "@mui/icons-material/Add";
 import NestedList from "./MenuWorkSpaces";
-import NestedList1 from "./workspaceButton";
 import BasicList from "./ListButton";
 
 const ContentLeft2 = styled.div`
@@ -258,7 +257,6 @@ const HomeLeft = () => {
 
                 <ProjectOld>
                     <NestedList/>
-                    {/*<NestedList1/>*/}
                 </ProjectOld>
 
 

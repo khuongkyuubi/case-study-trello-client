@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from "styled-components";
-import {Cards, IconWorkSpaceRecently, NameWorkSpaceRecently, Card} from "./BoardsRecently";
+import {Cards, IconWorkSpaceRecently, NameWorkSpaceRecently, Card} from "./MyBoards";
 import {IconProject} from "../Home/HomeLeft";
 
 

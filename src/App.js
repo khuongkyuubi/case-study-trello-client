@@ -21,6 +21,7 @@ import SettingHomePage from "./pages/SettingPage/SettingHomePage";
 
 
 function App() {
+
     useEffect(() => {
         loadUser(Store.dispatch);
     }, []);
@@ -37,7 +38,9 @@ function App() {
                     <Route path="/setting" element={<SettingHomePage/>} />
                     <Route path="/boards-create" element={<Boards/>}/>
                 </Route>
+
                 <Route path="/" element={<Index/>}/>
+
                 <Route element={<FreeRoute/>}>
                     <Route path="/login" element={<LoginPage/>}/>
                     <Route path="/register" element={<Register/>}/>

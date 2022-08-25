@@ -6,7 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 import {useNavigate} from "react-router-dom";
 
-const BoardsRecently = styled.div`
+const MyBoards = styled.div`
   width: 100%;
   height: 100%;
 `
@@ -86,7 +86,7 @@ const BoardRecently = () => {
     }, [dispatch]);
 
     return (
-        <BoardsRecently>
+        <MyBoards>
             <Recently>
                 <Tittle>
                     <IconTitle><PermIdentityIcon/></IconTitle>
@@ -105,7 +105,7 @@ const BoardRecently = () => {
 
 
             </Recently>
-        </BoardsRecently>
+        </MyBoards>
 
     );
 };
