@@ -17,6 +17,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import {IconProject} from "./HomeLeft";
 import {Link} from "react-router-dom";
 import "../../Link.css"
+import Typography from "@mui/material/Typography";
 
 
 export default function NestedList() {
@@ -27,6 +28,9 @@ export default function NestedList() {
     };
 
     return (
+        <div>
+
+
         <List
             sx={{width: '100%', maxWidth: 360, bgcolor: 'background.paper'}}
             component="nav"
@@ -34,18 +38,24 @@ export default function NestedList() {
 
         >
 
-            <ListItemButton onClick={handleClick}>
+            <ListItemButton onClick={handleClick} className="NameProject">
                 <ListItemIcon>
                     <IconProject>D</IconProject>
                 </ListItemIcon>
-                <ListItemText primary="Dự án C03H_JS"/>
+
+                <ListItemText>
+                    <Typography sx={{fontSize:12,fontWeight:'medium'
+                    }} >Dự án C03H_JS</Typography>
+                </ListItemText>
+
                 {open ? <ExpandLess/> : <ExpandMore/>}
             </ListItemButton>
+
             <Collapse in={open} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
 
                     <Link to={'/my-boards'} class="my-board">
-                        <ListItemButton sx={{pl: 4}}>
+                        <ListItemButton sx={{pl: 4}} className="NameProject">
                             <ListItemIcon>
                                 <AnalyticsIcon/>
                             </ListItemIcon>
@@ -57,7 +67,7 @@ export default function NestedList() {
 
 
                     <Link to={'/members'} class="my-board">
-                        <ListItemButton sx={{pl: 4}}>
+                        <ListItemButton sx={{pl: 4}} className="NameProject">
                             <ListItemIcon>
                                 <SupervisedUserCircleIcon/>
                             </ListItemIcon>
@@ -66,7 +76,7 @@ export default function NestedList() {
                     </Link>
 
                     <Link to={'/setting'} class="my-board">
-                        <ListItemButton sx={{pl: 4}}>
+                        <ListItemButton sx={{pl: 4}} className="NameProject">
                             <ListItemIcon>
                                 <SettingsIcon/>
                             </ListItemIcon>
@@ -77,5 +87,6 @@ export default function NestedList() {
                 </List>
             </Collapse>
         </List>
+        </div>
     );
 }

@@ -1,17 +1,16 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from "styled-components";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import AddIcon from '@mui/icons-material/Add';
+import CreateBoard from '../../components/modals/CreateBoardModal/CreateBoard'
 
 
 const Container = styled.div`
   width: 17%;
-  margin-left: 20px;
 `
 
 const DivTop = styled.div`
-
 `
 
 
@@ -178,7 +177,7 @@ const Links = styled.div`
   margin: 12px 8px;
 `
 
-const CreateBoard = styled.div`
+const CreateBoardWrapper = styled.div`
 
 `
 
@@ -209,7 +208,21 @@ const TitleCreate = styled.span`
 
 
 const HomeRight = () => {
+    const navigate = useNavigate();
     const [createBoard, setCreateBoard] = useState(false)
+    const [openModal, setOpenModal] = useState(false);
+
+    const handleClick = (e) => {
+        navigate(`/board/${e.target.id}`)
+    }
+    const handleModalClose = () => {
+        setOpenModal(false);
+    };
+
+    useEffect(() => {
+        document.title = "Boards | Trello Clone"
+    }, [])
+
 
     return (
         <Container>
@@ -246,13 +259,13 @@ const HomeRight = () => {
                 <p>Links</p>
             </Links>
 
-            <CreateBoard>
-                <ButtonCreate>
+            <CreateBoardWrapper onClick={() => setOpenModal(true)}>
+                <ButtonCreate >
                     <IconCreate><AddIcon/></IconCreate>
-
-                    <TitleCreate onClick={() => setCreateBoard(true)}>Create a board</TitleCreate>
+                    <TitleCreate >Create a board</TitleCreate>
                 </ButtonCreate>
-            </CreateBoard>
+            </CreateBoardWrapper>
+            {openModal && <CreateBoard callback={handleModalClose} />}
 
             <DivBottom>
 

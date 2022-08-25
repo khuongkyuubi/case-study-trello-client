@@ -1,21 +1,14 @@
 import React, {useState} from 'react';
-import AnalyticsIcon from "@mui/icons-material/Analytics";
-import BubbleChartIcon from "@mui/icons-material/BubbleChart";
-import HolidayVillageIcon from "@mui/icons-material/HolidayVillage";
 import styled from "styled-components";
-import {Workspaces} from "@mui/icons-material";
-import MultipleSelectPlaceholder from "./MenuWorkSpaces";
-import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import AddIcon from "@mui/icons-material/Add";
-import BasicExample from "./MenuWorkSpaces";
 import NestedList from "./MenuWorkSpaces";
-import {Link} from "react-router-dom";
-
+import NestedList1 from "./workspaceButton";
+import BasicList from "./ListButton";
 
 const ContentLeft2 = styled.div`
-  width: 17%;
+  width: 30%;
   display: flex;
   flex-direction: column;
   margin-top: 3px;
@@ -25,9 +18,7 @@ const DivItem = styled.div`
   margin-top: 30px;
 `
 
-const WrapperItem = styled.ul`
-
-`
+const WrapperItem = styled.ul``
 
 export const Item = styled.li`
   display: flex;
@@ -84,23 +75,8 @@ const IconWorkspace = styled.button`
 const ProjectOld = styled.div`
   margin: 12px 0px;
   padding-left: 30px;
-
 `
 
-const ContentProject = styled.div`
-  height: 45px;
-  margin-top: 7px;
-  //margin-left:2px;
-  display: flex;
-  align-items: center;
-
-  &:hover {
-    background-color: #e6eaee;
-    cursor: pointer;
-    border-radius: 5px;
-  }
-
-`
 
 export const IconProject = styled.div`
   width: 21px;
@@ -115,9 +91,7 @@ export const IconProject = styled.div`
   background: linear-gradient(#b22865, #cd5a91)
 `
 
-const NameProject = styled.div`
-  font-weight: bold;
-`
+
 
 const CreateWorkSpace = styled.div`
   width: 100%;
@@ -270,27 +244,9 @@ const HomeLeft = () => {
         <ContentLeft2 >
             <DivItem>
                 <WrapperItem>
-                    <Link to='/boards' style={{textDecoration: "none", color: " #42526e"}}>
-                        <Item>
-                            <IconItem><AnalyticsIcon/></IconItem>
-                            <ContentItem>Boards</ContentItem>
-                        </Item>
-                    </Link>
-                    <Item>
-                        <IconItem><BubbleChartIcon/></IconItem>
-                        <ContentItem>Templates</ContentItem>
-                    </Item>
-
-                    <Link to='/home' style={{textDecoration: "none", color: " #42526e"}}>
-                        <Item>
-                            <IconItem><HolidayVillageIcon/></IconItem>
-                            <ContentItem>Home</ContentItem>
-                        </Item>
-                    </Link>
-
+                    <BasicList/>
                 </WrapperItem>
             </DivItem>
-
 
             <DivProject>
                 <Workspace>
@@ -302,6 +258,7 @@ const HomeLeft = () => {
 
                 <ProjectOld>
                     <NestedList/>
+                    {/*<NestedList1/>*/}
                 </ProjectOld>
 
 

@@ -5,6 +5,8 @@ import Navbar from "../../components/Navbar";
 import HomeLeft from "../Home/HomeLeft";
 import BoardsRecently from "./BoardsRecently";
 import BoardsWorkSpace from "./BoardsWorkSpace";
+import LoadingScreen from "../../components/LoadingScreen";
+import {useSelector} from "react-redux";
 
 
 const Container = styled.div`
@@ -35,14 +37,16 @@ const BoardsContent = styled.div`
 `
 
 
-
 const DivEmpty = styled.div`
   width: 16%;
 `
 
 const BoardsPage = () => {
+    const { pending, boardsData } = useSelector((state) => state.boards);
+
     return (
-        <Container>
+        <>
+            {pending && <LoadingScreen/>} <Container>
             <Nav>
                 <Navbar/>
             </Nav>
@@ -53,12 +57,13 @@ const BoardsPage = () => {
 
                 <BoardsContent>
                     <BoardsRecently/>
-                    <BoardsWorkSpace/>
+                    {/*<BoardsWorkSpace/>*/}
                 </BoardsContent>
 
                 <DivEmpty/>
             </Wrapper>
         </Container>
+        </>
     );
 };
 

@@ -26,10 +26,10 @@ const ContentWorkspace = styled.div`
 `
 
 export const CreateBoard = styled.div`
-  width: 23%;
-  height: 100px;
-  background-color: #f0f2f5;
-
+  width: 22%;
+  height: 80px;
+  //background-color: #f0f2f5;
+  background-image: {()};
   display: flex;
   align-items: center;
   justify-content: center;
