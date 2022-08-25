@@ -60,7 +60,7 @@ export default function NestedList() {
                                 <AnalyticsIcon/>
                             </ListItemIcon>
 
-                            <ListItemText primary="Board"/>
+                            <ListItemText primary="Board" />
 
                         </ListItemButton>
                     </Link>
