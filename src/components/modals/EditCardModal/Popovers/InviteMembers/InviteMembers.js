@@ -45,12 +45,12 @@ const InviteMembers = () => {
 		const checkMember = boardMembers.filter((m) => m.email === memberMail)[0];
 
 		if (checkMember) {
-			dispatch(
-				openAlert({
-					message: `${checkMember.name} is already member of this board!`,
-					severity: 'error',
-				})
-			);
+				dispatch(
+					openAlert({
+						message: `${checkMember.name} is already member of this board!`,
+						severity: 'error',
+					})
+				)
 			setMemberMail('');
 			return;
 		}

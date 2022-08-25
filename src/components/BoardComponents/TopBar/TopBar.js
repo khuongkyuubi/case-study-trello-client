@@ -48,9 +48,17 @@ const TopBar = ({listMember}) => {
                 {/*Avatar group, for invite member*/}
                 <AvatarGroup max={5} sx={{
                     '& .MuiAvatar-root': { width: 25, height: 25, fontSize: "0.75rem" },
+
                 }}>
                     {listMember.map(member =>(
-                        <Avatar alt={member.name} src={member?.avatar} style={{background:member?.color}}  key={member._id}/>
+                        <Avatar
+                                src={member?.avatar}
+                                sx={{background:member?.color,
+                                '&:hover':{
+                                    backgroundColor:'#00000029'
+                                }
+                                }}
+                                key={member._id}>{member.name.charAt(0).toUpperCase()}</Avatar>
                     ))}
                 </AvatarGroup>
 

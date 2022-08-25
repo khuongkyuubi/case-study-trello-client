@@ -17,7 +17,9 @@ const DivItem = styled.div`
   margin-top: 30px;
 `
 
-const WrapperItem = styled.ul``
+const WrapperItem = styled.ul`
+width: 75%;
+`
 
 export const Item = styled.li`
   display: flex;
@@ -51,18 +53,20 @@ const DivProject = styled.div`
 const Workspace = styled.div`
   display: flex;
   color: #42526e;
+  width: 80%;
   font-weight: 300;
   justify-content: space-around;
 `
 
 const ContentWorkspace = styled.div`
-  margin-left: 25px;
+  margin-left:8%;
 `
 const IconWorkspace = styled.button`
   border: none;
   border-radius: 4px;
   color: #42526e;
   cursor: pointer;
+  margin-left:5%;
 
   &:hover {
     background-color: #e6eaee;
@@ -73,6 +77,7 @@ const IconWorkspace = styled.button`
 
 const ProjectOld = styled.div`
   margin: 12px 0px;
+  width: 75%;
   padding-left: 30px;
 `
 
