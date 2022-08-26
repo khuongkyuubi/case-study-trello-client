@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
-import Navbar from "../../components/Navbar2";
+import Navbar from "../../components/Navbar";
 import styled from "styled-components";
 import InviteMemberModal from "./ButtonInviteMember";
 import {Item, IconItem, ContentItem} from "../Home/HomeLeft"
@@ -12,6 +12,7 @@ import ButtonRemove from "./ButtonRemove";
 import {useLocation} from "react-router-dom";
 
 export const Container = styled.div`
+  margin-top: 3rem;
   display: flex;
   flex-direction: column;
   width: 100%;
