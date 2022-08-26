@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import { sm, xs } from "../BreakPoints";
-import SearchIcon from "../images/search-icon.svg";
+import { sm, xs } from "../../BreakPoints";
+import SearchIcon from "../../images/search-icon.svg";
 
 const Container = styled.div`
   width: 15rem;

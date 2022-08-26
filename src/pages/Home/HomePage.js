@@ -6,11 +6,12 @@ import HomeCenter from "./HomeCenter";
 import HomeRight from "./HomeRight";
 
 const Container = styled.div`
+  margin-top: 1rem;
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
-  font-family: "Times New Roman", Times, serif;
+  //font-family: "Times New Roman", Times, serif;
 
 `
 const Nav = styled.div`

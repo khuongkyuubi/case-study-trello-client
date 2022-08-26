@@ -7,7 +7,7 @@ import LoadingScreen from '../../components/LoadingScreen';
 import {useParams} from "react-router-dom";
 import {getBoard} from "../../services/boardsService";
 import {getLists} from "../../services/boardService";
-import Navbar from "../../components/Navbar2";
+import Navbar from "../../components/Navbar";
 import TopBar from "../../components/BoardComponents/TopBar/TopBar"; // please fix
 import List from "../../components/BoardComponents/List/List";
 import AddList from "../../components/BoardComponents/AddList/AddList";
@@ -73,7 +73,7 @@ const Board = (props) => {
     };
     return (
         <>
-            <Navbar searchString={searchString} setSearchString={setSearchString}/>
+            <Navbar searchString={searchString} isTranslucent={true} setSearchString={setSearchString}/>
             <style.Container
                 isImage={isImage}
                 bgImage={isImage ? backgroundImageLink.split('?')[0] : backgroundImageLink}

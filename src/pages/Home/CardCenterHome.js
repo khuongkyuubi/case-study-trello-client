@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 
 export default function MediaCard() {
     return (
-        <Card sx={{ maxWidth: 345 }}>
+        <Card sx={{ maxWidth: '100%' }}>
             <CardMedia
                 component="img"
                 image="https://media.hoclaptrinh.vn/images/trello-la-gi-5c36cae13c513.jpg"
