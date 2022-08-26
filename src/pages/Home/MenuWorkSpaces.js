@@ -55,7 +55,7 @@ export default function NestedList() {
                 <List component="div" disablePadding>
 
                     <Link to={'/my-boards'} class="my-board">
-                        <ListItemButton sx={{pl: 4}} className="NameProject">
+                        <ListItemButton sx={{pl: 4}} className="NameProject" >
                             <ListItemIcon>
                                 <AnalyticsIcon/>
                             </ListItemIcon>
