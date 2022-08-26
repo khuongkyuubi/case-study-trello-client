@@ -21,7 +21,7 @@ import Typography from "@mui/material/Typography";
 
 
 export default function NestedList() {
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = React.useState(true);
 
     const handleClick = () => {
         setOpen(!open);
