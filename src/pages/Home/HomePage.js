@@ -4,6 +4,10 @@ import Navbar from "../../components/Navbar";
 import HomeLeft from "./HomeLeft";
 import HomeCenter from "./HomeCenter";
 import HomeRight from "./HomeRight";
+import LoadingScreen from "../../components/LoadingScreen";
+import {useDispatch, useSelector} from "react-redux";
+import {getBoards} from "../../services/boardsService";
+import {useLocation} from "react-router-dom";
 
 const Container = styled.div`
   margin-top: 1rem;
@@ -11,7 +15,6 @@ const Container = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  //font-family: "Times New Roman", Times, serif;
 
 `
 const Nav = styled.div`
@@ -31,25 +34,30 @@ const ContentRight2 = styled.div`
   width: 16%;
 `
 const HomePage = () => {
+
+    const {pending, boardsData} = useSelector((state) => state.boards);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        getBoards(false, dispatch)
+    }, [dispatch])
+
     return (
-        <Container>
-            <Nav>
-                <Navbar/>
-            </Nav>
-
-            <Wrapper>
-                <ContentLeft1/>
-
-
-                <HomeLeft/>
-                <HomeCenter/>
-                <HomeRight/>
-
-
-                <ContentRight2/>
-            </Wrapper>
-
-        </Container>
+        <>
+            {pending && <LoadingScreen/>}
+            <Container>
+                <Nav>
+                    <Navbar/>
+                </Nav>
+                <Wrapper>
+                    <ContentLeft1/>
+                    <HomeLeft/>
+                    <HomeCenter/>
+                    <HomeRight/>
+                    <ContentRight2/>
+                </Wrapper>
+            </Container>
+        </>
     );
 };
 

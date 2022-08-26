@@ -1,10 +1,8 @@
 import React from 'react';
 import styled from "styled-components";
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import Navbar from "../../components/Navbar";
 import HomeLeft from "../Home/HomeLeft";
-import BoardsRecently from "./BoardsRecently";
-import BoardsWorkSpace from "./BoardsWorkSpace";
+import MyBoards from "./MyBoards";
 import LoadingScreen from "../../components/LoadingScreen";
 import {useSelector} from "react-redux";
 
@@ -15,7 +13,7 @@ const Container = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  //font-family: "Times New Roman", Times, serif;
+
 
 `
 const Nav = styled.div`
@@ -31,7 +29,7 @@ const Wrapper = styled.div`
 `
 const BoardsContent = styled.div`
   display: flex;
-  width: 100%;
+  width:70%;
   height: auto;
   margin-top: 35px;
   flex-direction: column;
@@ -39,31 +37,28 @@ const BoardsContent = styled.div`
 
 
 const DivEmpty = styled.div`
-  width: 16%;
+  width: 10%;
 `
 
 const BoardsPage = () => {
-    const { pending, boardsData } = useSelector((state) => state.boards);
-
+    const {pending, boardsData} = useSelector((state) => state.boards);
     return (
         <>
-            {pending && <LoadingScreen/>} <Container>
-            <Nav>
-                <Navbar/>
-            </Nav>
-            <Wrapper>
-                <DivEmpty/>
-
-                <HomeLeft/>
-
-                <BoardsContent>
-                    <BoardsRecently/>
-                    {/*<BoardsWorkSpace/>*/}
-                </BoardsContent>
-
-                <DivEmpty/>
-            </Wrapper>
-        </Container>
+            {pending && <LoadingScreen/>}
+            <Container>
+                <Nav>
+                    <Navbar/>
+                </Nav>
+                <Wrapper>
+                    <DivEmpty/>
+                    <HomeLeft/>
+                    <BoardsContent>
+                        <MyBoards/>
+                        {/*<BoardsWorkSpace/>*/}
+                    </BoardsContent>
+                    <DivEmpty/>
+                </Wrapper>
+            </Container>
         </>
     );
 };

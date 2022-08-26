@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from "styled-components"
-import Navbar from "../../components/Navbar";
+import Navbar from "../../components/Navbar2";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import InviteMemberModal from "../BoardMember/ButtonInviteMember";

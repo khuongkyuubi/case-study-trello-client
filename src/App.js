@@ -1,3 +1,4 @@
+
 import './App.css';
 import {useEffect} from "react";
 import HomePage from "./pages/Home/HomePage";
@@ -33,7 +34,6 @@ function App() {
                     <Route path="/home" element={<HomePage/>}/>
                     <Route path="/boards" element={<BoardsPage/>}/>
                     <Route path="/board/:id" element={<Board/>}/>
-                    <Route path="/home" element={<HomePage />} />
                     <Route path="/my-boards" element={<MyBoardsPage />} />
                     <Route path="/members" element={<BoardMemberHome />} />
                     <Route path="/setting" element={<SettingHomePage/>} />

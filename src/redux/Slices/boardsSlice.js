@@ -28,7 +28,7 @@ const boardsSlice = createSlice({
         startFetchingBoards: (state) => {
             state.pending = true;
         },
-        successFetchingBoards: (state, action) => {
+         successFetchingBoards: (state, action) => {
             state.boardsData = action.payload.boards;
             state.pending = false;
         },

@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
-import Navbar from "../../components/Navbar";
+import Navbar from "../../components/Navbar2";
 import styled from "styled-components";
 import InviteMemberModal from "./ButtonInviteMember";
 import {Item, IconItem, ContentItem} from "../Home/HomeLeft"
@@ -9,6 +9,7 @@ import LinkIcon from '@mui/icons-material/Link';
 import ButtonDetailMember from "./ButtonDetailMember";
 import ButtonRoles from "./ButtonRoles";
 import ButtonRemove from "./ButtonRemove";
+import {useLocation} from "react-router-dom";
 
 export const Container = styled.div`
   margin-top: 3rem;
@@ -23,13 +24,12 @@ export const Nav = styled.div`
   width: 100%;
   height: 100px;
   position: sticky
-
 `
 
 export const WrapperContent = styled.div`
   flex: 17;
+  margin-top: 3.5%;
 `
-
 
 export const DivTop = styled.div`
   width: 100%;
@@ -75,8 +75,6 @@ export const NameProject = styled.div`
   width: 45%;
   height: 100%;
   font-size: 18px;
-
-
 `
 
 export const DetailName = styled.div`
@@ -118,14 +116,12 @@ export const InviteMember = styled.div`
   display: flex;
   justify-content: flex-end;
 `
-
 const DivBottom = styled.div`
   width: 100%;
   height: 100vh;
   display: flex;
   justify-content: center;
 `
-
 
 const DivLeft = styled.div`
   width: 25%;
@@ -135,18 +131,12 @@ const DivLeft = styled.div`
   //justify-content: flex-end;
 `
 
-
 const DivWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
 `
 
-
-const ChooseMember = styled.div`
-
-
-`
-
+const ChooseMember = styled.div``
 
 const TitleToChoose = styled.div`
   margin-left: 12px;
@@ -155,7 +145,6 @@ const TitleToChoose = styled.div`
   font-size: 10px;
   font-weight: bold;
 `
-
 
 const DivRight = styled.div`
   width: 75%;
@@ -168,14 +157,11 @@ const WrapperContentRight = styled.div`
   width: 100%;
   margin: 30px 0 0 25px;
 `
-
 const TitleGuests = styled.div`
   font-size: 17px;
   font-weight: bold;
   margin-bottom: 8px;
-
 `
-
 
 const Descriptions = styled.div`
   margin-bottom: 15px;
@@ -204,45 +190,41 @@ const DescriptionInvite = styled.div`
 
 const DivInputWorkSpace = styled.div`
   margin-left: 2%;
-
 `
 const InputFilter = styled.input`
   padding: 5px 0;
   border-radius: 3px;
   border: 2px solid #e6eaee;
-
   &:hover {
     background-color: #e6eaee;
     cursor: pointer;
     border-radius: 5px;
   }
 `
-const DivInviteLink=styled.div`
-width: 40%;
-  height:50%;
+const DivInviteLink = styled.div`
+  width: 40%;
+  height: 50%;
   display: flex;
   flex-direction: column;
 `
 
 const InviteRightTop = styled.div`
-  width:100%;
-  height:15px;
+  width: 100%;
+  height: 15px;
   display: flex;
-  
   justify-content: flex-end;
-    margin-bottom:8px;
-    padding-right:15px;
+  margin-bottom: 8px;
+  padding-right: 15px;
 `
 const InviteRightBottom = styled.div`
   width: 100%;
   display: flex;
   justify-content: flex-end;
-    margin-bottom:8px;
+  margin-bottom: 8px;
 
 `
-
 const InviteLinkTop = styled.button`
-  width: 25%;
+  width: 30%;
   height: 100%;
   border-radius: 3px;
   border: none;
@@ -250,7 +232,7 @@ const InviteLinkTop = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding:5px 0;
+  padding: 5px 0;
 
   &:hover {
     background-color: #d2dae1
@@ -265,7 +247,7 @@ const InviteLinkBottom = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding:5px 0;
+  padding: 5px 0;
 
   &:hover {
     background-color: #d2dae1
@@ -282,13 +264,10 @@ const ContentInvite = styled.span`
 
 `
 
-
 const ListFriends = styled.div`
   width: 90%;
   height: 33px;
-
   display: flex;
-
 `
 
 const Avatar = styled.div`
@@ -334,12 +313,10 @@ const Remove = styled.div`
   width: 33.33%;
 `
 
-
 export const DivHr = styled.div`
   width: 90%;
   margin-left: 3%;
 `
-
 
 const TalkWarning = styled.div`
   width: 90%;
@@ -348,6 +325,14 @@ const TalkWarning = styled.div`
 
 
 const BoardMemberHome = () => {
+    const [backgroundWorkSpace, setBackgroundWorkSpace] = useState('')
+    const [backgroundGuests, setBackgroundGuests] = useState('')
+    const [backgroundPending, setBackgroundPending] = useState('')
+    useEffect(() => {
+        setBackgroundWorkSpace('#e6eaee')
+    }, [])
+
+
     const [guests, setGuests] = useState(false)
     const [pendding, setPendding] = useState(false)
     const [workspaces, setWorkSpaces] = useState(true)
@@ -357,31 +342,40 @@ const BoardMemberHome = () => {
         setPendding(false)
         setWorkSpaces(false)
         setGuests(true)
+        setBackgroundGuests('#e6eaee')
+        setBackgroundPending('')
+        setBackgroundWorkSpace('')
     }
     const handlePending = () => {
         setGuests(false)
         setWorkSpaces(false)
         setPendding(true)
+        setBackgroundPending('#e6eaee')
+        setBackgroundGuests('')
+        setBackgroundWorkSpace('')
     }
 
     const handleWorkSpaces = () => {
         setGuests(false)
         setPendding(false)
         setWorkSpaces(true)
+        setBackgroundWorkSpace('#e6eaee')
+        setBackgroundPending('')
+        setBackgroundGuests('')
     }
 
-    const handleInvite=()=>{
+    const handleInvite = () => {
         setInvite(true);
-        setTimeout(()=>{setInvite(false)},1800)
+        setTimeout(() => {
+            setInvite(false)
+        }, 1800)
     }
-
 
     return (
         <Container>
             <Nav>
                 <Navbar/>
             </Nav>
-
             <WrapperContent>
                 <DivTop>
                     <WrapperTitle>
@@ -427,14 +421,14 @@ const BoardMemberHome = () => {
                             <ChooseMember>
                                 <h3>Member</h3>
                                 <TitleToChoose>Members of Workspace boards</TitleToChoose>
-                                <Item onClick={handleWorkSpaces}>
+                                <Item onClick={handleWorkSpaces} style={{backgroundColor: backgroundWorkSpace}}>
                                     <ContentItem>Workspace members<span>(10)</span></ContentItem>
                                 </Item>
-                                <Item onClick={handleGuests}>
+                                <Item onClick={handleGuests} style={{backgroundColor: backgroundGuests}}>
                                     <ContentItem>Guests</ContentItem>
                                 </Item>
 
-                                <Item onClick={handlePending}>
+                                <Item onClick={handlePending} style={{backgroundColor: backgroundPending}}>
                                     <ContentItem>Pending</ContentItem>
                                 </Item>
                             </ChooseMember>
@@ -468,14 +462,14 @@ const BoardMemberHome = () => {
 
                                     <DivInviteLink>
 
-                                        { invite &&   <InviteRightTop>
+                                        {invite && <InviteRightTop>
                                             <InviteLinkTop>
-                                                <span style={{  color: '#8dbe89',fontSize:'10px'}}>Link copied to success</span>
+                                                <span style={{color: '#8dbe89', fontSize: '10px'}}>Link copied to success</span>
                                             </InviteLinkTop>
                                         </InviteRightTop>
                                         }
 
-                                        <InviteRightBottom >
+                                        <InviteRightBottom>
 
                                             <InviteLinkBottom onClick={handleInvite}>
                                                 <ContentInvite>Invite with link</ContentInvite>
@@ -577,46 +571,35 @@ const BoardMemberHome = () => {
                                     <hr/>
                                 </DivHr>
                             </DivContainerDetailMember>
-
                         </DivRight>}
 
 
                     {guests && <DivRight>
-
                         <WrapperContentRight>
                             <TitleGuests>Guests<span>(0)</span></TitleGuests>
                             <Descriptions>Guests can only view and edit the boards to which they've been
                                 added.</Descriptions>
                             <InputFilter placeholder="Filter by name"/>
                         </WrapperContentRight>
-
                         <DivHr>
                             <hr/>
                         </DivHr>
-
                         <TalkWarning>There are no guests in this Workspace.</TalkWarning>
-
                     </DivRight>}
 
                     {pendding && <DivRight>
-
                         <WrapperContentRight>
                             <TitleGuests>Pending<span>(0)</span></TitleGuests>
                             <Descriptions>These people have requested to join this Workspace. Adding new Workspace
                                 members will automatically update your bill.</Descriptions>
                             <InputFilter placeholder="Filter by name"/>
                         </WrapperContentRight>
-
                         <DivHr>
                             <hr/>
                         </DivHr>
-
                         <TalkWarning>There are no pending requests.</TalkWarning>
-
                     </DivRight>
                     }
-
-
                 </DivBottom>
             </WrapperContent>
         </Container>

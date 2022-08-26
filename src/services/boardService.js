@@ -156,9 +156,11 @@ export const boardBackgroundUpdate = async (boardId, background, isImage, dispat
 
 export const boardMemberAdd = async (boardId, members, dispatch) => {
     try {
+
         const result = await axios.post(`${boardRoute}/${boardId}/add-member`, {
             members
         });
+
         await dispatch(addMembers(result.data));
         dispatch(
             openAlert({
