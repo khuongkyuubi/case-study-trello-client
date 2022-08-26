@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from "styled-components";
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import Navbar from "../../components/Navbar2";
+import Navbar from "../../components/Navbar";
 import HomeLeft from "../Home/HomeLeft";
 import {CreateBoard} from "../Boards/BoardsWorkSpace";
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
@@ -10,11 +10,12 @@ import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
 
 
 const Container = styled.div`
+  margin-top: 1rem;
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
-  font-family: "Times New Roman", Times, serif;
+  //font-family: "Times New Roman", Times, serif;
 
 `
 const Nav = styled.div`

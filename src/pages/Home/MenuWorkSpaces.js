@@ -21,18 +21,17 @@ import Typography from "@mui/material/Typography";
 
 
 export default function NestedList() {
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = React.useState(true);
 
     const handleClick = () => {
         setOpen(!open);
     };
 
     return (
-        <div>
 
 
         <List
-            sx={{width: '100%', maxWidth: 360, bgcolor: 'background.paper'}}
+            sx={{width: '100%', maxWidth: 360}}
             component="nav"
             aria-labelledby="nested-list-subheader"
 
@@ -44,7 +43,7 @@ export default function NestedList() {
                 </ListItemIcon>
 
                 <ListItemText>
-                    <Typography sx={{fontSize:12,fontWeight:'medium'
+                    <Typography sx={{fontSize:'1rem',fontWeight:'medium'
                     }} >Dự án C03H_JS</Typography>
                 </ListItemText>
 
@@ -87,6 +86,5 @@ export default function NestedList() {
                 </List>
             </Collapse>
         </List>
-        </div>
     );
 }

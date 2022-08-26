@@ -8,7 +8,7 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import Logout from '@mui/icons-material/Logout';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../redux/Slices/userSlice';
+import { logout } from '../../redux/Slices/userSlice';
 // import { reset } from '../redux/Slices/boardsSlice';
 
 export default function ProfileBox() {
@@ -27,7 +27,7 @@ export default function ProfileBox() {
         <React.Fragment>
             <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
                 <Tooltip title='Logout'>
-                    <IconButton onClick={handleClick} size='small' sx={{ ml: 2 }}>
+                    <IconButton onClick={handleClick} size='small' sx={{ ml: '0.35rem' }}>
                         <Avatar sx={{ width: 32, height: 32, bgcolor: color, fontSize: '0.875rem', fontWeight: '800' }}>
                             {name[0]}
                         </Avatar>
