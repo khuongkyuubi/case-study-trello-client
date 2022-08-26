@@ -14,8 +14,6 @@ const Container = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  font-family: "Times New Roman", Times, serif;
-
 `
 const Nav = styled.div`
   width: 100%;
