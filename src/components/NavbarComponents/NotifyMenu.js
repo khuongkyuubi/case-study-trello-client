@@ -2,37 +2,24 @@ import * as React from 'react';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import {styled} from '@mui/material/styles';
+import {styled as muiStyled} from '@mui/material/styles';
 import {useNavigate} from 'react-router-dom';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
 import {Card, CardActions, CardContent, CardMedia, Divider, Grid, Paper, Typography} from "@mui/material";
+import styled from 'styled-components';
+import {IconWrapper} from '../Styled'
 
 
-const BootstrapButton = styled(Button)({
-    boxShadow: 'none',
-    textTransform: 'none',
-    padding: '0.25rem 0rem',
-    color: 'white',
-    backgroundColor: 'transparent',
-    border: 'none',
-    marginLeft: '0.5rem',
-    display: 'block',
-    maxWidth: '30px',
 
-    '&:hover': {
-        backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    },
-    '&:active': {
-        backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    },
-});
 
-const StyledIcon = styled(InfoOutlinedIcon)({
+
+const StyledIcon = muiStyled(NotificationsNoneOutlinedIcon)({
     fontSize: '1.5rem',
     padding: 0
 });
 
-export default function InfoMenu(props) {
+export default function NotifyMenu(props) {
     const navigate = useNavigate();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -47,11 +34,18 @@ export default function InfoMenu(props) {
 
     return (
         <div>
-            <BootstrapButton
+            {/*<BootstrapButton*/}
+            {/*    onClick={handleClick}*/}
+            {/*>*/}
+            {/*    <StyledIcon/>*/}
+            {/*</BootstrapButton>*/}
+
+            <IconWrapper
+                isNotify='true'
                 onClick={handleClick}
             >
                 <StyledIcon/>
-            </BootstrapButton>
+            </IconWrapper>
 
             <Paper>
                 <Menu
@@ -72,7 +66,7 @@ export default function InfoMenu(props) {
                         }}
                     >
                         <Grid container justify="space-between">
-                            <Typography inline={"true"} variant="body1" align="center">Information</Typography>
+                            <Typography inline={"true"} variant="body1" align="center">Notification</Typography>
                         </Grid>
                         <Divider/>
                     </MenuItem>

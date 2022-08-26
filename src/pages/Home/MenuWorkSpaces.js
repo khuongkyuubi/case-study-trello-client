@@ -28,11 +28,10 @@ export default function NestedList() {
     };
 
     return (
-        <div>
 
 
         <List
-            sx={{width: '100%', maxWidth: 360, bgcolor: 'background.paper'}}
+            sx={{width: '100%', maxWidth: 360}}
             component="nav"
             aria-labelledby="nested-list-subheader"
 
@@ -44,7 +43,7 @@ export default function NestedList() {
                 </ListItemIcon>
 
                 <ListItemText>
-                    <Typography sx={{fontSize:12,fontWeight:'medium'
+                    <Typography sx={{fontSize:'1rem',fontWeight:'medium'
                     }} >Dự án C03H_JS</Typography>
                 </ListItemText>
 
@@ -54,7 +53,7 @@ export default function NestedList() {
             <Collapse in={open} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
 
-                    <Link to={'/my-boards'} class="my-board">
+                    <Link to={'/my-boards'} className="my-board">
                         <ListItemButton sx={{pl: 4}} className="NameProject">
                             <ListItemIcon>
                                 <AnalyticsIcon/>
@@ -66,7 +65,7 @@ export default function NestedList() {
                     </Link>
 
 
-                    <Link to={'/members'} class="my-board">
+                    <Link to={'/members'} className="my-board">
                         <ListItemButton sx={{pl: 4}} className="NameProject">
                             <ListItemIcon>
                                 <SupervisedUserCircleIcon/>
@@ -75,7 +74,7 @@ export default function NestedList() {
                         </ListItemButton>
                     </Link>
 
-                    <Link to={'/setting'} class="my-board">
+                    <Link to={'/setting'} className="my-board">
                         <ListItemButton sx={{pl: 4}} className="NameProject">
                             <ListItemIcon>
                                 <SettingsIcon/>
@@ -87,6 +86,5 @@ export default function NestedList() {
                 </List>
             </Collapse>
         </List>
-        </div>
     );
 }
