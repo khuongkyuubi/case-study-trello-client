@@ -86,7 +86,7 @@ const BoardRecently = () => {
                 <Cards>
                     {boardsData?.map(board => (
                         <Card link={board.backgroundImageLink} isImage={board.isImage}
-                              onClick={() => navigate(`/board/${board._id}`)}>
+                              onClick={() => navigate(`/board/${board._id}`)} key={board._id}>
                             <NameWorkSpaceRecently>
                                 {board.title}
                             </NameWorkSpaceRecently>
