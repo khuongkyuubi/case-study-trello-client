@@ -17,7 +17,7 @@ import BoardMemberHome from "./pages/BoardMember/BoardMemberHome";
 import SettingHomePage from "./pages/SettingPage/SettingHomePage";
 
 
-import Settings from "./pages/Settings/Settings";
+import Settings from "./pages/SettingsUser/Settings";
 
 
 function App() {

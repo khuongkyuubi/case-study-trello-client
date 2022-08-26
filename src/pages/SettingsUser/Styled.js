@@ -39,12 +39,9 @@ export const LeftSideHeader = styled.div`
   display: flex;
   margin: 10px;
   padding: 0;
+  position: relative;
 `;
-export const BotHeader = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-`;
+
 export const RightSideHeader = styled.div`
   display: flex;
   flex-direction: column;
@@ -72,4 +69,36 @@ export const Button = styled.button`
    background-color:  #828A8A;
     cursor: pointer;
   }
+`;
+export const Body = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+`;
+export const ContentWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  background-color: #f4f5f7 !important;
+`;
+
+export const BodyWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin: 0;
+  padding: 0;
+`;
+export const LeftWrapper = styled.div`
+  flex:3;
+`
+export const RightWrapper = styled.div`
+  flex:3;
+`
+export const MiddleWrapper = styled.div`
+  flex:6;
+`
+export const ButtonWrapper = styled.div`
+  position: absolute;
+  top: 72%;
+  left: 72%;
 `;
