@@ -10,11 +10,12 @@ import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
 
 
 const Container = styled.div`
+  margin-top: 1rem;
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
-  font-family: "Times New Roman", Times, serif;
+  //font-family: "Times New Roman", Times, serif;
 
 `
 const Nav = styled.div`
@@ -24,16 +25,16 @@ const Nav = styled.div`
 `
 
 const Wrapper = styled.div`
+  margin-top:3%;
   flex: 6;
   display: flex;
   width: 100%;
 `
 const BoardsContent = styled.div`
   display: flex;
-  width: 100%;
+  width: 70%;
   height: auto;
   margin-top: 35px;
-  margin-left: 35px;
   flex-direction: column;
 `
 
@@ -70,7 +71,7 @@ const DefaultName = styled.div`
 
 
 const DivEmpty = styled.div`
-  width: 16%;
+  width: 10%;
 `
 
 const MyBoardsPage = () => {

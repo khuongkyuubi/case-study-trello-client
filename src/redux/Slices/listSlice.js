@@ -16,13 +16,16 @@ const listSlice = createSlice({
         successCreatingList: (state, action) => {
             state.allLists.push(action.payload);
         },
-        successFetchingList: (state, action) => {
+        successFetchingLists: (state, action) => {
             state.allLists = action.payload;
         },
         successDeletingList: (state, action) => {
             state.allLists = state.allLists.filter(list => list._id !== action.payload);
         },
         updateListDragDrop: (state, action) => {
+            state.allLists = action.payload;
+        },
+        updateCardDragDrop: (state, action) => {
             state.allLists = action.payload;
         },
         updateListTitle: (state, action) => {
@@ -33,7 +36,15 @@ const listSlice = createSlice({
                 }
                 return list;
             });
-        }
+        },
+        successCreatingCard: (state, action) => {
+            state.allLists = state.allLists.map((list) => {
+                if (list._id === action.payload.listId) {
+                    return action.payload.updatedList;
+                }
+                return list;
+            });
+        },
 
 
     }
@@ -42,10 +53,12 @@ const listSlice = createSlice({
 export const {
     setLoading,
     successCreatingList,
-    successFetchingList,
+    successFetchingLists,
     successDeletingList,
     updateListDragDrop,
-    updateListTitle
+    updateListTitle,
+    updateCardDragDrop,
+    successCreatingCard
 } = listSlice.actions;
 
 export default listSlice.reducer;

@@ -24,6 +24,7 @@ const Index = () => {
     useEffect(() => {
         document.title = "Trello Clone"
     }, [])
+    // navigate(`/home`);
     const onSubmit = async(e) =>{
         e.preventDefault();
         try{

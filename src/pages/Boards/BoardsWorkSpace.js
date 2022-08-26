@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from "styled-components";
-import {Cards, IconWorkSpaceRecently, NameWorkSpaceRecently, Card} from "./BoardsRecently";
+import {Cards, IconWorkSpaceRecently, NameWorkSpaceRecently, Card} from "./MyBoards";
 import {IconProject} from "../Home/HomeLeft";
 
 
@@ -10,9 +10,7 @@ const BoardsWorkSpace = styled.div`
   margin-top: 5%;
 `
 
-const Workspaces = styled.div`
-
-`
+const Workspaces = styled.div``
 
 const Desc = styled.div`
   margin-left: 10px;
@@ -21,9 +19,7 @@ const Desc = styled.div`
   font-weight: bold;
 `
 
-const ContentWorkspace = styled.div`
-
-`
+const ContentWorkspace = styled.div``
 
 export const CreateBoard = styled.div`
   width: 22%;
@@ -44,9 +40,6 @@ export const CreateBoard = styled.div`
   }
 `
 
-
-
-
 const TitleNameProject = styled.div`
   margin-left: 10px;
 `
@@ -57,16 +50,12 @@ const ContentProject = styled.div`
   //margin-left:2px;
   display: flex;
   align-items: center;
-
   &:hover {
     background-color: #e6eaee;
     cursor: pointer;
     border-radius: 5px;
   }
-
 `
-
-
 const NameProject = styled.div`
   font-weight: bold;
 `
@@ -78,7 +67,6 @@ const BoardWorkSpace = () => {
                 <Desc>YOUR WORKSPACES</Desc>
                 <ContentWorkspace>
 
-
                     <TitleNameProject>
                         Dự án C03H_JS
                         <ContentProject>
@@ -86,7 +74,6 @@ const BoardWorkSpace = () => {
                             <NameProject>Du an C03H_JS</NameProject>
                         </ContentProject>
                     </TitleNameProject>
-
 
                     <Cards>
                         <Card>
@@ -98,7 +85,6 @@ const BoardWorkSpace = () => {
                         </CreateBoard>
                     </Cards>
                 </ContentWorkspace>
-
             </Workspaces>
         </BoardsWorkSpace>
     );

@@ -15,13 +15,13 @@ import {
 import board from "../pages/BoardPage/Board";
 import { addNewBoard } from "../redux/userSlice";
 
-const baseUrl = process.env.REACT_APP_API_ENDPOINT + "/boards";
+const baseUrl = process.env.REACT_APP_API_ENDPOINT;
 
 export const getBoard = async (boardId, dispatch) => {
 
     dispatch(setLoading(true));
     try {
-        const res = await  axios.get(baseUrl + "/" + boardId);
+        const res = await  axios.get(baseUrl + "/board/" + boardId);
         dispatch(successFetchingBoard(res.data));
         setTimeout(()=> {
             dispatch(setLoading(false))
@@ -42,7 +42,7 @@ export const getBoard = async (boardId, dispatch) => {
 export const getBoards = async (fromDropDown, dispatch) => {
     if(!fromDropDown)dispatch(startFetchingBoards());
     try {
-        const res = await axios.get(baseUrl + "/");
+        const res = await axios.get(baseUrl + "/boards/");
         setTimeout(() => {
             dispatch(successFetchingBoards({ boards: res.data }));
         }, 1000);
@@ -71,7 +71,8 @@ export const createBoard = async (props, dispatch) => {
         return;
     }
     try {
-        const res = await axios.post(baseUrl + "/create", props);
+        const res = await axios.post(baseUrl + "/boards/create", props);
+        console.log(res.data)
         dispatch(addNewBoard(res.data));
         dispatch(successCreatingBoard(res.data));
         dispatch(
@@ -80,7 +81,7 @@ export const createBoard = async (props, dispatch) => {
                 severity: "success",
             })
         );
-        setTimeout(()=>{window.location.href = `/boards`;},1000)
+        setTimeout(()=>{window.location.href = `/board/${res.data._id}`;},1000)
 
     } catch (error) {
         dispatch(failCreatingBoard());
