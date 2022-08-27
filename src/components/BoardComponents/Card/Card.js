@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-// import EditCard from '../../../../Modals/EditCardModal/EditCard';
+import EditCard from '../../../components/modals/EditCardModal/EditCard';
 import FollowIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import WatchIcon from '@mui/icons-material/AccessTimeOutlined';
 import DescriptiondIcon from '@mui/icons-material/DescriptionOutlined';
@@ -40,9 +40,9 @@ const Card = (props) => {
         });
     });
     let labels = card.labels.filter((i) => i.selected);
-    // const handleOpenClose = () => {
-    //     setOpenModal((current) => !current);
-    // };
+    const handleOpenClose = () => {
+        setOpenModal((current) => !current);
+    };
 
     const formatDate = (date) => {
         if (moment(date).toDate().getFullYear() < new Date().getFullYear()) return moment(date).format('MMM DD, yyyy');
@@ -65,7 +65,7 @@ const Card = (props) => {
                 {(provided, snapshot) => {
                     return (
                         <Container
-                            // onClick={handleOpenClose}
+                            onClick={handleOpenClose}
                             {...provided.dragHandleProps}
                             {...provided.draggableProps}
                             style={getStyle(provided.draggableProps.style, snapshot)}
@@ -195,13 +195,13 @@ const Card = (props) => {
                     );
                 }}
             </Draggable>
-            {/*{openModal && (*/}
-            {/*    <EditCard*/}
-            {/*        open={openModal}*/}
-            {/*        callback={handleOpenClose}*/}
-            {/*        ids={{ cardId: props.info._id, listId: props.listId, boardId: props.boardId }}*/}
-            {/*    />*/}
-            {/*)}*/}
+            {openModal && (
+                <EditCard
+                    open={openModal}
+                    callback={handleOpenClose}
+                    ids={{ cardId: props.info._id, listId: props.listId, boardId: props.boardId }}
+                />
+            )}
         </>
     );
 };
