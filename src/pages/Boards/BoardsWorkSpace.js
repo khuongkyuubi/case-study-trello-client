@@ -24,7 +24,7 @@ const ContentWorkspace = styled.div``
 export const CreateBoard = styled.div`
   width: 22%;
   height: 80px;
-  //background-color: #f0f2f5;
+  background-color: #f0f2f5;
   background-image: {()};
   display: flex;
   align-items: center;
@@ -61,6 +61,9 @@ const NameProject = styled.div`
 `
 
 const BoardWorkSpace = () => {
+
+
+
     return (
         <BoardsWorkSpace>
             <Workspaces>

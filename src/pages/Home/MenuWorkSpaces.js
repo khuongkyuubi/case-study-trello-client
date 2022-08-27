@@ -18,16 +18,33 @@ import {IconProject} from "./HomeLeft";
 import {Link} from "react-router-dom";
 import "../../Link.css"
 import Typography from "@mui/material/Typography";
+import {useDispatch, useSelector} from "react-redux";
+import {useEffect} from "react";
+import {getTeams} from "../../services/teamService";
+import {map} from "react-bootstrap/ElementChildren";
 
 
 export default function NestedList() {
-    const [open, setOpen] = React.useState(true);
+    const {teamsData}=useSelector(state =>state.team)
+    const dispatch = useDispatch();
+
+    const [open, setOpen] = React.useState(false);
 
     const handleClick = () => {
         setOpen(!open);
     };
 
+    useEffect(() => {
+        getTeams(false,dispatch)
+    },[])
+
+
+
+
+
     return (
+        <div>
+        {teamsData.map(team => (
         <List
             sx={{width: '100%', maxWidth: 360}}
             component="nav"
@@ -36,50 +53,56 @@ export default function NestedList() {
 
             <ListItemButton onClick={handleClick} className="NameProject">
                 <ListItemIcon>
-                    <IconProject>D</IconProject>
+                    <IconProject>{team.name.charAt(0).toUpperCase()}</IconProject>
                 </ListItemIcon>
 
                 <ListItemText>
                     <Typography sx={{fontSize:'1rem',fontWeight:'medium'
-                    }} >Dự án C03H_JS</Typography>
+                    }} >{team.name}</Typography>
                 </ListItemText>
 
                 {open ? <ExpandLess/> : <ExpandMore/>}
             </ListItemButton>
 
             <Collapse in={open} timeout="auto" unmountOnExit>
-                <List component="div" disablePadding>
-                    <Link to={'/my-boards'} className="my-board">
-                        <ListItemButton sx={{pl: 4}} className="NameProject">
-                            <ListItemIcon>
-                                <AnalyticsIcon/>
-                            </ListItemIcon>
 
-                            <ListItemText primary="Board" />
+            <List component="div" disablePadding>
+                <Link to={'/my-boards'} className="my-board">
+                    <ListItemButton sx={{pl: 4}} className="NameProject">
+                        <ListItemIcon>
+                            <AnalyticsIcon/>
+                        </ListItemIcon>
 
-                        </ListItemButton>
-                    </Link>
+                        <ListItemText primary="Board" />
+
+                    </ListItemButton>
+                </Link>
 
 
-                    <Link to={'/members'} class="my-board">
-                        <ListItemButton sx={{pl: 4}} className="NameProject">
-                            <ListItemIcon>
-                                <SupervisedUserCircleIcon/>
-                            </ListItemIcon>
-                            <ListItemText primary="Members"/>
-                        </ListItemButton>
-                    </Link>
+                <Link to={'/members'} class="my-board">
+                    <ListItemButton sx={{pl: 4}} className="NameProject">
+                        <ListItemIcon>
+                            <SupervisedUserCircleIcon/>
+                        </ListItemIcon>
+                        <ListItemText primary="Members"/>
+                    </ListItemButton>
+                </Link>
 
-                    <Link to={'/setting'} class="my-board">
-                        <ListItemButton sx={{pl: 4}} className="NameProject">
-                            <ListItemIcon>
-                                <SettingsIcon/>
-                            </ListItemIcon>
-                            <ListItemText primary="Setting"/>
-                        </ListItemButton>
-                    </Link>
-                </List>
-            </Collapse>
+                <Link to={'/setting'} class="my-board">
+                    <ListItemButton sx={{pl: 4}} className="NameProject">
+                        <ListItemIcon>
+                            <SettingsIcon/>
+                        </ListItemIcon>
+                        <ListItemText primary="Setting"/>
+                    </ListItemButton>
+                </Link>
+            </List>
+        </Collapse>
         </List>
+
+        ))}
+
+
+        </div>
     );
 }
