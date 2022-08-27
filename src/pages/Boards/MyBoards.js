@@ -4,6 +4,7 @@ import {getBoards} from "../../services/boardsService";
 import {useDispatch, useSelector} from "react-redux";
 import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 import {useNavigate} from "react-router-dom";
+import {Typography} from "@mui/material";
 
 const MyBoards = styled.div`
   width: 100%;
@@ -88,7 +89,9 @@ const BoardRecently = () => {
                         <Card link={board.backgroundImageLink} isImage={board.isImage}
                               onClick={() => navigate(`/board/${board._id}`)} key={board._id}>
                             <NameWorkSpaceRecently>
-                                {board.title}
+                                <Typography noWrap>
+                                    {board.title}
+                                </Typography>
                             </NameWorkSpaceRecently>
                             {/*<IconWorkSpaceRecently>o</IconWorkSpaceRecently>*/}
                         </Card>

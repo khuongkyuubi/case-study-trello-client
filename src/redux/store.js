@@ -8,6 +8,7 @@ import boardsReducer from "./Slices/boardsSlice";
 import cardReducer from "./Slices/cardSlice";
 
 
+import teamReducer from "./Slices/teamSlice";
 
 
 
@@ -17,6 +18,7 @@ const Store = configureStore({
         list: listReducer,
         alert: alertReducer,
         user: userReducer,
+        team:teamReducer,
         boards: boardsReducer,
         card: cardReducer,
     }

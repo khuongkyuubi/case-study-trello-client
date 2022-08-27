@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     userInfo: null,
+
     isAuthenticated: null,
     pending: true,
     loading: false,
@@ -60,6 +61,9 @@ export const userSlice = createSlice({
         },
         addNewBoard: (state,action) => {
             state.userInfo.boards.unshift(action.payload);
+        } ,
+        addNewTeam: (state,action) => {
+            state.userInfo.team.unshift(action.payload);
         }
     },
 });
@@ -76,6 +80,7 @@ export const {
     logout,
     fetchingStart,
     fetchingFinish,
-    addNewBoard
+    addNewBoard,
+    addNewTeam
 } = userSlice.actions;
 export default userSlice.reducer;

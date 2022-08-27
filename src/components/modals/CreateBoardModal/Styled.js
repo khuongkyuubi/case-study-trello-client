@@ -11,7 +11,7 @@ export const Container = styled.div`
   width: fit-content;
   gap: 0.5rem;
   flex-direction: column;
-  padding: 0px, 0.5rem;
+  padding: 0px 0.5rem;
   outline: none;
 `;
 

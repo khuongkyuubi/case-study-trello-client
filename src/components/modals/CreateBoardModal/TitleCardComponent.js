@@ -45,6 +45,7 @@ const TitleCardComponent = (props) => {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
+
           <style.MemberWrapper>
             <style.MemberInputWrapper>
               <style.MemberIcon>
@@ -61,6 +62,8 @@ const TitleCardComponent = (props) => {
               <AddIcon fontSize="small" />
             </style.AddButton>
           </style.MemberWrapper>
+
+
           <style.CloseButton>
             <CloseOutlinedIcon
               fontSize="1rem"
@@ -68,6 +71,7 @@ const TitleCardComponent = (props) => {
             />
           </style.CloseButton>
         </style.PanelWrapper>
+
         <style.ChipWrapper>
           {members.map((member) => {
             return (
@@ -79,6 +83,7 @@ const TitleCardComponent = (props) => {
             );
           })}
         </style.ChipWrapper>
+
       </style.Panel>
     </style.TitleCard>
   );
