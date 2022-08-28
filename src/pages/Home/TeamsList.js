@@ -22,29 +22,22 @@ import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
 import {getTeams} from "../../services/teamService";
 import {map} from "react-bootstrap/ElementChildren";
+import {changeIsOpenStatus} from "../../redux/Slices/teamSlice";
 
 
-export default function NestedList() {
-    const {teamsData}=useSelector(state =>state.team)
+export default function TeamsList({team}) {
+    const [open, setOpen] = React.useState(team.isOpen);
     const dispatch = useDispatch();
 
-    const [open, setOpen] = React.useState(false);
-
     const handleClick = () => {
+        dispatch(changeIsOpenStatus({teamId: team._id}))
         setOpen(!open);
     };
-
-    // useEffect(() => {
-    //     getTeams(false,dispatch)
-    // },[])
-
 
 
 
 
     return (
-        <div>
-        {teamsData.map((team, index) => (
         <List
             sx={{width: '100%', maxWidth: 360}}
             component="nav"
@@ -101,9 +94,9 @@ export default function NestedList() {
         </Collapse>
         </List>
 
-        ))}
 
 
-        </div>
+
+
     );
 }
