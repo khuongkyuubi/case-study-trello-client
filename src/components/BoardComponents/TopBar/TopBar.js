@@ -4,8 +4,8 @@ import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import * as common from '../../../pages/BoardPage/CommonStyled';
 import {useDispatch, useSelector} from 'react-redux';
-// import {boardTitleUpdate} from '../../../../../Services/boardsService';
-// import RightDrawer from '../../../../Drawers/RightDrawer/RightDrawer';
+import {boardTitleUpdate} from '../../../services/boardsService';
+import RightDrawer from '../../drawers/RightDrawer/RightDrawer';
 import BasePopover from '../../modals/EditCardModal/ReUsableComponents/BasePopover';
 import InviteMembers from '../../modals/EditCardModal/Popovers/InviteMembers/InviteMembers';
 import Tooltip from "@mui/material/Tooltip";
@@ -36,7 +36,7 @@ const TopBar = ({listMember}) => {
             setCurrentTitle(board.title);
     }, [board.loading, board.title]);
     const handleTitleChange = () => {
-        // boardTitleUpdate(currentTitle, board.id, dispatch);
+        boardTitleUpdate(currentTitle, board.id, dispatch);
     };
     const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -201,9 +201,9 @@ const TopBar = ({listMember}) => {
                     <style.TextSpan>Show menu</style.TextSpan>
                 </common.Button>
             </style.RightWrapper>
-            {/*<RightDrawer show={showDrawer} closeCallback={() => {*/}
-            {/*    setShowDrawer(false)*/}
-            {/*}}/>*/}
+            <RightDrawer show={showDrawer} closeCallback={() => {
+                setShowDrawer(false)
+            }}/>
         </style.TopBar>
     );
 };
