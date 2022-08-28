@@ -11,10 +11,11 @@ import * as style from "../../components/modals/modalCreateBoard/Styled";
 
 import GroupAddOutlinedIcon from "@mui/icons-material/GroupAddOutlined";
 import {getUserFromEmail} from "../../services/userService";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import ChipComponent from "../../components/modals/CreateBoardModal/ChipComponent";
 import {createTeam} from "../../services/teamService";
 import {useNavigate} from "react-router-dom";
+import TeamsList from "./TeamsList";
 
 const ContentLeft2 = styled.div`
   width: 30%;
@@ -235,6 +236,7 @@ const HomeLeft = () => {
     const [members, setMembers] = useState([]);
     const [createWorkSpace, setCreateWorkSpace] = useState(false)
     const [form,setForm]=useState({})
+    const {teamsData}=useSelector(state =>state.team)
 
     const handleChange=(e)=>{
         setForm({
@@ -281,7 +283,9 @@ const HomeLeft = () => {
                 </Workspace>
 
                 <ProjectOld>
-                    <NestedList/>
+                    {teamsData.length > 0 && teamsData.map(team => (
+                        <TeamsList team = {team} key = {team._id}/>
+                    ))}
                 </ProjectOld>
 
 
