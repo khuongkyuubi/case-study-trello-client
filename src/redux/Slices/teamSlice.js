@@ -9,7 +9,6 @@ const initialState = {
     image: '',
     pending: true,
     creating:false,
-
 };
 
 const teamSlice = createSlice({

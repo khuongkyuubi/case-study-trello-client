@@ -71,7 +71,7 @@ const BoardRecently = () => {
             <Recently>
                 <Tittle>
                     <IconTitle><AccessTimeIcon/></IconTitle>
-                    <NameTitle>Recently viewed</NameTitle>
+                    <NameTitle>My boards</NameTitle>
                 </Tittle>
 
                 <Cards>
