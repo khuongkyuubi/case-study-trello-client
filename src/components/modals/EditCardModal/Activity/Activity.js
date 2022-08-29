@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+	import React, { useEffect, useRef, useState } from 'react';
 import {
 	Container,
 	LeftContainer,
@@ -14,7 +14,7 @@ import Comment from '../Comment/Comment';
 import ActivityLog from '../ActivityLog/ActivityLog';
 import Button from '../ReUsableComponents/Button';
 import { useDispatch, useSelector } from 'react-redux';
-import { comment } from '../../../../Services/cardService';
+import { comment } from '../../../../services/cardService';
 import { Avatar } from '@mui/material';
 
 const Activity = () => {

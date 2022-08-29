@@ -117,6 +117,9 @@ const cardSlice = createSlice({
                 return label;
             });
         },
+        addComment: (state, action) => {
+            state.activities = action.payload;
+        },
 
     }
 });
@@ -132,7 +135,8 @@ export const {
     updateLabelSelection,
     updateLabelSelectionOfCard,
     createLabel,
-    updateCreatedLabelId
+    updateCreatedLabelId,
+    addComment,
 } = cardSlice.actions;
 
 //export reducer

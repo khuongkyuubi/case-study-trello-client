@@ -58,7 +58,7 @@ export const CommentArea = styled.textarea`
 		resize: none;
 		outline: none;
 		border-radius: 2px;
-		height: 2.2rem;
+		height: 2.35rem;
 		font-size: 0.875rem;
 		padding: 0.5rem 0.75rem;
 		border: 1px solid lightgray;

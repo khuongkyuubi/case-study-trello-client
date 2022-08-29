@@ -8,6 +8,7 @@ import {
     setCard,
     updateLabel,
     updateLabelSelection, createLabel, updateCreatedLabelId,
+    addComment,
 } from '../redux/Slices/cardSlice';
 import {
     createLabelBoard,
@@ -19,7 +20,8 @@ import {
     createLabelForCard,
     setCardTitle,
     updateLabelOfCard,
-    updateLabelSelectionOfCard
+    updateLabelSelectionOfCard,
+    createCommentsForCard,
 
 } from '../redux/Slices/listSlice';
 
@@ -168,6 +170,35 @@ export const labelCreate = async (cardId, listId, boardId, text, color, backColo
         );
 
     } catch (error) {
+        dispatch(
+            openAlert({
+                message: error?.response?.data?.errMessage ? error.response.data.errMessage : error.message,
+                severity: 'error',
+            })
+        );
+    }
+};
+
+export const comment = async (cardId, listId, boardId, text, userName, dispatch) => {
+    try {
+        // dispatch(setPending(true));
+        let response = '';
+        submitCall = submitCall.then(() =>
+            axios
+                .post(baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/add-comment', {
+                    text: text,
+                })
+                .then((res) => {
+                    response = res;
+                })
+        );
+        await submitCall;
+
+        dispatch(addComment(response.data)); // addComment to cardSlice
+        dispatch(createCommentsForCard({listId, cardId, data: response.data})); // addComments to List (to rerender on card outside modal)
+        // dispatch(setPending(false));
+    } catch (error) {
+        dispatch(setPending(false));
         dispatch(
             openAlert({
                 message: error?.response?.data?.errMessage ? error.response.data.errMessage : error.message,
