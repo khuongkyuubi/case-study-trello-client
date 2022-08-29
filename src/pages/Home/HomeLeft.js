@@ -11,10 +11,11 @@ import * as style from "../../components/modals/modalCreateBoard/Styled";
 
 import GroupAddOutlinedIcon from "@mui/icons-material/GroupAddOutlined";
 import {getUserFromEmail} from "../../services/userService";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import ChipComponent from "../../components/modals/CreateBoardModal/ChipComponent";
 import {createTeam} from "../../services/teamService";
 import {useNavigate} from "react-router-dom";
+import TeamsList from "./TeamsList";
 
 const ContentLeft2 = styled.div`
   width: 30%;
@@ -28,7 +29,7 @@ const DivItem = styled.div`
 `
 
 const WrapperItem = styled.ul`
-width: 75%;
+  width: 75%;
 `
 
 export const Item = styled.li`
@@ -69,14 +70,14 @@ const Workspace = styled.div`
 `
 
 const ContentWorkspace = styled.div`
-  margin-left:8%;
+  margin-left: 8%;
 `
 const IconWorkspace = styled.button`
   border: none;
   border-radius: 4px;
   color: #42526e;
   cursor: pointer;
-  margin-left:5%;
+  margin-left: 5%;
 
   &:hover {
     background-color: #e6eaee;
@@ -106,7 +107,6 @@ export const IconProject = styled.div`
 `
 
 
-
 const CreateWorkSpace = styled.div`
   width: 100%;
   height: 100%;
@@ -123,8 +123,7 @@ const WrapperWorkSpace = styled.div`
   height: 550px;
   width: 1000px;
   //margin-top: 5px;
-  background-color:#6554a2;
-;
+  background-color: #6554a2;;
   display: flex;
   gap: 20px;
   position: relative;
@@ -163,47 +162,45 @@ const InputName = styled.input`
   width: 100%;
   padding: 5px;
   border-radius: 4px;
-  border-color:#f5f6f8;
+  border-color: #f5f6f8;
 
 `
 const Desc2 = styled.div`
   font-size: 10px;
   margin-top: 3px;
-  color:#7f8285;
+  color: #7f8285;
 `
 
 const WorkspaceDesc = styled.div`
-  margin-top:15px;
+  margin-top: 15px;
 `
 
 const TextArea = styled.textarea`
   border-radius: 4px;
   width: 100%;
-  border-color:#f5f6f8;
+  border-color: #f5f6f8;
 
 `
 
-const Desc3=styled.div`
-color:#7f8285;
-  font-size:10px;
-  margin-bottom:3px;
+const Desc3 = styled.div`
+  color: #7f8285;
+  font-size: 10px;
+  margin-bottom: 3px;
 `
 const DivButton = styled.div`
-display: flex;
+  display: flex;
   align-items: center;
   justify-content: center;
 `
 
-const ButtonSubmit=styled.button`
-margin-top:8px;
-  background-color:#ffffff;
-  width:100%;
+const ButtonSubmit = styled.button`
+  margin-top: 8px;
+  background-color: #ffffff;
+  width: 100%;
   padding: 7px;
   border-radius: 4px;
-  border-color:#f5f6f8;
+  border-color: #f5f6f8;
 `
-
-
 
 
 const RightCreateSPace = styled.div`
@@ -214,7 +211,7 @@ const RightCreateSPace = styled.div`
 const ImageTrello = styled.img`
   width: 100%;
   height: 100%;
-  border-radius:3px;
+  border-radius: 3px;
 
 `
 
@@ -229,17 +226,18 @@ const Close = styled.div`
 
 
 const HomeLeft = () => {
-    const navigate=useNavigate()
+    const navigate = useNavigate()
     const dispatch = useDispatch();
     const [memberInput, setMemberInput] = useState("");
     const [members, setMembers] = useState([]);
     const [createWorkSpace, setCreateWorkSpace] = useState(false)
-    const [form,setForm]=useState({})
+    const [form, setForm] = useState({})
+    const {teamsData} = useSelector(state => state.team)
 
-    const handleChange=(e)=>{
+    const handleChange = (e) => {
         setForm({
             ...form,
-            [e.target.name]:e.target.value
+            [e.target.name]: e.target.value
         })
     }
 
@@ -256,16 +254,16 @@ const HomeLeft = () => {
         setMembers([...newMembers]);
     };
 
-    const handleCreateTeam=async ()=>{
-        const data={
+    const handleCreateTeam = async () => {
+        const data = {
             ...form,
             members
         }
-        await createTeam(data,dispatch)
+        await createTeam(data, dispatch)
     }
 
     return (
-        <ContentLeft2 >
+        <ContentLeft2>
             <DivItem>
                 <WrapperItem>
                     <BasicList/>
@@ -281,70 +279,72 @@ const HomeLeft = () => {
                 </Workspace>
 
                 <ProjectOld>
-                    <NestedList/>
+                    {teamsData.length > 0 && teamsData.map(team => (
+                        <TeamsList team={team} key={team._id}/>
+                    ))}
                 </ProjectOld>
 
 
             </DivProject>
 
-            {createWorkSpace && <CreateWorkSpace>
-                <WrapperWorkSpace >
+            {
+                createWorkSpace && <CreateWorkSpace>
+                <WrapperWorkSpace>
                     <LeftCreateSPace>
-                            <Close onClick={() => setCreateWorkSpace(false)}>X</Close>
-                            <ContentWorkSpace>
-                                <Tittle>Let's build a Workspace</Tittle>
-                                <Desc1>
-                                    Boost your productivity by making it easier for everyone to access boards in one
-                                    location.
-                                </Desc1>
+                        <Close onClick={() => setCreateWorkSpace(false)}>X</Close>
+                        <ContentWorkSpace>
+                            <Tittle>Let's build a Workspace</Tittle>
+                            <Desc1>
+                                Boost your productivity by making it easier for everyone to access boards in one
+                                location.
+                            </Desc1>
 
-                                <WorkspaceName>Workspace name</WorkspaceName>
-                                <InputName placeholder="Taco's Co." name="name" onChange={handleChange}></InputName>
-                                <Desc2>This is the name of your company, team or organization.</Desc2>
+                            <WorkspaceName>Workspace name</WorkspaceName>
+                            <InputName placeholder="Taco's Co." name="name" onChange={handleChange}></InputName>
+                            <Desc2>This is the name of your company, team or organization.</Desc2>
 
-                                <WorkspaceDesc>Workspace description</WorkspaceDesc>
-                                <TextArea name="description" onChange={handleChange} placeholder="Our team organizes everything here." rows="4"></TextArea>
-                                <Desc3>Get your members on board with a few words about your Workspace.</Desc3>
+                            <WorkspaceDesc>Workspace description</WorkspaceDesc>
+                            <TextArea name="description" onChange={handleChange}
+                                      placeholder="Our team organizes everything here." rows="4"></TextArea>
+                            <Desc3>Get your members on board with a few words about your Workspace.</Desc3>
 
 
+                            <style.MemberWrapper>
+                                <style.MemberInputWrapper>
+                                    <style.MemberIcon>
+                                        <GroupAddOutlinedIcon fontSize="small"/>
+                                    </style.MemberIcon>
+                                    <style.MemberInput
 
-                                <style.MemberWrapper>
-                                    <style.MemberInputWrapper>
-                                        <style.MemberIcon>
-                                            <GroupAddOutlinedIcon fontSize="small" />
-                                        </style.MemberIcon>
-                                        <style.MemberInput
+                                        placeholder="Invite to board with email"
+                                        value={memberInput}
+                                        type="email"
+                                        onChange={(e) => setMemberInput(e.target.value)}
+                                    />
+                                </style.MemberInputWrapper>
+                                <style.AddButton onClick={() => handleClick()}>
+                                    <AddIcon fontSize="small"/>
+                                </style.AddButton>
+                            </style.MemberWrapper>
 
-                                            placeholder="Invite to board with email"
-                                            value={memberInput}
-                                            type="email"
-                                            onChange={(e) => setMemberInput(e.target.value)}
+                            <style.ChipWrapper>
+                                {members.map((member) => {
+                                    return (
+                                        <ChipComponent
+                                            key={member.email}
+                                            callback={handleDelete}
+                                            {...member}
                                         />
-                                    </style.MemberInputWrapper>
-                                    <style.AddButton onClick={() => handleClick()}>
-                                        <AddIcon fontSize="small" />
-                                    </style.AddButton>
-                                </style.MemberWrapper>
-
-                                <style.ChipWrapper>
-                                    {members.map((member) => {
-                                        return (
-                                            <ChipComponent
-                                                key={member.email}
-                                                callback={handleDelete}
-                                                {...member}
-                                            />
-                                        );
-                                    })}
-                                </style.ChipWrapper>
+                                    );
+                                })}
+                            </style.ChipWrapper>
 
 
+                            <DivButton>
+                                <ButtonSubmit onClick={handleCreateTeam}>Create team</ButtonSubmit>
+                            </DivButton>
 
-                                <DivButton>
-                                    <ButtonSubmit onClick={handleCreateTeam}>Create team</ButtonSubmit>
-                                </DivButton>
-
-                            </ContentWorkSpace>
+                        </ContentWorkSpace>
 
                     </LeftCreateSPace>
 

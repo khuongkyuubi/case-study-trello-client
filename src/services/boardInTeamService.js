@@ -19,7 +19,12 @@ import board from "../pages/BoardPage/Board";
 
 const baseUrl = process.env.REACT_APP_API_ENDPOINT;
 
-export const createBoard = async (props, dispatch) => {
+export const createBoardInTeam = async (idTeam,props, dispatch) => {
+
+    const data={
+        ...props,
+        idTeam
+    }
     dispatch(startCreatingBoardInTeam());
     if (!(props.title && props.backgroundImageLink)) {
         dispatch(failCreatingBoardInTeam());
@@ -32,9 +37,10 @@ export const createBoard = async (props, dispatch) => {
         return;
     }
     try {
-        const res = await axios.post(baseUrl + "/boards/create", props);
-        console.log(res.data)
+        const res = await axios.post(baseUrl + "/team/create-boards", data);
+
         // dispatch(addNewBoard(res.data));
+
         dispatch(successCreatingBoardInTeam(res.data));
         dispatch(
             openAlert({
@@ -42,7 +48,7 @@ export const createBoard = async (props, dispatch) => {
                 severity: "success",
             })
         );
-        setTimeout(()=>{window.location.href = `/board/${res.data._id}`;},1000)
+        // setTimeout(()=>{window.location.href = `/board/${res.data._id}`;},1000)
 
     } catch (error) {
         dispatch(failCreatingBoardInTeam());
@@ -82,15 +88,16 @@ export const createBoard = async (props, dispatch) => {
 //     }
 // }
 //
-// export const getBoards = async (fromDropDown, dispatch) => {
-//     if(!fromDropDown)dispatch(startFetchingBoards());
+// export const getListTeam = async (fromDropDown, dispatch) => {
+//     if(!fromDropDown)dispatch(startFetchingBoardInTeam());
 //     try {
-//         const res = await axios.get(baseUrl + "/boards/");
-//         setTimeout(() => {
-//             dispatch(successFetchingBoards({ boards: res.data }));
-//         }, 1000);
+//         const res = await axios.get(baseUrl + "/");
+//         console.log(res.data)
+//         // setTimeout(() => {
+//         //     dispatch(successFetchingBoardInTeam({ boards: res.data }));
+//         // }, 1000);
 //     } catch (error) {
-//         dispatch(failFetchingBoards());
+//         dispatch(failFetchingBoardInTeam());
 //         dispatch(
 //             openAlert({
 //                 message: error?.response?.data?.errMessage

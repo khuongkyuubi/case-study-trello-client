@@ -19,6 +19,10 @@ const teamSlice = createSlice({
             state.pending = true;
         },
         successFetchingTeams: (state, action) => {
+            action.payload.teams.map(team => {
+                team.isOpen = false;
+            }
+        );
             state.teamsData = action.payload.teams;
             state.pending = false;
         },
@@ -35,6 +39,15 @@ const teamSlice = createSlice({
         failCreatingTeam: (state) => {
             state.creating = true;
         },
+        changeIsOpenStatus: (state, action) => {
+            state.teamsData = state.teamsData.map(team => {
+                if(team._id === action.payload.teamId){
+                    team.isOpen = !team.isOpen;
+                    // team.isOpen = action.payload.isOpen;
+                }
+                return team;
+            })
+        },
         reset:(state)=>{
             state=initialState;
         }
@@ -47,6 +60,7 @@ export const {
     failFetchingTeams,
     startCreatingTeam,
     successCreatingTeam,
+    changeIsOpenStatus,
     failCreatingTeam,
     reset
 } = teamSlice.actions;

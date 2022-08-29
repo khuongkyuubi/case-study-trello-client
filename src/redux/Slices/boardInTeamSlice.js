@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    boardsData: [],
+    listTeamData: [],
     pending: true,
     backgroundImages: [
         "https://images.unsplash.com/photo-1636471815144-616b00e21f24",
@@ -28,7 +28,7 @@ const boardInTeamsSlice = createSlice({
             state.pending = true;
         },
          successFetchingBoardInTeam: (state, action) => {
-            state.boardsData = action.payload.boards;
+            state.listTeamData = action.payload.boards;
             state.pending = false;
         },
         failFetchingBoardInTeam: (state) => {
@@ -38,7 +38,7 @@ const boardInTeamsSlice = createSlice({
             state.creating = true;
         },
         successCreatingBoardInTeam: (state, action) => {
-            state.boardsData.push(action.payload);
+            state.listTeamData.push(action.payload);
             state.creating = false;
         },
         failCreatingBoardInTeam: (state) => {
