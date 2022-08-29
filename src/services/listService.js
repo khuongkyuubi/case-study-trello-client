@@ -8,6 +8,7 @@ export const createCard = async (title, listId, boardId, dispatch) => {
     // dispatch(setLoading(true));
     try {
         const updatedList = await axios.post(baseUrl + '/create', { title: title, listId: listId, boardId: boardId });
+        console.log("new list",updatedList.data)
         dispatch(successCreatingCard({ listId: listId, updatedList: updatedList.data }));
         // dispatch(setLoading(false));
     } catch (error) {

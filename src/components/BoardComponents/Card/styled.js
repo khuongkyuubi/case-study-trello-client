@@ -45,14 +45,28 @@ export const LabelContainer = styled.div`
 `;
 
 export const Label = styled.div`
-  width: 2.5rem;
-  height: 1.0rem;
+  ${props => props.isExpandedLabels ?
+          `width:fit-content;
+           height: 1rem;
+           display: flex;
+           justify-content: center;
+           align-items: center;
+           ` : `  
+           width: 2.25rem;
+           height: 0.55rem;`
+  }
+
+  ${props => props.isExpandedLabels && !props.content && 'width: 3rem;'
+
+  }
   background-color: ${(props) => props.color};
-  border: 1px solid rgba(0, 0, 0, 0.1);
   text-align: center;
+  font-weight: bold;
+  padding: 0 0.5rem;
   color: white;
-  font-size: 0.5rem;
-  border-radius: 2rem;
+  font-size: 0.7rem;
+  border-radius: 0.5rem;
+  transition: all .1s linear;
 `;
 
 export const CardTitle = styled.div`

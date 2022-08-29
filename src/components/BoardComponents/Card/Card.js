@@ -27,11 +27,15 @@ import {
 import {Draggable} from 'react-beautiful-dnd';
 import moment from 'moment';
 import {Avatar} from '@mui/material';
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {changeIsExpanded} from "../../../redux/Slices/boardSlice";
+import {updateIsExpandedLabels} from "../../../services/boardService";
 
 const Card = (props) => {
     const [openModal, setOpenModal] = useState(false);
     const boardLabels = useSelector((state) => state.board.labels);
+    const isExpandedLabels = useSelector((state) => state.board.isExpandedLabels);
+    const dispatch = useDispatch();
     const card = props.info;
     const comment = card.activities.filter((act) => act.isComment).length;
     let checks = {c: 0, n: 0};
@@ -76,6 +80,11 @@ const Card = (props) => {
         };
     }
 
+    const handleExpandLables = async (event) => {
+        event.stopPropagation();
+        await updateIsExpandedLabels(props.boardId, dispatch)
+    }
+
     return (
         <>
             <Draggable draggableId={props.info._id} index={props.index}>
@@ -95,7 +104,9 @@ const Card = (props) => {
                             {labels && (
                                 <LabelContainer>
                                     {labels.map((label) => {
-                                        return <Label key={label._id} color={label.color}>{label.text}</Label>;
+                                        return <Label onClick={handleExpandLables} isExpandedLabels={isExpandedLabels} content={label.text}
+                                                      key={label._id}
+                                                      color={label.color}>{isExpandedLabels ? label.text : ""}</Label>;
                                     })}
                                 </LabelContainer>
                             )}
