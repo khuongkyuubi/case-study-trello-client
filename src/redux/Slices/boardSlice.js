@@ -74,8 +74,7 @@ const boardSlice = createSlice({
             });
         },
         createLabelBoard: (state, action) => {
-            const { _id, text, color, backColor } = action.payload;
-            state.labels.unshift({ _id, text, color, backColor, selected: true });
+            state.labels.unshift( action.payload);
         },
 
         updateCreatedLabelIdBoard: (state, action) => {
