@@ -1,13 +1,11 @@
 import React from 'react';
 import styled from "styled-components";
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import Navbar from "../../components/Navbar";
 import HomeLeft from "../Home/HomeLeft";
-import {CreateBoard} from "../Boards/BoardsWorkSpace";
+import {CreateBoards} from "../Boards/BoardsWorkSpace";
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
-
 
 const Container = styled.div`
   margin-top: 1rem;
@@ -15,8 +13,6 @@ const Container = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  //font-family: "Times New Roman", Times, serif;
-
 `
 const Nav = styled.div`
   width: 100%;
@@ -42,7 +38,6 @@ const DivTop = styled.div`
   margin-bottom: 25px;
 `
 
-
 const YourBoard = styled.div`
   display: flex;
   align-items: center;
@@ -53,7 +48,6 @@ const DivCard = styled.div`
   align-items: center;
   flex-wrap: wrap;
 `
-
 
 const NameBoard = styled.div`
   font-weight: bold;
@@ -69,7 +63,6 @@ const DefaultName = styled.div`
   font-weight: bold;
 `
 
-
 const DivEmpty = styled.div`
   width: 10%;
 `
@@ -80,7 +73,6 @@ const MyBoardsPage = () => {
         navigate(`/create-board`)
     }
 
-
     return (
         <Container>
             <Nav>
@@ -89,8 +81,6 @@ const MyBoardsPage = () => {
             <Wrapper>
                 <DivEmpty/>
                 <HomeLeft/>
-
-
                 <BoardsContent>
                     <DivTop>
                         <YourBoard>
@@ -99,18 +89,14 @@ const MyBoardsPage = () => {
                         </YourBoard>
 
                         <DivCard>
-                            <CreateBoard style={{backgroundColor: '#347a8d'}}>
+                            <CreateBoards style={{backgroundColor: '#347a8d'}}>
                                 <NameBoard>AlphaWolf_Trello</NameBoard>
-                            </CreateBoard>
+                            </CreateBoards>
 
-
-
-                            <CreateBoard onClick={handleCreateBoard}>
+                            <CreateBoards onClick={handleCreateBoard}>
                                 Create new board
-                            </CreateBoard>
-
+                            </CreateBoards>
                         </DivCard>
-
                     </DivTop>
 
 
@@ -121,23 +107,19 @@ const MyBoardsPage = () => {
                         </YourBoard>
 
                         <DivCard>
-                            <CreateBoard style={{backgroundColor: '#347a8d'}}>
+                            <CreateBoards style={{backgroundColor: '#347a8d'}}>
                                 <NameBoard>AlphaWolf_Trello</NameBoard>
-                            </CreateBoard>
+                            </CreateBoards>
 
-                            <CreateBoard style={{backgroundColor: '#347a8d'}}>
+                            <CreateBoards style={{backgroundColor: '#347a8d'}}>
                                 <NameBoard>AlphaWolf_Trello</NameBoard>
-                            </CreateBoard>
+                            </CreateBoards>
 
-                            <CreateBoard onClick={handleCreateBoard}>
+                            <CreateBoards onClick={handleCreateBoard}>
                                 Create new board
-                            </CreateBoard>
-
+                            </CreateBoards>
                         </DivCard>
-
                     </DivTop>
-
-
                 </BoardsContent>
                 <DivEmpty/>
             </Wrapper>
