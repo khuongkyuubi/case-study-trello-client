@@ -11,15 +11,15 @@ import {
 	CompleteLabel,
 	OverDueLabel,
 } from './styled';
-import MembersFeature from './MembersFeature';
+// import MembersFeature from './MembersFeature';
 import ArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Checkbox from '../ReUsableComponents/Checkbox';
 import { useDispatch, useSelector } from 'react-redux';
 import BasePopover from '../ReUsableComponents/BasePopover';
 import LabelsPopover from '../Popovers/Labels/LabelsPopover';
 import moment from 'moment';
-import { dateCompletedUpdate } from '../../../../Services/cardService';
-import DatePopover from '../Popovers/Date/DatePopover';
+// import { dateCompletedUpdate } from '../../../../Services/cardService';
+// import DatePopover from '../Popovers/Date/DatePopover';
 
 const Features = (props) => {
 	const dispatch = useDispatch();
@@ -38,10 +38,10 @@ const Features = (props) => {
 		return card.labels.filter((label) => label.selected);
 	};
 
-	const handleDateCompletedClick = async (param) => {
-		setDateCheck(param);
-		await dateCompletedUpdate(card.cardId, card.listId, card.boardId, param, dispatch);
-	};
+	// const handleDateCompletedClick = async (param) => {
+	// 	setDateCheck(param);
+	// 	await dateCompletedUpdate(card.cardId, card.listId, card.boardId, param, dispatch);
+	// };
 
 	const formatDate = (date) => {
 		if (moment(date).toDate().getFullYear() < new Date().getFullYear()) return moment(date).format('MMM DD, yyyy');
@@ -49,12 +49,12 @@ const Features = (props) => {
 	};
 	return (
 		<Container>
-			{card.members.length > 0 && (
-				<FeatureContainer>
-					<MembersFeature />
-				</FeatureContainer>
-			)}
-			{anySelectedLabel().length > 0 && (
+			{/*{card.members.length > 0 && (*/}
+			{/*	<FeatureContainer>*/}
+			{/*		<MembersFeature />*/}
+			{/*	</FeatureContainer>*/}
+			{/*)}*/}
+			{/*{anySelectedLabel().length > 0 && (*/}
 				<FeatureContainer>
 					<Title ref={ref}>Labels</Title>
 					<RowContainer >
@@ -100,48 +100,48 @@ const Features = (props) => {
 						)}
 					</RowContainer>
 				</FeatureContainer>
-			)}
-			{(card.date.startDate || card.date.dueDate) && (
-				<FeatureContainer>
-					<Title>{card.date.startDate ? (card.date.dueDate ? 'Dates' : 'Start date') : 'Due date'}</Title>
-					<RowContainer>
-						<Checkbox
-							checked={dateCheck}
-							clickCallback={handleDateCompletedClick}
-							hidden={!card.date.dueDate ? true : false}
-						/>
-						<DateDropDown onClick={(event) => setDatePopover(event.currentTarget)}>
-							<DateText>{`${card.date.startDate ? formatDate(card.date.startDate) : ''}${
-								card.date.startDate ? (card.date.dueDate ? ' - ' : '') : ''
-							}${card.date.dueDate ? formatDate(card.date.dueDate) : ''}${
-								card.date.dueTime ? ' at ' + card.date.dueTime : ''
-							}`}</DateText>
-							{moment(card.date.dueDate).toDate().getTime() < new Date().getTime() ? (
-								<OverDueLabel show={true}>overdue</OverDueLabel>
-							) : (
-								<CompleteLabel show={dateCheck}>complete</CompleteLabel>
-							)}
-							<ArrowDownIcon style={{ marginBottom: '0.2rem' }} fontSize='small' />
-						</DateDropDown>
-					</RowContainer>
-				</FeatureContainer>
-			)}
-			{datePopover && (
-				<BasePopover
-					anchorElement={datePopover}
-					closeCallback={() => {
-						setDatePopover(null);
-					}}
-					title='Date'
-					contents={
-						<DatePopover
-							closeCallback={() => {
-								setDatePopover(null);
-							}}
-						/>
-					}
-				/>
-			)}
+			{/*)}*/}
+			{/*{(card.date.startDate || card.date.dueDate) && (*/}
+			{/*	<FeatureContainer>*/}
+			{/*		<Title>{card.date.startDate ? (card.date.dueDate ? 'Dates' : 'Start date') : 'Due date'}</Title>*/}
+			{/*		<RowContainer>*/}
+			{/*			<Checkbox*/}
+			{/*				checked={dateCheck}*/}
+			{/*				clickCallback={handleDateCompletedClick}*/}
+			{/*				hidden={!card.date.dueDate ? true : false}*/}
+			{/*			/>*/}
+			{/*			<DateDropDown onClick={(event) => setDatePopover(event.currentTarget)}>*/}
+			{/*				<DateText>{`${card.date.startDate ? formatDate(card.date.startDate) : ''}${*/}
+			{/*					card.date.startDate ? (card.date.dueDate ? ' - ' : '') : ''*/}
+			{/*				}${card.date.dueDate ? formatDate(card.date.dueDate) : ''}${*/}
+			{/*					card.date.dueTime ? ' at ' + card.date.dueTime : ''*/}
+			{/*				}`}</DateText>*/}
+			{/*				{moment(card.date.dueDate).toDate().getTime() < new Date().getTime() ? (*/}
+			{/*					<OverDueLabel show={true}>overdue</OverDueLabel>*/}
+			{/*				) : (*/}
+			{/*					<CompleteLabel show={dateCheck}>complete</CompleteLabel>*/}
+			{/*				)}*/}
+			{/*				<ArrowDownIcon style={{ marginBottom: '0.2rem' }} fontSize='small' />*/}
+			{/*			</DateDropDown>*/}
+			{/*		</RowContainer>*/}
+			{/*	</FeatureContainer>*/}
+			{/*)}*/}
+			{/*{datePopover && (*/}
+			{/*	<BasePopover*/}
+			{/*		anchorElement={datePopover}*/}
+			{/*		closeCallback={() => {*/}
+			{/*			setDatePopover(null);*/}
+			{/*		}}*/}
+			{/*		title='Date'*/}
+			{/*		contents={*/}
+			{/*			<DatePopover*/}
+			{/*				closeCallback={() => {*/}
+			{/*					setDatePopover(null);*/}
+			{/*				}}*/}
+			{/*			/>*/}
+			{/*		}*/}
+			{/*	/>*/}
+			{/*)}*/}
 		</Container>
 	);
 };

@@ -39,6 +39,7 @@ const Card = (props) => {
             return item;
         });
     });
+
     let labels = card.labels.filter((i) => i.selected);
     const handleOpenClose = () => {
         setOpenModal((current) => !current);
@@ -78,7 +79,7 @@ const Card = (props) => {
                             {labels && (
                                 <LabelContainer>
                                     {labels.map((label) => {
-                                        return <Label key={label._id} color={label.color} />;
+                                        return <Label key={label._id} color={label.color} >{label.text}</Label>;
                                     })}
                                 </LabelContainer>
                             )}

@@ -8,7 +8,7 @@ import Modal from '@mui/material/Modal';
 // import Attachments from './Attachments/Attachments';
 // import Features from './Features/Features';
 import Title from './Title/Title';
-// import CardLoadingSvg from '../../../Images/cardLoading.svg';
+import CardLoadingSvg from '../../../images/cardLoading.svg';
 import { getCard } from '../../../services/cardService';
 import { useSelector, useDispatch } from 'react-redux';
 import IconButton from './ReUsableComponents/IconButton';
@@ -32,16 +32,22 @@ import {
 	CoverButtonWrapper,
 	CloseIconWrapper,
 } from './styled';
+import AddToCard from "./AddToCard/AddToCard";
+import {Description} from "./Title/styled";
+import Features from "./Features/Features";
+import {getBoard} from "../../../services/boardsService";
 
 export default function EditCard(props) {
 	const { cardId, listId, boardId } = props.ids;
 	const dispatch = useDispatch();
 	const thisCard = useSelector((state) => state.card);
+	const boardLabels = useSelector((state) => state.board.labels);
 	React.useEffect(() => {
 		if (props.open) {
-			getCard(cardId, listId, boardId, dispatch);
+			getCard(cardId, listId, boardId, dispatch, boardLabels);
 		}
 	}, [boardId, cardId, dispatch, listId, props.open]);
+
 
 	return (
 		<div style={{ position: 'relative' }}>
@@ -54,44 +60,48 @@ export default function EditCard(props) {
 					{/*</CoverContainer>*/}
 					<TitleContainer>{!thisCard.pending && <Title />}</TitleContainer>
 					<Wrapper>
-						{/*<MainContainer>*/}
-						{/*	{!thisCard.pending ? (*/}
-						{/*		<>*/}
-						{/*			{(thisCard.members.length > 0 ||*/}
-						{/*				thisCard.labels.filter((label) => label.selected).length > 0 ||*/}
-						{/*				thisCard.date.startDate ||*/}
-						{/*				thisCard.date.dueDate) && (*/}
-						{/*				<FeaturesContainer>*/}
-						{/*					<Features />*/}
-						{/*				</FeaturesContainer>*/}
-						{/*			)}*/}
-						{/*			<DescriptionContainer>*/}
-						{/*				<Description />*/}
-						{/*			</DescriptionContainer>*/}
-						{/*			{thisCard.attachments.length > 0 && (*/}
-						{/*				<AttachmentContainer>*/}
-						{/*					<Attachments />*/}
-						{/*				</AttachmentContainer>*/}
-						{/*			)}*/}
-						{/*			{thisCard.checklists.length > 0 && (*/}
-						{/*				<ChecklistContainer>*/}
-						{/*					{thisCard.checklists.map((list) => {*/}
-						{/*						return <Checklist key={list._id} {...list} />;*/}
-						{/*					})}*/}
-						{/*				</ChecklistContainer>*/}
-						{/*			)}*/}
-						{/*			<ActivityContainer>*/}
-						{/*				<Activity />*/}
-						{/*			</ActivityContainer>*/}
-						{/*		</>*/}
-						{/*	) : (*/}
-						{/*		<LoadingScreen image={CardLoadingSvg} />*/}
-						{/*	)}*/}
-						{/*</MainContainer>*/}
+						<MainContainer>
+							{!thisCard.pending ? (
+								<>
+									{(thisCard.members.length > 0 ||
+										thisCard.labels.filter((label) => label.selected).length > 0
+										// ||
+										// thisCard.date.startDate
+										||
+										thisCard.date.dueDate) && (
+										<FeaturesContainer>
+											<Features />
+										</FeaturesContainer>
+									)}
+									<DescriptionContainer>
+										<Description />
+									</DescriptionContainer>
+									{/*{thisCard.attachments.length > 0 && (*/}
+									{/*	<AttachmentContainer>*/}
+									{/*		<Attachments />*/}
+									{/*	</AttachmentContainer>*/}
+									{/*)}*/}
+									{/*{thisCard.checklists.length > 0 && (*/}
+									{/*	<ChecklistContainer>*/}
+									{/*		{thisCard.checklists.map((list) => {*/}
+									{/*			return <Checklist key={list._id} {...list} />;*/}
+									{/*		})}*/}
+									{/*	</ChecklistContainer>*/}
+									{/*)}*/}
+									{/*<ActivityContainer>*/}
+									{/*	<Activity />*/}
+									{/*</ActivityContainer>*/}
+								</>
+							) :
+								(
+								<LoadingScreen image={CardLoadingSvg} />
+							)
+							}
+						</MainContainer>
 						<RightContainer>
-							{/*<AddToCardContainer>*/}
-							{/*	<AddToCard />*/}
-							{/*</AddToCardContainer>*/}
+							<AddToCardContainer>
+								<AddToCard />
+							</AddToCardContainer>
 							{/*<ActionsContainer>*/}
 							{/*	<Actions />*/}
 							{/*</ActionsContainer>*/}

@@ -57,6 +57,60 @@ const listSlice = createSlice({
                 return list;
             });
         },
+        updateLabelOfCard: (state, action) => {
+            const { listId, cardId, labelId, text, color, backColor } = action.payload;
+            state.allLists = state.allLists.map((list) => {
+                if (list._id === listId) {
+                    list.cards = list.cards.map((card) => {
+                        if (card._id === cardId) {
+                            card.labels = card.labels.map((label) => {
+                                if (label._id === labelId) {
+                                    label.text = text;
+                                    label.color = color;
+                                    label.backColor = backColor;
+                                }
+                                return label;
+                            });
+                        }
+                        return card;
+                    });
+                }
+                return list;
+            });
+        },
+        updateLabelSelectionOfCard: (state, action) => {
+            const { listId, cardId, labelId, selected } = action.payload;
+            state.allLists = state.allLists.map((list) => {
+                if (list._id === listId) {
+                    list.cards = list.cards.map((card) => {
+                        if (card._id === cardId) {
+                            card.labels = card.labels.map((label) => {
+                                if (label._id === labelId) {
+                                    label.selected = selected;
+                                }
+                                return label;
+                            });
+                        }
+                        return card;
+                    });
+                }
+                return list;
+            });
+        },
+        createLabelForCard: (state, action) => {
+            const { listId, cardId, _id, text, color, backColor } = action.payload;
+            state.allLists = state.allLists.map((list) => {
+                if (list._id === listId) {
+                    list.cards = list.cards.map((card) => {
+                        if (card._id === cardId) {
+                            card.labels.unshift({ _id, text, color, backColor, selected: true });
+                        }
+                        return card;
+                    });
+                }
+                return list;
+            });
+        },
 
 
     }
@@ -72,6 +126,9 @@ export const {
     updateCardDragDrop,
     successCreatingCard,
     setCardTitle,
+    updateLabelOfCard,
+    updateLabelSelectionOfCard,
+    createLabelForCard
 } = listSlice.actions;
 
 export default listSlice.reducer;
