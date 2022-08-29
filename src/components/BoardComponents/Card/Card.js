@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import EditCard from '../../../components/modals/EditCardModal/EditCard';
 import FollowIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import WatchIcon from '@mui/icons-material/AccessTimeOutlined';
@@ -24,14 +24,21 @@ import {
     MembersContainer,
     MembersWrapper,
 } from './styled';
-import { Draggable } from 'react-beautiful-dnd';
+import {Draggable} from 'react-beautiful-dnd';
 import moment from 'moment';
-import { Avatar } from '@mui/material';
+import {Avatar} from '@mui/material';
+import {useDispatch, useSelector} from "react-redux";
+import {changeIsExpanded} from "../../../redux/Slices/boardSlice";
+import {updateIsExpandedLabels} from "../../../services/boardService";
+
 const Card = (props) => {
     const [openModal, setOpenModal] = useState(false);
+    const boardLabels = useSelector((state) => state.board.labels);
+    const isExpandedLabels = useSelector((state) => state.board.isExpandedLabels);
+    const dispatch = useDispatch();
     const card = props.info;
     const comment = card.activities.filter((act) => act.isComment).length;
-    let checks = { c: 0, n: 0 };
+    let checks = {c: 0, n: 0};
     card.checklists.map((checklist) => {
         return checklist.items.map((item) => {
             if (item.completed) checks.c += 1;
@@ -40,7 +47,20 @@ const Card = (props) => {
         });
     });
 
-    let labels = card.labels.filter((i) => i.selected);
+
+    let cardLabels = card.labels.filter((i) => i.selected);
+    const labels = cardLabels.map((label) => {
+        for (let j = 0; j < boardLabels.length; j++) {
+            if (label._id.toString() === boardLabels[j]._id.toString()) {
+                return {
+                    ...label,
+                    text: boardLabels[j].text,
+                    color: boardLabels[j].color,
+                }
+            }
+        }
+    });
+
     const handleOpenClose = () => {
         setOpenModal((current) => !current);
     };
@@ -60,6 +80,11 @@ const Card = (props) => {
         };
     }
 
+    const handleExpandLables = async (event) => {
+        event.stopPropagation();
+        await updateIsExpandedLabels(props.boardId, dispatch)
+    }
+
     return (
         <>
             <Draggable draggableId={props.info._id} index={props.index}>
@@ -75,11 +100,13 @@ const Card = (props) => {
                             color={!card.cover.isSizeOne ? card.cover.color : '#fff'}
                             padding={card.cover.color && card.cover.isSizeOne}
                         >
-                            {card.cover.isSizeOne && <Cover color={card.cover.color} />}
+                            {card.cover.isSizeOne && <Cover color={card.cover.color}/>}
                             {labels && (
                                 <LabelContainer>
                                     {labels.map((label) => {
-                                        return <Label key={label._id} color={label.color} >{label.text}</Label>;
+                                        return <Label onClick={handleExpandLables} isExpandedLabels={isExpandedLabels} content={label.text}
+                                                      key={label._id}
+                                                      color={label.color}>{isExpandedLabels ? label.text : ""}</Label>;
                                     })}
                                 </LabelContainer>
                             )}
@@ -90,12 +117,12 @@ const Card = (props) => {
                                     <IconGroupWrapper>
                                         {card.watchers.length > 0 && (
                                             <IconWrapper>
-                                                <FollowIcon fontSize='0.5rem' />
+                                                <FollowIcon fontSize='0.5rem'/>
                                             </IconWrapper>
                                         )}
                                         {card.attachments.length > 0 && (
                                             <AttachmentContainer>
-                                                <AttachmentIcon fontSize='small' />
+                                                <AttachmentIcon fontSize='small'/>
                                                 <Span>{card.attachments.length}</Span>
                                             </AttachmentContainer>
                                         )}
@@ -151,16 +178,16 @@ const Card = (props) => {
                                         {/*        }`}</Span>*/}
                                         {/*    </DateContainer>*/}
                                         {/*)}*/}
-                                        {card.description && <DescriptiondIcon fontSize='0.5rem' />}
+                                        {card.description && <DescriptiondIcon fontSize='0.5rem'/>}
                                         {comment > 0 && (
                                             <CommentContainer>
-                                                <CommentIcon fontSize='0.5rem' />
+                                                <CommentIcon fontSize='0.5rem'/>
                                                 <Span>{comment}</Span>
                                             </CommentContainer>
                                         )}
                                         {card.checklists.length > 0 && (
                                             <CheckContainer>
-                                                <CheckIcon fontSize='0.5rem' />
+                                                <CheckIcon fontSize='0.5rem'/>
                                                 <Span>
                                                     {checks.c}/{checks.c + checks.n}
                                                 </Span>
@@ -200,7 +227,7 @@ const Card = (props) => {
                 <EditCard
                     open={openModal}
                     callback={handleOpenClose}
-                    ids={{ cardId: props.info._id, listId: props.listId, boardId: props.boardId }}
+                    ids={{cardId: props.info._id, listId: props.listId, boardId: props.boardId}}
                 />
             )}
         </>

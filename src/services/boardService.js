@@ -9,12 +9,13 @@ import {
 } from '../redux/Slices/listSlice';
 import {openAlert} from '../redux/Slices/alertSlice';
 import {
-    addMembers,
+    addMembers, changeIsExpanded,
     setActivityLoading,
     updateActivity,
     updateBackground,
     updateDescription
 } from '../redux/Slices/boardSlice';
+import board from "../pages/BoardPage/Board";
 
 const listRoute = process.env.REACT_APP_API_ENDPOINT + '/list';
 const boardRoute = process.env.REACT_APP_API_ENDPOINT + '/board';
@@ -177,3 +178,20 @@ export const boardMemberAdd = async (boardId, members, dispatch) => {
         );
     }
 };
+
+export const updateIsExpandedLabels = async (boardId, dispatch) => {
+
+    try {
+        dispatch(changeIsExpanded());
+        await axios.put(`${boardRoute}/${boardId}/update-expanded-labels`);
+    } catch (error) {
+        dispatch(
+            openAlert({
+                message: error?.response?.data?.errMessage ? error.response.data.errMessage : error.message,
+                severity: 'error',
+            })
+        );
+    }
+
+
+}
