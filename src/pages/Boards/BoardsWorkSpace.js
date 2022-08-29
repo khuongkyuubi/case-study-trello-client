@@ -1,10 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import styled from "styled-components";
 import {Cards, IconWorkSpaceRecently, NameWorkSpaceRecently, Card} from "./MyBoards";
 import {IconProject} from "../Home/HomeLeft";
-import CreateBoardInTeam from "../../components/modals/CreateBoardInTeamModal/CreateBoardInTeam";
-import {useDispatch, useSelector} from "react-redux";
-import {useNavigate} from "react-router-dom";
+
 
 const BoardsWorkSpace = styled.div`
   width: 100%;
@@ -23,7 +21,7 @@ const Desc = styled.div`
 
 const ContentWorkspace = styled.div``
 
-export const CreateBoards = styled.div`
+export const CreateBoard = styled.div`
   width: 22%;
   height: 80px;
   background-color: #f0f2f5;
@@ -49,9 +47,9 @@ const TitleNameProject = styled.div`
 const ContentProject = styled.div`
   height: 45px;
   margin-top: 7px;
+  //margin-left:2px;
   display: flex;
   align-items: center;
-
   &:hover {
     background-color: #e6eaee;
     cursor: pointer;
@@ -63,58 +61,33 @@ const NameProject = styled.div`
 `
 
 const BoardWorkSpace = () => {
-    const [openModal, setOpenModal] = useState(false);
-    const navigate = useNavigate()
-    const {listTeamData}=useSelector(state =>state.boardInTeam)
-    const {teamsData} =useSelector(state =>state.team)
 
-    const handleModalClose = () => {
-        setOpenModal(false);
-    };
-
-    useEffect(() => {
-        document.title = "Boards | Trello Clone"
-    }, [])
 
 
     return (
         <BoardsWorkSpace>
             <Workspaces>
                 <Desc>YOUR WORKSPACES</Desc>
-                {teamsData.map(team=>(
+                <ContentWorkspace>
 
-                <ContentWorkspace key={team._id}>
                     <TitleNameProject>
+                        Dự án C03H_JS
                         <ContentProject>
-                            <IconProject>{team.name.charAt(0).toUpperCase()}</IconProject>
-                            <NameProject>{team.name}</NameProject>
+                            <IconProject>D</IconProject>
+                            <NameProject>Du an C03H_JS</NameProject>
                         </ContentProject>
                     </TitleNameProject>
 
                     <Cards>
-                        {listTeamData.map(boardTeam =>{
-                            if(boardTeam.teams===team._id){
-                                return (
-                                        <Card
-                                            link={boardTeam.backgroundImageLink}
-                                            isImage={boardTeam.isImage}
-                                            onClick={() => navigate(`/board/${boardTeam._id}`)}
-                                            key={boardTeam._id}
-                                        >
-                                            <NameWorkSpaceRecently>{boardTeam.title}</NameWorkSpaceRecently>
-                                        </Card>
-                             )}
-                        })}
-
-
-
-                        <CreateBoards onClick={() => setOpenModal(true)}>
+                        <Card>
+                            <NameWorkSpaceRecently>AlphaWolf_Trello</NameWorkSpaceRecently>
+                            <IconWorkSpaceRecently>o</IconWorkSpaceRecently>
+                        </Card>
+                        <CreateBoard>
                             create new board
-                        </CreateBoards>
-                        {openModal && <CreateBoardInTeam idTeam={team._id} handleModalClose={handleModalClose}/>}
+                        </CreateBoard>
                     </Cards>
                 </ContentWorkspace>
-                ))}
             </Workspaces>
         </BoardsWorkSpace>
     );
