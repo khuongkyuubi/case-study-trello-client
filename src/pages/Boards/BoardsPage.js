@@ -53,12 +53,10 @@ const BoardsPage = () => {
                 <Wrapper>
                     <DivEmpty/>
                     <HomeLeft/>
-
                     <BoardsContent>
                         <MyBoards/>
                         <BoardsWorkSpace/>
                     </BoardsContent>
-
                     <DivEmpty/>
                 </Wrapper>
             </Container>

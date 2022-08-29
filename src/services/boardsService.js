@@ -15,7 +15,6 @@ import {
 } from "../redux/Slices/boardSlice";
 import board from "../pages/BoardPage/Board";
 import { addNewBoard } from "../redux/userSlice";
-import {successFetchingBoardInTeam} from "../redux/Slices/boardInTeamSlice";
 
 const baseUrl = process.env.REACT_APP_API_ENDPOINT;
 
@@ -46,7 +45,6 @@ export const getBoards = async (fromDropDown, dispatch) => {
     try {
         const res = await axios.get(baseUrl + "/boards/");
         setTimeout(() => {
-            dispatch(successFetchingBoardInTeam({ boards: res.data }))
             dispatch(successFetchingBoards({ boards: res.data }));
         }, 1000);
     } catch (error) {

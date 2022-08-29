@@ -10,7 +10,9 @@ const MyBoardsWorkSpace = styled.div`
   margin-top: 5%;
 `
 
-const Workspaces = styled.div``
+const Workspaces = styled.div`
+
+`
 
 const Desc = styled.div`
   margin-left: 10px;
@@ -19,7 +21,9 @@ const Desc = styled.div`
   font-weight: bold;
 `
 
-const ContentWorkspace = styled.div``
+const ContentWorkspace = styled.div`
+
+`
 
 const CreateBoard = styled.div`
   width: 23%;
@@ -57,7 +61,9 @@ const ContentProject = styled.div`
     cursor: pointer;
     border-radius: 5px;
   }
+
 `
+
 
 const NameProject = styled.div`
   font-weight: bold;
@@ -85,7 +91,7 @@ const BoardWorkSpace = () => {
                             <NameWorkSpaceRecently>AlphaWolf_Trello</NameWorkSpaceRecently>
                             <IconWorkSpaceRecently>o</IconWorkSpaceRecently>
                         </Card>
-                        <CreateBoard onClick={handeleCreateBoardInTeam}>
+                        <CreateBoard>
                             create new board
                         </CreateBoard>
                     </Cards>
