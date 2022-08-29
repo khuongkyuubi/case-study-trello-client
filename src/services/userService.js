@@ -64,7 +64,6 @@ export const login = async ({email, password}, dispatch) => {
     try {
         const res = await axios.post(baseUrl + "login", {email, password});
         const {user, message} = res.data;
-        console.log(res.data)
         localStorage.setItem("token", user.token);
         setBearer(user.token);
         dispatch(loginSuccess({user}));
@@ -134,4 +133,52 @@ export const getUserFromEmail = async (email, dispatch) => {
 
 export const logOut = async(user, dispatch) =>{
     dispatch(logout(user))
+}
+export const uploadAvatar = async(data,dispatch)=>{
+    dispatch(fetchingStart())
+    try{
+        const res = await axios.post(process.env.REACT_APP_API_ENDPOINT+'/uploads/avatar',data);
+        dispatch(fetchingFinish())
+        dispatch(
+            openAlert({
+                message:"Update Complete",
+                severity: "success",
+                duration: 500,
+                nextRoute: "/settings"
+            })
+        );
+        return res.data;
+    }catch(error){
+        dispatch(
+            openAlert({
+                message: 'Update is not allowed',
+                severity: "error",
+            })
+        );
+       dispatch(fetchingFinish())
+    }
+}
+export const updateInfoUser = async({name,surname,email,password,newPassword},dispatch) =>{
+    try{
+        const res = await axios.post(baseUrl + 'user-update', {name:name,surname:surname,email,newPassword,password})
+        dispatch(fetchingFinish())
+        dispatch(
+            openAlert({
+                message:"Update Complete",
+                severity: "success",
+                duration: 500,
+                nextRoute: "/home"
+            })
+        )
+        return res.data
+    }catch(e){
+        dispatch(
+            openAlert({
+                message: 'Password does not match',
+                severity: "error",
+            })
+        );
+        dispatch(fetchingFinish())
+        return null;
+    }
 }

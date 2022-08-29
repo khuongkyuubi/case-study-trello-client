@@ -38,13 +38,13 @@ function App() {
                     <Route path="/members" element={<BoardMemberHome />} />
                     <Route path="/setting" element={<SettingHomePage/>} />
                     <Route path="/boards-create" element={<Boards/>}/>
+                    <Route path="/settings" element={<Settings/>}/>
                 </Route>
                 <Route element={<FreeRoute/>}>
                     <Route path="/" element={<Index/>}/>
                     <Route path="/login" element={<LoginPage/>}/>
                     <Route path="/register" element={<Register/>}/>
                 </Route>
-                    <Route path="/settings" element={<Settings/>}/>
 
             </Routes>
         </BrowserRouter>

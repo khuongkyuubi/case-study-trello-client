@@ -44,7 +44,6 @@ function Settings() {
     }
     const handlePreviewAvatar = (e)=>{
         const file = e.target.files[0];
-        // console.log(URL.createObjectURL(file))
         file.preview= URL.createObjectURL(file)
         setAvatar(file)
     }
@@ -59,12 +58,12 @@ function Settings() {
                         <TopHeader>
                             <LeftSideHeader>
                                 {avatar ? <Avatar src={avatar.preview}/> : <Avatar src={'http://localhost:5000/avatars/'+userInfo.avatar}/>}
-                                <ButtonWrapper>
+                                {value==='4'?<ButtonWrapper>
                                     <IconButton color="primary" aria-label="upload picture" component="label">
-                                        <input hidden accept="image/*" type="file" onChange={handlePreviewAvatar} />
-                                        <PhotoCamera />
+                                        <input hidden accept="image/*" type="file" onChange={handlePreviewAvatar}/>
+                                        <PhotoCamera/>
                                     </IconButton>
-                                </ButtonWrapper>
+                                </ButtonWrapper>:null}
                             </LeftSideHeader>
                             <RightSideHeader>
                                 <TeamDetails>
