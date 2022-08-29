@@ -120,6 +120,9 @@ const cardSlice = createSlice({
         addComment: (state, action) => {
             state.activities = action.payload;
         },
+        deleteComment: (state, action) => {
+            state.activities = state.activities.filter((act) => act._id !== action.payload);
+        },
 
     }
 });
@@ -137,6 +140,7 @@ export const {
     createLabel,
     updateCreatedLabelId,
     addComment,
+    deleteComment,
 } = cardSlice.actions;
 
 //export reducer

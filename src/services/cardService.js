@@ -9,6 +9,7 @@ import {
     updateLabel,
     updateLabelSelection, createLabel, updateCreatedLabelId,
     addComment,
+    deleteComment,
 } from '../redux/Slices/cardSlice';
 import {
     createLabelBoard,
@@ -21,7 +22,7 @@ import {
     setCardTitle,
     updateLabelOfCard,
     updateLabelSelectionOfCard,
-    createCommentsForCard,
+    createCommentsForCard, deleteCommentsForCard,
 
 } from '../redux/Slices/listSlice';
 
@@ -199,6 +200,34 @@ export const comment = async (cardId, listId, boardId, text, userName, dispatch)
         // dispatch(setPending(false));
     } catch (error) {
         dispatch(setPending(false));
+        dispatch(
+            openAlert({
+                message: error?.response?.data?.errMessage ? error.response.data.errMessage : error.message,
+                severity: 'error',
+            })
+        );
+    }
+};
+
+
+export const commentDelete = async (cardId, listId, boardId, commentId, dispatch) => {
+    try {
+        dispatch(deleteComment(commentId));
+        // let response = '';
+
+        // submitCall = submitCall.then(() =>
+        //     axios
+        //         .delete(baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/' + commentId)
+        //         .then((res) => {
+        //             response = res;
+        //         })
+        // );
+        // await submitCall;
+        const response = await axios.delete(baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/' + commentId)
+        // distpacth to remove coment with list
+        dispatch(deleteCommentsForCard({listId, cardId, commentId}))
+        // console.log(response.data)
+    } catch (error) {
         dispatch(
             openAlert({
                 message: error?.response?.data?.errMessage ? error.response.data.errMessage : error.message,
