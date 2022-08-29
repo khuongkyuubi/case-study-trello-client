@@ -16,15 +16,21 @@ import Boards from "./pages/BoardsPage";
 import MyBoardsPage from "./pages/MyBoards/MyBoardsPage";
 import BoardMemberHome from "./pages/BoardMember/BoardMemberHome";
 import SettingHomePage from "./pages/SettingPage/SettingHomePage";
+import {getTeams} from "./services/teamService";
+import {useDispatch} from "react-redux";
 
 
 import Settings from "./pages/SettingsUser/Settings";
 
 
 function App() {
+    const dispatch = useDispatch();
     useEffect(() => {
         loadUser(Store.dispatch);
     }, []);
+    useEffect(() => {
+        getTeams(false,dispatch)
+    },[])
 
     return (
         <BrowserRouter>

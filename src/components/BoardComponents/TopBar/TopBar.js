@@ -4,8 +4,8 @@ import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import * as common from '../../../pages/BoardPage/CommonStyled';
 import {useDispatch, useSelector} from 'react-redux';
-// import {boardTitleUpdate} from '../../../../../Services/boardsService';
-// import RightDrawer from '../../../../Drawers/RightDrawer/RightDrawer';
+import {boardTitleUpdate} from '../../../services/boardsService';
+import RightDrawer from '../../drawers/RightDrawer/RightDrawer';
 import BasePopover from '../../modals/EditCardModal/ReUsableComponents/BasePopover';
 import InviteMembers from '../../modals/EditCardModal/Popovers/InviteMembers/InviteMembers';
 import Tooltip from "@mui/material/Tooltip";
@@ -16,22 +16,56 @@ import {AvatarGroup} from "@mui/material";
 import {useParams} from "react-router-dom";
 import {getBoard} from "../../../services/boardsService";
 import background from "../../Background";
+import Typography from "@mui/material/Typography";
+import Popover from "@mui/material/Popover";
+import CardDetail from "./Popover/CardDetail";
+import SearchInput from "./Popover/InputSearch";
 
 
 const TopBar = ({listMember}) => {
-
     const board = useSelector((state) => state.board);
     const [currentTitle, setCurrentTitle] = useState(board.title);
     const [showDrawer, setShowDrawer] = useState(false);
     const [invitePopover, setInvitePopover] = React.useState(null);
+    const [currentMember, setCurrentMember] = useState({})
+    const [listSearch, setListSearch] = useState(listMember);
+
     const dispatch = useDispatch();
     useEffect(() => {
         if (!board.loading)
             setCurrentTitle(board.title);
     }, [board.loading, board.title]);
     const handleTitleChange = () => {
-        // boardTitleUpdate(currentTitle, board.id, dispatch);
+        boardTitleUpdate(currentTitle, board.id, dispatch);
     };
+    const [anchorEl, setAnchorEl] = React.useState(null);
+
+    const handleClick = (event) => {
+        setListSearch(listMember);
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    const open = Boolean(anchorEl);
+    const id = open ? 'simple-popover' : undefined;
+
+
+    const [anchorEl2, setAnchorEl2] = React.useState(null);
+
+    const handleClick2 = (event, member) => {
+        setAnchorEl2(event.currentTarget);
+        setCurrentMember(member)
+    };
+
+    const handleClose2 = () => {
+        setAnchorEl2(null);
+    };
+
+    const open2 = Boolean(anchorEl2);
+    const id2 = open2 ? 'simple-popover' : undefined;
 
 
     return (
@@ -44,58 +78,106 @@ const TopBar = ({listMember}) => {
                     onBlur={handleTitleChange}
                 />
                 <span style={{color: "white", fontSize: "1.25rem"}}>|</span>
-
-                {/*Avatar group, for invite member*/}
-                {/*<AvatarGroup max={5} sx={{*/}
-                {/*    '& .MuiAvatar-root': { width: 25, height: 25, fontSize: "0.75rem" },*/}
-
-                {/*}}>*/}
-                {/*    {listMember.map(member =>(*/}
-                {/*        <Avatar*/}
-                {/*                src={member?.avatar}*/}
-                {/*                sx={{background:member?.color,*/}
-                {/*                '&:hover':{*/}
-                {/*                    backgroundColor:'#00000029'*/}
-                {/*                }*/}
-                {/*                }}*/}
-                {/*                key={member._id}>{member.name.charAt(0).toUpperCase()}</Avatar>*/}
-                {/*    ))}*/}
-                {/*</AvatarGroup>*/}
-
-                <AvatarGroup  sx={{
-                    '& .MuiAvatar-root': { width: 25, height: 25, fontSize: "0.75rem" },
-
+                <AvatarGroup s x={{
+                    '& .MuiAvatar-root': {width: 25, height: 25, fontSize: "0.75rem"},
                 }}>
-                    {listMember.map((member, index) =>(
+                    {listMember.map((member, index) => (
                         index < 4 && (
-                            <Avatar  onClick={()=>console.log(member)}
-                                src={member?.avatar}
-                                sx={{background:member?.color,
-                                    '&:hover':{
-                                        backgroundColor:'#00000029'
-                                    }
-                                }}
-                                key={member._id}>{member.name.charAt(0).toUpperCase()}
-                            </Avatar>
+                            <div key={member._id}>
+                                <Avatar onClick={(e) => handleClick2(e, member)}
+                                        src={member?.avatar}
+                                        sx={{
+                                            background: member?.color,
+                                            '&:hover': {
+                                                backgroundColor: '#00000029'
+                                            },
+                                            mr: -1.3
+                                        }}
+                                        key={member._id}>{member.name.charAt(0).toUpperCase()}
+                                </Avatar>
+                            </div>
                         )
                     ))}
-                    {listMember.length>4 && <Avatar
 
-                        sx={{
-                        '&:hover':{
-                        backgroundColor:'#00000029'
+                    {listMember.length > 4 &&
+                        <div>
+                            <Avatar
+                                sx={{
+                                    '&:hover': {
+                                        backgroundColor: '#00000029'
+                                    }
+                                }}
+                                onClick={handleClick}
+                            >
+                                +{listMember.length - 4}
+                            </Avatar>
+                            <Popover
+                                id={id}
+                                open={open}
+                                anchorEl={anchorEl}
+                                onClose={handleClose}
+                                anchorOrigin={{
+                                    vertical: 'bottom',
+                                    horizontal: 'left',
+                                }}
+                                sx={{width: 380}}
+                            >
+
+
+                                <Typography sx={{textAlign: "center"}}>Board members</Typography>
+                                <hr/>
+                                <SearchInput listMember={listMember} setListSearch={setListSearch}/>
+                                <hr/>
+                                <AvatarGroup max={listSearch.length}>
+                                    <div style={{
+                                        width: '100%', display: 'flex', alignItems: 'center',
+                                        flexWrap: 'wrap'
+                                        , justifyContent: 'center'
+                                    }}>
+                                        {listSearch.map(member => (
+                                            <Avatar
+                                                key={listSearch._id}
+                                                src={member?.avatar}
+                                                sx={{
+                                                    background: member?.color,
+                                                    '&:hover': {
+                                                        backgroundColor: '#00000029',
+                                                    },
+                                                    mr: 1
+                                                }}>
+                                                {member.name.charAt(0).toUpperCase()}
+                                            </Avatar>
+                                        ))}
+                                    </div>
+                                </AvatarGroup>
+
+                            </Popover>
+
+                        </div>
                     }
-                    }}
-                        onClick={() => console.log(listMember)}
-                        >
-                        +{listMember.length - 4}
-                        </Avatar>}
-
                 </AvatarGroup>
+                <Popover
+                    id={id2}
+                    open={open2}
+                    anchorEl={anchorEl2}
+                    onClose={handleClose2}
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                    }}
+                    transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'left',
+                    }}
+                >
+
+                    <CardDetail member={currentMember}/>
+
+                </Popover>
 
                 <style.InviteButton onClick={(event) => setInvitePopover(event.currentTarget)}>
                     <PersonAddAltIcon/>
-                    <style.TextSpan >Add Member</style.TextSpan>
+                    <style.TextSpan> Share</style.TextSpan>
                 </style.InviteButton>
                 {invitePopover && (
                     <BasePopover
@@ -119,9 +201,9 @@ const TopBar = ({listMember}) => {
                     <style.TextSpan>Show menu</style.TextSpan>
                 </common.Button>
             </style.RightWrapper>
-            {/*<RightDrawer show={showDrawer} closeCallback={() => {*/}
-            {/*    setShowDrawer(false)*/}
-            {/*}}/>*/}
+            <RightDrawer show={showDrawer} closeCallback={() => {
+                setShowDrawer(false)
+            }}/>
         </style.TopBar>
     );
 };

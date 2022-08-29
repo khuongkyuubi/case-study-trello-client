@@ -5,6 +5,7 @@ import HomeLeft from "../Home/HomeLeft";
 import MyBoards from "./MyBoards";
 import LoadingScreen from "../../components/LoadingScreen";
 import {useSelector} from "react-redux";
+import BoardsWorkSpace from "./BoardsWorkSpace";
 
 
 const Container = styled.div`
@@ -52,10 +53,12 @@ const BoardsPage = () => {
                 <Wrapper>
                     <DivEmpty/>
                     <HomeLeft/>
+
                     <BoardsContent>
                         <MyBoards/>
-                        {/*<BoardsWorkSpace/>*/}
+                        <BoardsWorkSpace/>
                     </BoardsContent>
+
                     <DivEmpty/>
                 </Wrapper>
             </Container>

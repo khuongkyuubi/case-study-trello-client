@@ -10,10 +10,12 @@ import {
 } from "../redux/Slices/boardsSlice";
 import {
     setLoading,
-    successFetchingBoard
+    successFetchingBoard,
+    updateTitle
 } from "../redux/Slices/boardSlice";
 import board from "../pages/BoardPage/Board";
 import { addNewBoard } from "../redux/userSlice";
+import {successFetchingBoardInTeam} from "../redux/Slices/boardInTeamSlice";
 
 const baseUrl = process.env.REACT_APP_API_ENDPOINT;
 
@@ -44,6 +46,7 @@ export const getBoards = async (fromDropDown, dispatch) => {
     try {
         const res = await axios.get(baseUrl + "/boards/");
         setTimeout(() => {
+            dispatch(successFetchingBoardInTeam({ boards: res.data }))
             dispatch(successFetchingBoards({ boards: res.data }));
         }, 1000);
     } catch (error) {
@@ -91,6 +94,20 @@ export const createBoard = async (props, dispatch) => {
                     ? error.response.data.errMessage
                     : error.message,
                 severity: "error",
+            })
+        );
+    }
+};
+
+export const boardTitleUpdate = async (title, boardId, dispatch) => {
+    try {
+        dispatch(updateTitle(title));
+        await axios.put(baseUrl + '/board/' + boardId + '/update-board-title', {title:title});
+    } catch (error) {
+        dispatch(
+            openAlert({
+                message: error?.response?.data?.errMessage ? error.response.data.errMessage : error.message,
+                severity: 'error',
             })
         );
     }

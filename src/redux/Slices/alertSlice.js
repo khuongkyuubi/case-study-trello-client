@@ -23,6 +23,7 @@ export const alertSlice = createSlice({
             state.open = false;
         },
     },
+
 });
 
 export const {openAlert, closeAlert} = alertSlice.actions;

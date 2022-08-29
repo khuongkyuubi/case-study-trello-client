@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    boardsData: [],
+    listTeamData: [],
     pending: true,
     backgroundImages: [
         "https://images.unsplash.com/photo-1636471815144-616b00e21f24",
@@ -20,28 +20,28 @@ const initialState = {
     backgroundColors: ['#0079bf', '#d29034', '#519839', '#b04632', '#89609e', '#cd5a91', '#4bbf6b', '#00aecc'],
 };
 
-const boardsSlice = createSlice({
-    name: "boards",
+const boardInTeamsSlice = createSlice({
+    name: "boardsTeam",
     initialState,
     reducers: {
-        startFetchingBoards: (state) => {
+        startFetchingBoardInTeam: (state) => {
             state.pending = true;
         },
-         successFetchingBoards: (state, action) => {
-            state.boardsData = action.payload.boards;
+         successFetchingBoardInTeam: (state, action) => {
+            state.listTeamData = action.payload.boards;
             state.pending = false;
         },
-        failFetchingBoards: (state) => {
+        failFetchingBoardInTeam: (state) => {
             state.pending = false;
         },
-        startCreatingBoard: (state) => {
+        startCreatingBoardInTeam: (state) => {
             state.creating = true;
         },
-        successCreatingBoard: (state, action) => {
-            state.boardsData.push(action.payload);
+        successCreatingBoardInTeam: (state, action) => {
+            state.listTeamData.push(action.payload);
             state.creating = false;
         },
-        failCreatingBoard: (state) => {
+        failCreatingBoardInTeam: (state) => {
             state.creating = true;
         },
         reset:(state)=>{
@@ -51,12 +51,12 @@ const boardsSlice = createSlice({
 });
 
 export const {
-    startFetchingBoards,
-    successFetchingBoards,
-    failFetchingBoards,
-    startCreatingBoard,
-    successCreatingBoard,
-    failCreatingBoard,
+    startFetchingBoardInTeam,
+    successFetchingBoardInTeam,
+    failFetchingBoardInTeam,
+    startCreatingBoardInTeam,
+    successCreatingBoardInTeam,
+    failCreatingBoardInTeam,
     reset
-} = boardsSlice.actions;
-export default boardsSlice.reducer;
+} = boardInTeamsSlice.actions;
+export default boardInTeamsSlice.reducer;
