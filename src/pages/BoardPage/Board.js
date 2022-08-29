@@ -12,17 +12,19 @@ import TopBar from "../../components/BoardComponents/TopBar/TopBar"; // please f
 import List from "../../components/BoardComponents/List/List";
 import AddList from "../../components/BoardComponents/AddList/AddList";
 import {updateCardOrder, updateListOrder} from "../../services/dragAndDropService";
+import {getCard} from "../../services/cardService";
 
 const Board = (props) => {
     const {id: boardId} = useParams();
     const dispatch = useDispatch();
-    const {backgroundImageLink, isImage, loading, title,members} = useSelector((state) => state.board);
+    const {backgroundImageLink, isImage, loading, title,members, labels} = useSelector((state) => state.board);
     const {allLists, loadingListService} = useSelector((state) => state.list);
     const [searchString, setSearchString] = useState("");
 
     //const boardId = props.match.params.id;
+
     useEffect(() => {
-        getBoard(boardId, dispatch)
+        getBoard(boardId, dispatch);
         getLists(boardId, dispatch);
 
     }, [boardId, dispatch]);
@@ -30,6 +32,7 @@ const Board = (props) => {
     useEffect(() => {
         document.title = title + ' | Trello'
     }, [title])
+
 
 
     const onDragEnd = async (result) => {
