@@ -5,14 +5,14 @@ import Button from '../ReUsableComponents/IconButton';
 import LabelIcon from '@mui/icons-material/LabelOutlined';
 // import CheckIcon from '@mui/icons-material/LibraryAddCheckOutlined';
 // import DateIcon from '@mui/icons-material/ScheduleOutlined';
-// import AttachmentIcon from '@mui/icons-material/AttachFileOutlined';
+import AttachmentIcon from '@mui/icons-material/AttachFileOutlined';
 // import CoverIcon from '@mui/icons-material/TableChartOutlined';
 import BasePopover from '../ReUsableComponents/BasePopover';
 // import MembersPopover from '../Popovers/Members/MembersPopover';
 import LabelsPopover from '../Popovers/Labels/LabelsPopover';
 // import ChecklistPopover from '../Popovers/Checklist/ChecklistPopover';
 // import DatePopover from '../Popovers/Date/DatePopover';
-// import AddAttachmentPopover from '../Popovers/Attachment/AddAttachmentPopover';
+import AddAttachmentPopover from '../Popovers/Attachment/AddAttachmentPopover';
 // import CoverPopover from '../Popovers/Cover/CoverPopover';
 
 const AddToCard = () => {
@@ -111,23 +111,23 @@ const AddToCard = () => {
 			{/*	/>*/}
 			{/*)}*/}
 
-			{/*<Button*/}
-			{/*	clickCallback={(event) => setAttachmentPopover(event.currentTarget)}*/}
-			{/*	title='Attachment'*/}
-			{/*	icon={<AttachmentIcon fontSize='small' />}*/}
-			{/*></Button>*/}
-			{/*{attachmentPopover && (*/}
-			{/*	<BasePopover*/}
-			{/*		anchorElement={attachmentPopover}*/}
-			{/*		closeCallback={() => {*/}
-			{/*			setAttachmentPopover(null);*/}
-			{/*		}}*/}
-			{/*		title='Attach from...'*/}
-			{/*		contents={<AddAttachmentPopover closeCallback={() => {*/}
-			{/*			setAttachmentPopover(null);*/}
-			{/*		}}/>}*/}
-			{/*	/>*/}
-			{/*)}*/}
+			<Button
+				clickCallback={(event) => setAttachmentPopover(event.currentTarget)}
+				title='Attachment'
+				icon={<AttachmentIcon fontSize='small' />}
+			></Button>
+			{attachmentPopover && (
+				<BasePopover
+					anchorElement={attachmentPopover}
+					closeCallback={() => {
+						setAttachmentPopover(null);
+					}}
+					title='Attach from...'
+					contents={<AddAttachmentPopover closeCallback={() => {
+						setAttachmentPopover(null);
+					}}/>}
+				/>
+			)}
 
 			{/*<Button title='Cover' clickCallback={(event) => setCoverPopover(event.currentTarget)} icon={<CoverIcon fontSize='small' />}></Button>*/}
 			{/*{coverPopover && (*/}

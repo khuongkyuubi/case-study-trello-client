@@ -65,12 +65,12 @@ const cardSlice = createSlice({
         },
 
         createLabel: (state, action) => {
-            const { _id, text, color, backColor } = action.payload;
-            state.labels.unshift({ _id, text, color, backColor, selected: true });
+            const {_id, text, color, backColor} = action.payload;
+            state.labels.unshift({_id, text, color, backColor, selected: true});
         },
 
         updateLabel: (state, action) => {
-            const { labelId, text, color, backColor } = action.payload;
+            const {labelId, text, color, backColor} = action.payload;
             state.labels = state.labels.map((label) => {
                 if (label._id === labelId) {
                     label.text = text;
@@ -81,7 +81,7 @@ const cardSlice = createSlice({
             });
         },
         updateLabelSelection: (state, action) => {
-            const { labelId, selected } = action.payload;
+            const {labelId, selected} = action.payload;
             state.labels = state.labels.map((label) => {
                 if (label._id === labelId) {
                     label.selected = selected;
@@ -90,7 +90,7 @@ const cardSlice = createSlice({
             });
         },
         updateLabelSelectionOfCard: (state, action) => {
-            const { listId, cardId, labelId, selected } = action.payload;
+            const {listId, cardId, labelId, selected} = action.payload;
             state.checklists = state.checklists.map((list) => {
                 if (list._id === listId) {
                     list.cards = list.cards.map((card) => {
@@ -107,7 +107,6 @@ const cardSlice = createSlice({
                 }
                 return list;
             });
-            
         },
         updateCreatedLabelId: (state, action) => {
             state.labels = state.labels.map((label) => {
@@ -117,6 +116,17 @@ const cardSlice = createSlice({
                 return label;
             });
         },
+        updateSetAttachments: (state, action) => {
+        state.attachments = [
+            ...state.attachments,
+            {
+                link: action.payload.link,
+                name: action.payload.name,
+                date: action.payload.date
+            }
+        ]
+        }
+
 
     }
 });
@@ -132,7 +142,8 @@ export const {
     updateLabelSelection,
     updateLabelSelectionOfCard,
     createLabel,
-    updateCreatedLabelId
+    updateCreatedLabelId,
+    updateSetAttachments
 } = cardSlice.actions;
 
 //export reducer

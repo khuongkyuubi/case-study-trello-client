@@ -36,6 +36,7 @@ import AddToCard from "./AddToCard/AddToCard";
 import {Description} from "./Title/styled";
 import Features from "./Features/Features";
 import {getBoard} from "../../../services/boardsService";
+import Attachments from "./Attachments/Attachments";
 
 export default function EditCard(props) {
 	const { cardId, listId, boardId } = props.ids;
@@ -76,11 +77,11 @@ export default function EditCard(props) {
 									<DescriptionContainer>
 										<Description />
 									</DescriptionContainer>
-									{/*{thisCard.attachments.length > 0 && (*/}
-									{/*	<AttachmentContainer>*/}
-									{/*		<Attachments />*/}
-									{/*	</AttachmentContainer>*/}
-									{/*)}*/}
+									{thisCard.attachments.length > 0 && (
+										<AttachmentContainer>
+											<Attachments />
+										</AttachmentContainer>
+									)}
 									{/*{thisCard.checklists.length > 0 && (*/}
 									{/*	<ChecklistContainer>*/}
 									{/*		{thisCard.checklists.map((list) => {*/}
