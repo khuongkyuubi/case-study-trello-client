@@ -22,7 +22,9 @@ export default function CreateBoard(props) {
   );
   const [isImage, setIsImage] = React.useState(true)
 
-  let newBoard = {};
+  let newBoard = {
+
+  };
 
   const handleClick = async () => {
     await createBoard(newBoard, dispatch);
@@ -55,6 +57,7 @@ export default function CreateBoard(props) {
               updateback={handleUpdate}
               callback={handleClose}
             />
+
             <style.PhotosCard>
               {backgroundImages.map((item, index) => {
                 return (

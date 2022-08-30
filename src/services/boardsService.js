@@ -74,6 +74,8 @@ export const createBoard = async (props, dispatch) => {
     }
     try {
         const res = await axios.post(baseUrl + "/boards/create", props);
+        console.log(res.data)
+
         dispatch(addNewBoard(res.data));
         dispatch(successCreatingBoard(res.data));
         dispatch(
@@ -82,7 +84,7 @@ export const createBoard = async (props, dispatch) => {
                 severity: "success",
             })
         );
-        setTimeout(()=>{window.location.href = `/board/${res.data._id}`;},1000)
+        // setTimeout(()=>{window.location.href = `/board/${res.data._id}`;},1000)
 
     } catch (error) {
         dispatch(failCreatingBoard());

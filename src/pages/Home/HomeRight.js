@@ -265,6 +265,7 @@ const HomeRight = () => {
                     <TitleCreate >Create a board</TitleCreate>
                 </ButtonCreate>
             </CreateBoardWrapper>
+
             {openModal && <CreateBoard callback={handleModalClose} />}
 
             <DivBottom>
