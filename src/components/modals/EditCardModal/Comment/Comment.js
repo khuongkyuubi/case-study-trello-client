@@ -17,8 +17,7 @@ import {
 } from './styled';
 
 import { Avatar } from '@mui/material';
-import {commentDelete} from '../../../../services/cardService';
-import LabelsPopover from "../Popovers/Labels/LabelsPopover";
+import {commentDelete, commentUpdate} from '../../../../services/cardService';
 
 const Comment = (props) => {
 	const [edit, setEdit] = useState(true);
@@ -37,6 +36,11 @@ const Comment = (props) => {
 		setDeletePopover(e.target)
 	}
 
+	const handleSaveClick = async () => {
+		setEdit(true);
+		await commentUpdate(card.cardId, card.listId, card.boardId, comment, props._id, dispatch);
+	};
+
 	return (
 		<>
 			<Container>
@@ -54,12 +58,14 @@ const Comment = (props) => {
 						<ButtonContainer show={!edit}>
 							<BottomButtonGroup
 								title='Save'
+								clickCallback={handleSaveClick}
 								closeCallback={() => {
 									setEdit(true);
 								}}
 							/>
 						</ButtonContainer>
 						<LinkContainer show={edit && user.name === props.userName}>
+							<Link onClick={() => setEdit(false)}>Edit</Link>
 							<Link onClick={handleClickDelete}>Delete</Link>
 							{deletePopover && (
 								<BasePopover
