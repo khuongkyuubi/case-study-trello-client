@@ -8,6 +8,7 @@ import LoadingScreen from "../../components/LoadingScreen";
 import {useDispatch, useSelector} from "react-redux";
 import {getBoards} from "../../services/boardsService";
 import {useLocation} from "react-router-dom";
+import {getListTeam} from "../../services/boardInTeamService";
 
 const Container = styled.div`
   margin-top: 1rem;
@@ -41,6 +42,7 @@ const HomePage = () => {
     useEffect(() => {
         getBoards(false, dispatch)
     }, [dispatch])
+
 
     return (
         <>

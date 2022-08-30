@@ -26,13 +26,11 @@ const Board = (props) => {
     useEffect(() => {
         getBoard(boardId, dispatch);
         getLists(boardId, dispatch);
-
     }, [boardId, dispatch]);
 
     useEffect(() => {
         document.title = title + ' | Trello'
     }, [title])
-
 
 
     const onDragEnd = async (result) => {

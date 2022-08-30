@@ -22,6 +22,7 @@ const initialState = {
         {bg: '#344563', hbg: '#172b4d'},
         {bg: '#ff78cb', hbg: '#c75bad'},
     ],
+    isExpandedLabels: false,
 };
 
 const boardSlice = createSlice({
@@ -41,6 +42,7 @@ const boardSlice = createSlice({
             state.activity = action.payload.activity;
             state.description = action.payload.description;
             state.labels = action.payload.labels;
+            state.isExpandedLabels = action.payload.isExpandedLabels ?? true;
         },
         updateTitle: (state, action) => {
             state.title = action.payload;
@@ -63,7 +65,7 @@ const boardSlice = createSlice({
             state.members = action.payload;
         },
         updateBoardLabel: (state, action) => {
-            const { labelId, text, color, backColor } = action.payload;
+            const {labelId, text, color, backColor} = action.payload;
             state.labels = state.labels.map((label) => {
                 if (label._id === labelId) {
                     label.text = text;
@@ -74,8 +76,7 @@ const boardSlice = createSlice({
             });
         },
         createLabelBoard: (state, action) => {
-            const { _id, text, color, backColor } = action.payload;
-            state.labels.unshift({ _id, text, color, backColor, selected: true });
+            state.labels.unshift(action.payload);
         },
 
         updateCreatedLabelIdBoard: (state, action) => {
@@ -85,6 +86,12 @@ const boardSlice = createSlice({
                 }
                 return label;
             });
+        },
+        changeIsExpanded: (state) => {
+            state.isExpandedLabels = !state.isExpandedLabels;
+        },
+        deleteLabelBoard: (state, action) => {
+            state.labels = state.labels.filter((label) => label._id !== action.payload);
         },
     },
 });
@@ -100,7 +107,9 @@ export const {
     addMembers,
     updateBoardLabel,
     createLabelBoard,
-    updateCreatedLabelIdBoard
+    updateCreatedLabelIdBoard,
+    changeIsExpanded,
+    deleteLabelBoard
 } = boardSlice.actions;
 
 export default boardSlice.reducer;

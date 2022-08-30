@@ -7,24 +7,31 @@ import {
     updateTitle,
     setCard,
     updateLabel,
-    updateLabelSelection, createLabel, updateCreatedLabelId, updateSetAttachments,
+    updateLabelSelection, createLabel, updateCreatedLabelId,
+    addComment,
+    deleteComment,
+    updateComment,
+    deleteLabel,
 } from '../redux/Slices/cardSlice';
 import {
-    createLabelBoard,
+    createLabelBoard, deleteLabelBoard,
 
     updateBoardLabel, updateCreatedLabelIdBoard
 } from '../redux/Slices/boardSlice';
 
 import {
-    createLabelForCard,
-    setCardTitle,
+    createLabelForCard, deleteLabelOfCard,
+    setCardTitle, successCreatingList, successFetchingLists,
     updateLabelOfCard,
-    updateLabelSelectionOfCard
+    updateLabelSelectionOfCard,
+    createCommentsForCard, deleteCommentsForCard,
 
 } from '../redux/Slices/listSlice';
+import {getLists} from "./boardService";
 
 
 const baseUrl = process.env.REACT_APP_API_ENDPOINT + '/card';
+const listURl = process.env.REACT_APP_API_ENDPOINT + '/list';
 let submitCall = Promise.resolve();
 
 export const getCard = async (cardId, listId, boardId, dispatch, boardLabels) => {
@@ -59,7 +66,23 @@ export const getCard = async (cardId, listId, boardId, dispatch, boardLabels) =>
                 card.labels.push(boardLabels[i]);
             }
         }
+
+        for (let i = 0; i < card.labels.length; i++) {
+            let flag= false;
+            for (let j = 0; j < boardLabels.length; j++) {
+                if(card.labels[i]._id.toString() === boardLabels[j]._id.toString()) {
+                    flag = true;
+                    break;
+                }
+            }
+            if(flag === false){
+                card.labels.splice(i,1);
+            }
+        }
+
         await axios.put(baseUrl + '/' + boardId + '/' + listId + '/' + cardId, {labels: card.labels});
+        const res = await axios.get(listURl + '/' + boardId);
+        dispatch(successFetchingLists(res.data));
         dispatch(setCard(card));
         dispatch(setPending(false));
     } catch (error) {
@@ -116,6 +139,8 @@ export const labelUpdate = async (cardId, listId, boardId, labelId, label, dispa
             axios.put(baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/' + labelId + '/update-label', label)
         );
         await submitCall;
+
+
     } catch (error) {
         dispatch(
             openAlert({
@@ -165,12 +190,96 @@ export const labelCreate = async (cardId, listId, boardId, text, color, backColo
                 })
         );
         await submitCall;
+
         dispatch(updateCreatedLabelId(response.data.labelId));
         dispatch(updateCreatedLabelIdBoard(response.data.labelId));
         dispatch(
             createLabelForCard({listId, cardId, _id: response.data.labelId, text, color, backColor, selected: true})
         );
 
+    } catch (error) {
+        dispatch(
+            openAlert({
+                message: error?.response?.data?.errMessage ? error.response.data.errMessage : error.message,
+                severity: 'error',
+            })
+        );
+    }
+};
+
+export const labelDelete = async (cardId, listId, boardId, labelId, dispatch) => {
+    try {
+        dispatch(deleteLabel(labelId));
+        dispatch(deleteLabelBoard(labelId));
+        dispatch(deleteLabelOfCard({ listId, cardId, labelId }));
+
+        submitCall = submitCall.then(() =>
+            axios.delete(baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/' + labelId + '/delete-label')
+        );
+        await submitCall;
+    } catch (error) {
+        dispatch(
+            openAlert({
+                message: error?.response?.data?.errMessage ? error.response.data.errMessage : error.message,
+                severity: 'error',
+            })
+        );
+    }
+};
+
+export const comment = async (cardId, listId, boardId, text, userName, dispatch) => {
+    try {
+        // dispatch(setPending(true));
+        let response = '';
+        submitCall = submitCall.then(() =>
+            axios
+                .post(baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/add-comment', {
+                    text: text,
+                })
+                .then((res) => {
+                    response = res;
+                })
+        );
+        await submitCall;
+
+        dispatch(addComment(response.data)); // addComment to cardSlice
+        dispatch(createCommentsForCard({listId, cardId, data: response.data})); // addComments to List (to rerender on card outside modal)
+        // dispatch(setPending(false));
+    } catch (error) {
+        dispatch(setPending(false));
+        dispatch(
+            openAlert({
+                message: error?.response?.data?.errMessage ? error.response.data.errMessage : error.message,
+                severity: 'error',
+            })
+        );
+    }
+};
+
+
+export const commentDelete = async (cardId, listId, boardId, commentId, dispatch) => {
+    try {
+        dispatch(deleteComment(commentId));
+
+        const response = await axios.delete(baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/' + commentId)
+        // distpacth to remove coment with list
+        dispatch(deleteCommentsForCard({listId, cardId, commentId}))
+    } catch (error) {
+        dispatch(
+            openAlert({
+                message: error?.response?.data?.errMessage ? error.response.data.errMessage : error.message,
+                severity: 'error',
+            })
+        );
+    }
+};
+
+export const commentUpdate = async (cardId, listId, boardId, text, commentId, dispatch) => {
+    try {
+        dispatch(updateComment(commentId, text));
+        await axios.put(baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/' + commentId, {
+            text: text,
+        });
     } catch (error) {
         dispatch(
             openAlert({

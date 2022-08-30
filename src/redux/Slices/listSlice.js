@@ -111,6 +111,53 @@ const listSlice = createSlice({
                 return list;
             });
         },
+        createCommentsForCard: (state, action) => {
+            const {listId, cardId, data} = action.payload;
+            console.log(action.payload)
+            state.allLists = state.allLists.map((list) => {
+                if (list._id === listId) {
+                    list.cards = list.cards.map((card) => {
+                        if (card._id === cardId) {
+                            card.activities = data;
+                        }
+                        return card;
+                    });
+                }
+                return list;
+            });
+        },
+        deleteCommentsForCard: (state, action) => {
+            const {listId, cardId, commentId} = action.payload;
+            console.log(action.payload)
+            state.allLists = state.allLists.map((list) => {
+                if (list._id === listId) {
+                    list.cards = list.cards.map((card) => {
+                        if (card._id === cardId) {
+                            card.activities = card.activities.filter(activity => {
+                                return activity._id !== commentId
+                            });
+                        }
+                        return card;
+                    });
+                }
+                return list;
+            });
+        },
+
+        deleteLabelOfCard: (state, action) => {
+            const { listId, cardId, labelId } = action.payload;
+            state.allLists = state.allLists.map((list) => {
+                if (list._id === listId) {
+                    list.cards = list.cards.map((card) => {
+                        if (card._id === cardId) {
+                            card.labels = card.labels.filter((label) => label._id !== labelId);
+                        }
+                        return card;
+                    });
+                }
+                return list;
+            });
+        },
 
 
     }
@@ -128,7 +175,10 @@ export const {
     setCardTitle,
     updateLabelOfCard,
     updateLabelSelectionOfCard,
-    createLabelForCard
+    createLabelForCard,
+    createCommentsForCard,
+    deleteCommentsForCard,
+    deleteLabelOfCard
 } = listSlice.actions;
 
 export default listSlice.reducer;

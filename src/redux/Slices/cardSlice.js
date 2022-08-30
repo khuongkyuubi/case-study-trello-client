@@ -65,12 +65,12 @@ const cardSlice = createSlice({
         },
 
         createLabel: (state, action) => {
-            const {_id, text, color, backColor} = action.payload;
-            state.labels.unshift({_id, text, color, backColor, selected: true});
+            const { _id, text, color, backColor } = action.payload;
+            state.labels.unshift({ _id, text, color, backColor, selected: true });
         },
 
         updateLabel: (state, action) => {
-            const {labelId, text, color, backColor} = action.payload;
+            const { labelId, text, color, backColor } = action.payload;
             state.labels = state.labels.map((label) => {
                 if (label._id === labelId) {
                     label.text = text;
@@ -81,7 +81,7 @@ const cardSlice = createSlice({
             });
         },
         updateLabelSelection: (state, action) => {
-            const {labelId, selected} = action.payload;
+            const { labelId, selected } = action.payload;
             state.labels = state.labels.map((label) => {
                 if (label._id === labelId) {
                     label.selected = selected;
@@ -90,7 +90,7 @@ const cardSlice = createSlice({
             });
         },
         updateLabelSelectionOfCard: (state, action) => {
-            const {listId, cardId, labelId, selected} = action.payload;
+            const { listId, cardId, labelId, selected } = action.payload;
             state.checklists = state.checklists.map((list) => {
                 if (list._id === listId) {
                     list.cards = list.cards.map((card) => {
@@ -107,6 +107,11 @@ const cardSlice = createSlice({
                 }
                 return list;
             });
+
+        },
+
+        deleteLabel: (state, action) => {
+            state.labels = state.labels.filter((label) => label._id !== action.payload);
         },
         updateCreatedLabelId: (state, action) => {
             state.labels = state.labels.map((label) => {
@@ -114,6 +119,21 @@ const cardSlice = createSlice({
                     label._id = action.payload;
                 }
                 return label;
+            });
+        },
+        addComment: (state, action) => {
+            state.activities = action.payload;
+        },
+        deleteComment: (state, action) => {
+            state.activities = state.activities.filter((act) => act._id !== action.payload);
+        },
+        updateComment: (state, action) => {
+            const { commentId, text } = action.payload;
+            state.activities = state.activities.map((activity) => {
+                if (activity._id === commentId) {
+                    activity.text = text;
+                }
+                return activity;
             });
         },
         updateSetAttachments: (state, action) => {
@@ -143,6 +163,10 @@ export const {
     updateLabelSelectionOfCard,
     createLabel,
     updateCreatedLabelId,
+    addComment,
+    deleteComment,
+    updateComment,
+    deleteLabel,
     updateSetAttachments
 } = cardSlice.actions;
 

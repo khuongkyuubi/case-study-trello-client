@@ -1,11 +1,12 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import styled from "styled-components";
 import Navbar from "../../components/Navbar";
 import HomeLeft from "../Home/HomeLeft";
 import MyBoards from "./MyBoards";
 import LoadingScreen from "../../components/LoadingScreen";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import BoardsWorkSpace from "./BoardsWorkSpace";
+import {getBoards} from "../../services/boardsService";
 
 
 const Container = styled.div`
@@ -43,6 +44,10 @@ const DivEmpty = styled.div`
 
 const BoardsPage = () => {
     const {pending, boardsData} = useSelector((state) => state.boards);
+    const dispatch = useDispatch();
+    useEffect(() => {
+        getBoards(false, dispatch);
+    }, [dispatch]);
     return (
         <>
             {pending && <LoadingScreen/>}

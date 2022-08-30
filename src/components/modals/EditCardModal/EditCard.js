@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Modal from '@mui/material/Modal';
 // import Actions from './Actions/Actions';
-// import Activity from './Activity/Activity';
+import Activity from './Activity/Activity';
 // import AddToCard from './AddToCard/AddToCard';
 // import Checklist from './Checklist/Checklist';
 // import Description from './Description/Description';
@@ -36,6 +36,7 @@ import AddToCard from "./AddToCard/AddToCard";
 import {Description} from "./Title/styled";
 import Features from "./Features/Features";
 import {getBoard} from "../../../services/boardsService";
+import {getLists} from "../../../services/boardService";
 import Attachments from "./Attachments/Attachments";
 
 export default function EditCard(props) {
@@ -48,7 +49,6 @@ export default function EditCard(props) {
 			getCard(cardId, listId, boardId, dispatch, boardLabels);
 		}
 	}, [boardId, cardId, dispatch, listId, props.open]);
-
 
 	return (
 		<div style={{ position: 'relative' }}>
@@ -89,9 +89,9 @@ export default function EditCard(props) {
 									{/*		})}*/}
 									{/*	</ChecklistContainer>*/}
 									{/*)}*/}
-									{/*<ActivityContainer>*/}
-									{/*	<Activity />*/}
-									{/*</ActivityContainer>*/}
+									<ActivityContainer>
+										<Activity />
+									</ActivityContainer>
 								</>
 							) :
 								(
