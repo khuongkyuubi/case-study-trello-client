@@ -6,8 +6,9 @@ import alertReducer from "./Slices/alertSlice";
 import userReducer from "./Slices/userSlice";
 import boardsReducer from "./Slices/boardsSlice";
 import cardReducer from "./Slices/cardSlice";
+
+
 import teamReducer from "./Slices/teamSlice";
-import boardInTeamReducer from "./Slices/boardInTeamSlice";
 
 
 
@@ -20,7 +21,6 @@ const Store = configureStore({
         team:teamReducer,
         boards: boardsReducer,
         card: cardReducer,
-        boardInTeam:boardInTeamReducer
     }
 })
 

@@ -1,10 +1,12 @@
 import React, {useState} from 'react';
 import styled from "styled-components";
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import Navbar from "../../components/Navbar";
 import HomeLeft from "../Home/HomeLeft";
 import {CreateBoards} from "../Boards/BoardsWorkSpace";
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import {useNavigate, useParams} from "react-router-dom";
+import {Link} from "react-router-dom";
 import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
 import {useSelector} from "react-redux";
 import board from "../BoardPage/Board";
@@ -122,7 +124,6 @@ const MyBoardsPage = () => {
                             <IconBoard><PeopleOutlineIcon/></IconBoard>
                             <DefaultName>All boards in this Workspace</DefaultName>
                         </YourBoard>
-
 
                         <DivCard>
                             <Cards>

@@ -17,21 +17,24 @@ import {
 	ButtonContainer,
 	RedButton,
 } from './styled';
-import { labelCreate, labelDelete, labelUpdate, labelUpdateSelection } from '../../../../../Services/cardService';
-import { openAlert } from '../../../../../Redux/Slices/alertSlice';
+// import { labelCreate, labelDelete, labelUpdate, labelUpdateSelection } from '../../../../../Services/cardService';
+import { labelUpdate, labelUpdateSelection, labelCreate } from '../../../../../services/cardService';
+import { openAlert } from '../../../../../redux/Slices/alertSlice';
 
 const LabelsPopover = (props) => {
 	const { currentPage } = props;
 	const dispatch = useDispatch();
 	const thisCard = useSelector((state) => state.card);
+	const board = useSelector((state) => state.board)
 	const [selectedCard, setSelectedCard] = useState({ _id: '', color: '', text: '', backColor: '' });
-	const colors = thisCard.colors;
+	const colors = board.colors;
+
 
 	const handleCreateClick = async (text, color, backColor) => {
 		props.arrowCallback(false);
 		props.titleCallback('Labels');
 		await labelCreate(thisCard.cardId, thisCard.listId, thisCard.boardId, text, color, backColor, dispatch);
-		
+
 	};
 
 	const handleSaveClick = async (labelId, text, color, backColor) => {
@@ -47,15 +50,17 @@ const LabelsPopover = (props) => {
 		);
 	};
 
+
+
 	const handleColorBoxClick = async (labelId, selected) => {
-		await labelUpdateSelection(thisCard.cardId, thisCard.listId, thisCard.boardId, labelId, selected, dispatch);
+		await  labelUpdateSelection(thisCard.cardId, thisCard.listId, thisCard.boardId, labelId, selected, dispatch);
 	};
 
-	const handleDeleteClick = async (labelId) => {
-		props.arrowCallback(false);
-		props.titleCallback('Labels');
-		await labelDelete(thisCard.cardId, thisCard.listId, thisCard.boardId, labelId, dispatch);
-	};
+	// const handleDeleteClick = async (labelId) => {
+	// 	props.arrowCallback(false);
+	// 	props.titleCallback('Labels');
+	// 	await labelDelete(thisCard.cardId, thisCard.listId, thisCard.boardId, labelId, dispatch);
+	// };
 
 	const LabelComponent = (props) => {
 		return (
@@ -192,7 +197,7 @@ const LabelsPopover = (props) => {
 					>
 						Save
 					</BlueButton>
-					<RedButton onClick={() => handleDeleteClick(selectedCard._id)}> Delete</RedButton>
+					{/*<RedButton onClick={() => handleDeleteClick(selectedCard._id)}> Delete</RedButton>*/}
 				</ButtonContainer>
 			</Container>
 		);

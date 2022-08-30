@@ -36,6 +36,9 @@ export default function TeamsList({team}) {
         setOpen(!open);
     };
 
+
+
+
     return (
         <List
             sx={{width: '100%', maxWidth: 360}}

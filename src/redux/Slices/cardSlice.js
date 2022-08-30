@@ -62,7 +62,61 @@ const cardSlice = createSlice({
         },
         updateTitle: (state, action) => {
             state.title = action.payload
-        }
+        },
+
+        createLabel: (state, action) => {
+            const { _id, text, color, backColor } = action.payload;
+            state.labels.unshift({ _id, text, color, backColor, selected: true });
+        },
+
+        updateLabel: (state, action) => {
+            const { labelId, text, color, backColor } = action.payload;
+            state.labels = state.labels.map((label) => {
+                if (label._id === labelId) {
+                    label.text = text;
+                    label.color = color;
+                    label.backColor = backColor;
+                }
+                return label;
+            });
+        },
+        updateLabelSelection: (state, action) => {
+            const { labelId, selected } = action.payload;
+            state.labels = state.labels.map((label) => {
+                if (label._id === labelId) {
+                    label.selected = selected;
+                }
+                return label;
+            });
+        },
+        updateLabelSelectionOfCard: (state, action) => {
+            const { listId, cardId, labelId, selected } = action.payload;
+            state.checklists = state.checklists.map((list) => {
+                if (list._id === listId) {
+                    list.cards = list.cards.map((card) => {
+                        if (card._id === cardId) {
+                            card.labels = card.labels.map((label) => {
+                                if (label._id === labelId) {
+                                    label.selected = selected;
+                                }
+                                return label;
+                            });
+                        }
+                        return card;
+                    });
+                }
+                return list;
+            });
+            
+        },
+        updateCreatedLabelId: (state, action) => {
+            state.labels = state.labels.map((label) => {
+                if (label._id === 'notUpdated') {
+                    label._id = action.payload;
+                }
+                return label;
+            });
+        },
 
     }
 });
@@ -74,7 +128,11 @@ export const {
     setPending,
     setCard,
     updateTitle,
-
+    updateLabel,
+    updateLabelSelection,
+    updateLabelSelectionOfCard,
+    createLabel,
+    updateCreatedLabelId
 } = cardSlice.actions;
 
 //export reducer

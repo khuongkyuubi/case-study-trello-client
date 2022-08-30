@@ -227,12 +227,14 @@ const Close = styled.div`
 
 
 const HomeLeft = () => {
+    const navigate=useNavigate()
     const dispatch = useDispatch();
     const [memberInput, setMemberInput] = useState("");
     const [members, setMembers] = useState([]);
     const [createWorkSpace, setCreateWorkSpace] = useState(false)
     const [form, setForm] = useState({})
     const {listTeamData} = useSelector(state => state.boardInTeam)
+    const {teamsData}=useSelector(state =>state.team)
 
     const handleChange = (e) => {
         setForm({
@@ -287,6 +289,7 @@ const HomeLeft = () => {
                         <TeamsList team={team} key={team._id}/>
                     ))}
                 </ProjectOld>
+
 
             </DivProject>
 
