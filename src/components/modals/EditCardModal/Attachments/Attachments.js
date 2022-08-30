@@ -41,14 +41,14 @@ const Attachments = (props) => {
 				<AttachmentIcon fontSize='small' />
 				<RightWrapper>
 					<Title>Attachments</Title>
-					{card.attachments.map((attachment) => {
+					{card.attachments?.map((attachment) => {
 						const validateLink = () => {};
 						validateLink();
 						return (
-							<Row key={attachment._id} onClick={() =>  window.open("http://localhost:5000/fileCard/"+attachment.link,'_blank')}>
-								<FaviconWrapper url={"http://localhost:5000/fileCard/" +attachment.link}>
+							<Row key={attachment._id} onClick={() =>  window.open("http://localhost:5000/fileCard/"+attachment?.link,'_blank')}>
+								<FaviconWrapper url={"http://localhost:5000/fileCard/" +attachment?.link}>
 									{/*<AttachmentIcon fontSize='large' />*/}
-									{REGEX.test(attachment?.link.split('.').pop())?<h3>{attachment.link.split('.').pop()}</h3>:<AttachmentIcon fontSize='large' />}
+									{!REGEX.test(attachment?.link?.split('.')?.pop())?<h3>{attachment?.link?.split('.')?.pop()}</h3>:<AttachmentIcon fontSize='large' />}
 								</FaviconWrapper>
 								<AttachmentRightWrapper>
 									<AttachmentTitleWrapper >

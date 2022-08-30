@@ -11,7 +11,7 @@ import {
     addComment,
     deleteComment,
     updateComment,
-    deleteLabel,
+    deleteLabel, updateSetAttachments,
 } from '../redux/Slices/cardSlice';
 import {
     createLabelBoard, deleteLabelBoard,
