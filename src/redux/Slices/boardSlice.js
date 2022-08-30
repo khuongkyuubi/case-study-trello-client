@@ -89,7 +89,10 @@ const boardSlice = createSlice({
         },
         changeIsExpanded: (state) => {
             state.isExpandedLabels = !state.isExpandedLabels;
-        }
+        },
+        deleteLabelBoard: (state, action) => {
+            state.labels = state.labels.filter((label) => label._id !== action.payload);
+        },
     },
 });
 
@@ -106,6 +109,7 @@ export const {
     createLabelBoard,
     updateCreatedLabelIdBoard,
     changeIsExpanded,
+    deleteLabelBoard
 } = boardSlice.actions;
 
 export default boardSlice.reducer;

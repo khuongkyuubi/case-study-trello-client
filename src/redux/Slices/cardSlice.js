@@ -109,6 +109,10 @@ const cardSlice = createSlice({
             });
             
         },
+
+        deleteLabel: (state, action) => {
+            state.labels = state.labels.filter((label) => label._id !== action.payload);
+        },
         updateCreatedLabelId: (state, action) => {
             state.labels = state.labels.map((label) => {
                 if (label._id === 'notUpdated') {
@@ -132,7 +136,8 @@ export const {
     updateLabelSelection,
     updateLabelSelectionOfCard,
     createLabel,
-    updateCreatedLabelId
+    updateCreatedLabelId,
+    deleteLabel
 } = cardSlice.actions;
 
 //export reducer

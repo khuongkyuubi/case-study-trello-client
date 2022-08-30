@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import Button from '../../ReUsableComponents/Button';
 import DoneIcon from '@mui/icons-material/Done';
 import EditIcon from '@mui/icons-material/EditOutlined';
@@ -18,17 +18,25 @@ import {
 	RedButton,
 } from './styled';
 // import { labelCreate, labelDelete, labelUpdate, labelUpdateSelection } from '../../../../../Services/cardService';
-import { labelUpdate, labelUpdateSelection, labelCreate } from '../../../../../services/cardService';
+import {labelUpdate, labelUpdateSelection, labelCreate, labelDelete} from '../../../../../services/cardService';
 import { openAlert } from '../../../../../redux/Slices/alertSlice';
+import {getLists} from "../../../../../services/boardService";
 
 const LabelsPopover = (props) => {
 	const { currentPage } = props;
 	const dispatch = useDispatch();
 	const thisCard = useSelector((state) => state.card);
-	const board = useSelector((state) => state.board)
+	const board = useSelector((state) => state.board);
+	const [search, setSearch] = useState('')
 	const [selectedCard, setSelectedCard] = useState({ _id: '', color: '', text: '', backColor: '' });
 	const colors = board.colors;
+	const [cardLabel, setCardLabel] = useState(thisCard.labels)
+	useEffect(() => {
+		const labels = thisCard.labels.filter(label => label.text.includes(search))
+		setCardLabel(labels)
+	}, [search, thisCard])
 
+	console.log(cardLabel, "cardLabel")
 
 	const handleCreateClick = async (text, color, backColor) => {
 		props.arrowCallback(false);
@@ -56,11 +64,11 @@ const LabelsPopover = (props) => {
 		await  labelUpdateSelection(thisCard.cardId, thisCard.listId, thisCard.boardId, labelId, selected, dispatch);
 	};
 
-	// const handleDeleteClick = async (labelId) => {
-	// 	props.arrowCallback(false);
-	// 	props.titleCallback('Labels');
-	// 	await labelDelete(thisCard.cardId, thisCard.listId, thisCard.boardId, labelId, dispatch);
-	// };
+	const handleDeleteClick = async (labelId) => {
+		props.arrowCallback(false);
+		props.titleCallback('Labels');
+		await labelDelete(thisCard.cardId, thisCard.listId, thisCard.boardId, labelId, dispatch);
+	};
 
 	const LabelComponent = (props) => {
 		return (
@@ -95,9 +103,9 @@ const LabelsPopover = (props) => {
 
 	const mainPage = (
 		<Container>
-			<SearchArea placeholder='Search labels...' />
+			<SearchArea placeholder='Search labels...' onChange={(e) => setSearch(e.target.value)}/>
 			<Title>Labels</Title>
-			{thisCard.labels.map((label) => {
+			{cardLabel.map((label) => {
 				return (
 					<LabelComponent
 						key={label._id}
@@ -197,7 +205,7 @@ const LabelsPopover = (props) => {
 					>
 						Save
 					</BlueButton>
-					{/*<RedButton onClick={() => handleDeleteClick(selectedCard._id)}> Delete</RedButton>*/}
+					<RedButton onClick={() => handleDeleteClick(selectedCard._id)}> Delete</RedButton>
 				</ButtonContainer>
 			</Container>
 		);

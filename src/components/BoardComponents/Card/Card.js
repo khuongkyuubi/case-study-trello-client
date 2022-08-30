@@ -29,7 +29,10 @@ import moment from 'moment';
 import {Avatar} from '@mui/material';
 import {useDispatch, useSelector} from "react-redux";
 import {changeIsExpanded} from "../../../redux/Slices/boardSlice";
-import {updateIsExpandedLabels} from "../../../services/boardService";
+import {getLists, updateIsExpandedLabels} from "../../../services/boardService";
+import {useEffect} from "react";
+import {getBoard} from "../../../services/boardsService";
+import {getCard} from "../../../services/cardService";
 
 const Card = (props) => {
     const [openModal, setOpenModal] = useState(false);
@@ -47,9 +50,9 @@ const Card = (props) => {
         });
     });
 
-
     let cardLabels = card.labels.filter((i) => i.selected);
-    const labels = cardLabels.map((label) => {
+    const labels = cardLabels.map((label, index) => {
+        const flag = false;
         for (let j = 0; j < boardLabels.length; j++) {
             if (label._id.toString() === boardLabels[j]._id.toString()) {
                 return {
@@ -59,8 +62,10 @@ const Card = (props) => {
                 }
             }
         }
+        if(flag === false){
+            cardLabels.splice(index, 1)
+        }
     });
-
     const handleOpenClose = () => {
         setOpenModal((current) => !current);
     };
@@ -103,10 +108,10 @@ const Card = (props) => {
                             {card.cover.isSizeOne && <Cover color={card.cover.color}/>}
                             {labels && (
                                 <LabelContainer>
-                                    {labels.map((label) => {
-                                        return <Label onClick={handleExpandLables} isExpandedLabels={isExpandedLabels} content={label.text}
-                                                      key={label._id}
-                                                      color={label.color}>{isExpandedLabels ? label.text : ""}</Label>;
+                                    {labels?.map((label) => {
+                                        return label && <Label onClick={handleExpandLables} isExpandedLabels={isExpandedLabels} content={label?.text}
+                                                      key={label?._id}
+                                                      color={label?.color}>{isExpandedLabels ? label?.text : ""}</Label>;
                                     })}
                                 </LabelContainer>
                             )}
