@@ -23,7 +23,7 @@ const ContentWorkSpaces = ({team}) => {
     const navigate = useNavigate()
     const {listTeamData} = useSelector(state => state.boardInTeam);
     const {boardsData} = useSelector(state => state.boards)
-    console.log(team,'team')
+
     const handleModalClose = () => {
         setOpenModal(false);
     };

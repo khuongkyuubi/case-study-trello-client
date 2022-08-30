@@ -26,6 +26,7 @@ export const createBoardInTeam = async (idTeam,props, dispatch) => {
         ...props,
         idTeam
     }
+    console.log("lol")
 
     if (!(props.title && props.backgroundImageLink)) {
         dispatch(

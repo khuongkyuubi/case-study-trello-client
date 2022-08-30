@@ -28,7 +28,7 @@ import {changeIsOpenStatus} from "../../redux/Slices/teamSlice";
 export default function TeamsList({team}) {
     const [open, setOpen] = React.useState(team.isOpen);
     const dispatch = useDispatch();
-    console.log(team, "...")
+
 
 
     const handleClick = () => {
