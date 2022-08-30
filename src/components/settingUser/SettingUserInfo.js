@@ -7,12 +7,11 @@ import {FormControl, IconButton, InputAdornment, OutlinedInput, Stack} from "@mu
 import {useEffect, useLayoutEffect, useState} from "react";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
 import Button from "@mui/material/Button";
-import {loadUser, updateInfoUser, uploadAvatar} from "../../services/userService";
+import {getUserInfo, loadUser, updateInfoUser, uploadAvatar} from "../../services/userService";
 function SettingUserInfo({props}){
     const data = props;
     const dispatch = useDispatch();
     const {userInfo} = useSelector(state => state.user)
-    console.log(userInfo.avatar)
     const [status,setStatus] = useState(false)
     const [values, setValues] = useState({
         name:'',
@@ -47,7 +46,7 @@ function SettingUserInfo({props}){
         e.preventDefault();
         await updateInfoUser(values,dispatch)
         await uploadAvatar(data,dispatch)
-        await loadUser(dispatch)
+        await getUserInfo(dispatch)
     }
     const handleClickShowPassword = () => {
         setValues({
@@ -70,9 +69,9 @@ function SettingUserInfo({props}){
                 >
                 <h1>Account details</h1>
                     <hr/>
-                    <TextField id="outlined-basic name" name='name' onChange={handleChange} value={values.name} label="Name" defaultValue={values.name} variant="outlined" />
-                    <TextField id="outlined-basic surname" name='surname' onChange={handleChange} value={values.surname} label="Sur Name" defaultValue={values.surname} variant="outlined" />
-                    <TextField id="outlined-basic email" name='email' onChange={handleChange} value={values.email} label="Email" defaultValue={values.email} variant="outlined" />
+                    <TextField id="outlined-basic name" name='name' onChange={handleChange} value={values.name} label="Name"  variant="outlined" />
+                    <TextField id="outlined-basic surname" name='surname' onChange={handleChange} value={values.surname} label="Sur Name" variant="outlined" />
+                    <TextField id="outlined-basic email" name='email' onChange={handleChange} value={values.email} label="Email"  variant="outlined" />
                     <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
                         <InputLabel htmlFor="outlined-adornment-password">Current Password</InputLabel>
                         <OutlinedInput

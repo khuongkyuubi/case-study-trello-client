@@ -10,11 +10,15 @@ import {getBoards} from "../../services/boardsService";
 
 
 const Container = styled.div`
-  margin-top: 1rem;
+  //margin-top: 1rem;
   width: 100%;
-  height: 100%;
+  //height: 100%;
   display: flex;
   flex-direction: column;
+  position: absolute;
+  top: 2.5rem;
+  bottom: 0;
+  overflow-y: auto;
 
 
 `

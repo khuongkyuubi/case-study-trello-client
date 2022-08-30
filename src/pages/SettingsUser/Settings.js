@@ -23,6 +23,7 @@ import {IconButton} from "@mui/material";
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 function Settings() {
     const {userInfo} = useSelector(state => state.user)
+    const {listTeamData} = useSelector(state => state.boardInTeam)
     const [avatar,setAvatar] = useState()
     const [value,setValue] = useState('4')
     const data = new FormData();
@@ -70,7 +71,7 @@ function Settings() {
                                   <h1>  {userInfo.name} {userInfo.surname}</h1>{userInfo.email}
                                 </TeamDetails>
                                 <TeamDetails>
-                                    <p>{userInfo.description ? userInfo.description : 'No Teams'}</p>
+                                    <p>{userInfo.description ? userInfo.description : listTeamData?.length ? `${listTeamData.length} Teams` : 'No Teams'}</p>
                                 </TeamDetails>
                                 <Button onClick={handleClick} >Edit User Profile</Button>
                             </RightSideHeader>

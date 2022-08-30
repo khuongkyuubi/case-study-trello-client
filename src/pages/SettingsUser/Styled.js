@@ -1,18 +1,22 @@
 import styled from "styled-components";
 export const Container = styled.div`
   width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+  //height: 100%;
+  //display: flex;
+  //flex-direction: column;
   //font-family: "Times New Roman", Times, serif;
-  justify-content: center;
-  margin: 0 auto;
-  position: relative;
+  //justify-content: center;
+  //margin: 0 auto;
+  //position: relative;
+  position: absolute;
+  top: 2.5rem;
+  bottom: 0;
+  overflow-y: auto;
 `
 export const Nav = styled.div`
   width: 100%;
   position: sticky;
-  flex: 1
+  //flex: 1
 `;
 export const Avatar = styled.img`
   height: 140px !important;
