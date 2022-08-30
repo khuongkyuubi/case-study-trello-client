@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Modal from '@mui/material/Modal';
 // import Actions from './Actions/Actions';
-// import Activity from './Activity/Activity';
+import Activity from './Activity/Activity';
 // import AddToCard from './AddToCard/AddToCard';
 // import Checklist from './Checklist/Checklist';
 // import Description from './Description/Description';
@@ -88,9 +88,9 @@ export default function EditCard(props) {
 									{/*		})}*/}
 									{/*	</ChecklistContainer>*/}
 									{/*)}*/}
-									{/*<ActivityContainer>*/}
-									{/*	<Activity />*/}
-									{/*</ActivityContainer>*/}
+									<ActivityContainer>
+										<Activity />
+									</ActivityContainer>
 								</>
 							) :
 								(

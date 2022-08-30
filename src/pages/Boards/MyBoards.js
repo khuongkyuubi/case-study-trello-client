@@ -70,12 +70,10 @@ export const NameWorkSpaceRecently = styled.div`
 
 export const IconWorkSpaceRecently = styled.div``
 const BoardRecently = () => {
-    const dispatch = useDispatch();
+
     const navigate = useNavigate()
     const {pending, boardsData} = useSelector((state) => state.boards);
-    useEffect(() => {
-        getBoards(false, dispatch);
-    }, [dispatch]);
+
 
     return (
         <MyBoards>

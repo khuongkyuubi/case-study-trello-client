@@ -9,7 +9,9 @@ import LinkIcon from '@mui/icons-material/Link';
 import ButtonDetailMember from "./ButtonDetailMember";
 import ButtonRoles from "./ButtonRoles";
 import ButtonRemove from "./ButtonRemove";
-import {useLocation} from "react-router-dom";
+import {useLocation, useParams} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {getListTeam} from "../../services/boardInTeamService";
 
 export const Container = styled.div`
   margin-top: 3rem;
@@ -89,6 +91,7 @@ export const IconEditName = styled.button`
   border: none;
   background-color: #ffffff;
   border-radius: 10px;
+
   &:hover {
     background-color: #f1ebeb;
   }
@@ -195,6 +198,7 @@ const InputFilter = styled.input`
   padding: 5px 0;
   border-radius: 3px;
   border: 2px solid #e6eaee;
+
   &:hover {
     background-color: #e6eaee;
     cursor: pointer;
@@ -325,13 +329,16 @@ const TalkWarning = styled.div`
 
 
 const BoardMemberHome = () => {
+    const dispatch = useDispatch();
     const [backgroundWorkSpace, setBackgroundWorkSpace] = useState('')
     const [backgroundGuests, setBackgroundGuests] = useState('')
     const [backgroundPending, setBackgroundPending] = useState('')
     useEffect(() => {
         setBackgroundWorkSpace('#e6eaee')
     }, [])
-
+ const {idTeam} = useParams();
+    const {listTeamData} = useSelector(state => state.boardInTeam)
+    const team = listTeamData.filter(team => team._id === idTeam)
 
     const [guests, setGuests] = useState(false)
     const [pendding, setPendding] = useState(false)
@@ -371,6 +378,11 @@ const BoardMemberHome = () => {
         }, 1800)
     }
 
+    useEffect(() => {
+        getListTeam(false, dispatch)
+    }, [dispatch])
+
+
     return (
         <Container>
             <Nav>
@@ -386,7 +398,6 @@ const BoardMemberHome = () => {
 
                             <ContentTitle>
                                 <NameProject>
-
                                     <DetailName>
                                         <Name>Dự án C03H_JS</Name>
                                         <IconEditName><DriveFileRenameOutlineIcon
@@ -422,7 +433,7 @@ const BoardMemberHome = () => {
                                 <h3>Member</h3>
                                 <TitleToChoose>Members of Workspace boards</TitleToChoose>
                                 <Item onClick={handleWorkSpaces} style={{backgroundColor: backgroundWorkSpace}}>
-                                    <ContentItem>Workspace members<span>(10)</span></ContentItem>
+                                    <ContentItem>Workspace members<span>({team[0]?.members.length})</span></ContentItem>
                                 </Item>
                                 <Item onClick={handleGuests} style={{backgroundColor: backgroundGuests}}>
                                     <ContentItem>Guests</ContentItem>
@@ -437,9 +448,8 @@ const BoardMemberHome = () => {
 
                     {workspaces &&
                         <DivRight>
-
                             <WrapperContentRight>
-                                <TitleGuests>Workspace members<span>(10)</span></TitleGuests>
+                                <TitleGuests>Workspace members<span>({team[0]?.members.length})</span></TitleGuests>
                                 <Descriptions>Workspace members can view and join all Workspace visible boards and
                                     create new boards in the Workspace. Adding new members will automatically update
                                     your billing.</Descriptions>
@@ -493,84 +503,36 @@ const BoardMemberHome = () => {
                                 <hr/>
                             </DivHr>
 
-                            < DivContainerDetailMember>
-                                <WrapperContentRight>
-                                    <ListFriends>
-                                        <Avatar><span>D</span></Avatar>
-                                        <NameAcc>
-                                            <Account>duonga2qp</Account>
-                                            <Email>@duonga2qp</Email>
-                                        </NameAcc>
-                                        <Edit>
-                                            <Detail>
-                                                <ButtonDetailMember/>
-                                            </Detail>
-                                            <Roles>
-                                                <ButtonRoles/>
-                                            </Roles>
-                                            <Remove>
-                                                <ButtonRemove/>
-                                            </Remove>
+                            {team[0]?.members.map(member => (
+                                < DivContainerDetailMember key={member._id}>
+                                    <WrapperContentRight>
+                                        <ListFriends>
+                                            <Avatar><span>{member.name.charAt(0).toUpperCase()}</span></Avatar>
+                                            <NameAcc>
+                                                <Account>{member.name}</Account>
+                                                <Email>{member.email}</Email>
+                                            </NameAcc>
+                                            <Edit>
+                                                <Detail>
+                                                    <ButtonDetailMember/>
+                                                </Detail>
+                                                <Roles>
+                                                    <ButtonRoles/>
+                                                </Roles>
+                                                <Remove>
+                                                    <ButtonRemove/>
+                                                </Remove>
 
-                                        </Edit>
-                                    </ListFriends>
-                                </WrapperContentRight>
-                                <DivHr>
-                                    <hr/>
-                                </DivHr>
-                            </DivContainerDetailMember>
-                            < DivContainerDetailMember>
-                                <WrapperContentRight>
-                                    <ListFriends>
-                                        <Avatar><span>D</span></Avatar>
-                                        <NameAcc>
-                                            <Account>duonga2qp</Account>
-                                            <Email>@duonga2qp</Email>
-                                        </NameAcc>
-                                        <Edit>
-                                            <Detail>
-                                                <ButtonDetailMember/>
-                                            </Detail>
-                                            <Roles>
-                                                <ButtonRoles/>
-                                            </Roles>
-                                            <Remove>
-                                                <ButtonRemove/>
-                                            </Remove>
+                                            </Edit>
+                                        </ListFriends>
+                                    </WrapperContentRight>
+                                    <DivHr>
+                                        <hr/>
+                                    </DivHr>
+                                </DivContainerDetailMember>
+                            ))}
 
-                                        </Edit>
-                                    </ListFriends>
-                                </WrapperContentRight>
-                                <DivHr>
-                                    <hr/>
-                                </DivHr>
-                            </DivContainerDetailMember>
-                            < DivContainerDetailMember>
-                                <WrapperContentRight>
-                                    <ListFriends>
-                                        <Avatar><span>D</span></Avatar>
-                                        <NameAcc>
-                                            <Account>duonga2qp</Account>
-                                            <Email>@duonga2qp</Email>
-                                        </NameAcc>
-                                        <Edit>
-                                            <Detail>
-                                                <ButtonDetailMember/>
-                                            </Detail>
-                                            <Roles>
-                                                <ButtonRoles/>
-                                            </Roles>
-                                            <Remove>
-                                                <ButtonRemove/>
-                                            </Remove>
 
-                                        </Edit>
-                                    </ListFriends>
-                                </WrapperContentRight>
-                                <DivHr>
-                                    <hr/>
-                                </DivHr>
-                            </DivContainerDetailMember>
                         </DivRight>}
 
 
