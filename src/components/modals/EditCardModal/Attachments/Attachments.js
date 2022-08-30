@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import NorthEastRoundedIcon from '@mui/icons-material/NorthEastRounded';
 import AttachmentIcon from '@mui/icons-material/InsertLinkRounded';
 import Button from '../ReUsableComponents/Button';
-import { useDispatch, useSelector } from 'react-redux';
+import {  useSelector } from 'react-redux';
 import {
 	Container,
 	RightWrapper,
@@ -17,21 +17,23 @@ import {
 	AttachmentDate,
 	AttachmentOperations,
 } from './styled';
-import { attachmentDelete } from '../../../../Services/cardService';
+// import { attachmentDelete } from '../../../../Services/cardService';
 import BasePopover from '../ReUsableComponents/BasePopover';
 import EditAttachmentPopover from '../Popovers/Attachment/EditAttachmentPopover';
 import moment from 'moment';
 import AddAttachmentPopover from '../Popovers/Attachment/AddAttachmentPopover';
 
 const Attachments = (props) => {
+	const REGEX = /\|jpeg$|svg$|png$|jpg$|gif$/
 	const card = useSelector((state) => state.card);
-	const dispatch = useDispatch();
+	// const dispatch = useDispatch();
 	const [editPopover, setEditPopover] = useState(null);
 	const [popoverComponent, setPopoverComponent] = useState(null);
 	const [attachmentPopover, setAttachmentPopover] = useState(null);
 
-	const handleDeleteClick = async (attachmentId) => {
-		await attachmentDelete(card.cardId, card.listId, card.boardId, attachmentId, dispatch);		
+	const handleDeleteClick =  (attachmentId) => {
+		console.log(attachmentId)
+		// await attachmentDelete(card.cardId, card.listId, card.boardId, attachmentId, dispatch);
 	};
 	return (
 		<>
@@ -43,16 +45,18 @@ const Attachments = (props) => {
 						const validateLink = () => {};
 						validateLink();
 						return (
-							<Row key={attachment._id} onClick={() => window.open(attachment.link, '_blank')}>
-								<FaviconWrapper>
-									<AttachmentIcon fontSize='large' />
+							<Row key={attachment._id} onClick={() =>  window.open("http://localhost:5000/fileCard/"+attachment.link,'_blank')}>
+								<FaviconWrapper url={"http://localhost:5000/fileCard/" +attachment.link}>
+									{/*<AttachmentIcon fontSize='large' />*/}
+									{REGEX.test(attachment?.link.split('.').pop())?<h3>{attachment.link.split('.').pop()}</h3>:<AttachmentIcon fontSize='large' />}
 								</FaviconWrapper>
 								<AttachmentRightWrapper>
-									<AttachmentTitleWrapper>
+									<AttachmentTitleWrapper >
+
 										<AttachmentTitle>
 											{attachment.name ? attachment.name : attachment.link}
 										</AttachmentTitle>
-										<AttachmentTitleIconWrapper>
+										<AttachmentTitleIconWrapper >
 											<NorthEastRoundedIcon fontSize='inherit' />
 										</AttachmentTitleIconWrapper>
 									</AttachmentTitleWrapper>

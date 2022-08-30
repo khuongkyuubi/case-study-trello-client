@@ -107,7 +107,7 @@ const cardSlice = createSlice({
                 }
                 return list;
             });
-            
+
         },
 
         deleteLabel: (state, action) => {
@@ -136,6 +136,17 @@ const cardSlice = createSlice({
                 return activity;
             });
         },
+        updateSetAttachments: (state, action) => {
+        state.attachments = [
+            ...state.attachments,
+            {
+                link: action.payload.link,
+                name: action.payload.name,
+                date: action.payload.date
+            }
+        ]
+        }
+
 
     }
 });
@@ -155,7 +166,8 @@ export const {
     addComment,
     deleteComment,
     updateComment,
-    deleteLabel
+    deleteLabel,
+    updateSetAttachments
 } = cardSlice.actions;
 
 //export reducer

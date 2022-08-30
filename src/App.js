@@ -1,4 +1,3 @@
-
 import './App.css';
 import {useEffect} from "react";
 import HomePage from "./pages/Home/HomePage";
@@ -21,6 +20,7 @@ import {getTeams} from "./services/teamService";
 import {useDispatch} from "react-redux";
 
 
+import Settings from "./pages/SettingsUser/Settings";
 
 
 function App() {
@@ -44,6 +44,7 @@ function App() {
                     <Route path="/members/:idTeam" element={<BoardMemberHome />} />
                     <Route path="/setting/:idTeam" element={<SettingHomePage/>} />
                     <Route path="/boards-create" element={<Boards/>}/>
+                    <Route path="/settings" element={<Settings/>}/>
                 </Route>
                 <Route element={<FreeRoute/>}>
                     <Route path="/" element={<Index/>}/>

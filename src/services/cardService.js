@@ -289,4 +289,42 @@ export const commentUpdate = async (cardId, listId, boardId, text, commentId, di
         );
     }
 };
+export const attachmentAdd = async (cardId, listId, boardId,link, linkName, dispatch) => {
+    try{
+     let res =   await axios.post(baseUrl + '/' + boardId + '/' + listId + '/' + cardId,{link,linkName})
+        dispatch(updateSetAttachments(res.data))
+        dispatch(openAlert(
+            {
+                message: 'Success',
+                severity: 'success'
+            }
+        ))
+    }catch (error) {
+        dispatch(
+            openAlert({
+                message: error?.response?.data?.errMessage ? error.response.data.errMessage : error.message,
+                severity: 'error',
+            })
+        );
+    }
+};
 
+export const attachmentAddFile = async (cardId, file, dispatch) => {
+    try {
+        let res = await axios.post(process.env.REACT_APP_API_ENDPOINT + '/uploads/cards/'+cardId,  file)
+        dispatch(updateSetAttachments(res.data))
+        dispatch(openAlert(
+            {
+                message: 'Success',
+                severity: 'success'
+            }
+        ))
+    } catch (error) {
+        dispatch(
+            openAlert({
+                message: error?.response?.data?.errMessage ? error.response.data.errMessage : error.message,
+                severity: 'error',
+            })
+        )
+    }
+}
