@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import BottomButtonGroup from '../../../Pages/BoardPage/BoardComponents/BottomButtonGroup/BottomButtonGroup.js';
+import BottomButtonGroup from '../../.././../components/BoardComponents/BottomButtonGroup/BottomButtonGroup';
+import BasePopover from '../ReUsableComponents/BasePopover';
+
 import {
 	Container,
 	LeftContainer,
@@ -11,9 +13,11 @@ import {
 	CommentArea,
 	LinkContainer,
 	Link,
+	Button,
 } from './styled';
-import { commentDelete, commentUpdate } from '../../../../Services/cardService.js';
+
 import { Avatar } from '@mui/material';
+import {commentDelete, commentUpdate} from '../../../../services/cardService';
 
 const Comment = (props) => {
 	const [edit, setEdit] = useState(true);
@@ -21,14 +25,22 @@ const Comment = (props) => {
 	const user = useSelector((state) => state.user.userInfo);
 	const card = useSelector((state) => state.card);
 	const dispatch = useDispatch();
+	const [deletePopover, setDeletePopover] = useState(null);
+
+
+	const handleDeleteClick = async () => {
+		await commentDelete(card.cardId, card.listId, card.boardId, props._id, dispatch);
+	};
+
+	const handleClickDelete = (e) => {
+		setDeletePopover(e.target)
+	}
+
 	const handleSaveClick = async () => {
 		setEdit(true);
 		await commentUpdate(card.cardId, card.listId, card.boardId, comment, props._id, dispatch);
 	};
 
-	const handleDeleteClick = async () => {
-		await commentDelete(card.cardId, card.listId, card.boardId, props._id, dispatch);
-	};
 	return (
 		<>
 			<Container>
@@ -54,9 +66,22 @@ const Comment = (props) => {
 						</ButtonContainer>
 						<LinkContainer show={edit && user.name === props.userName}>
 							<Link onClick={() => setEdit(false)}>Edit</Link>
-							<Link onClick={handleDeleteClick}>Delete</Link>
+							<Link onClick={handleClickDelete}>Delete</Link>
+							{deletePopover && (
+								<BasePopover
+									anchorElement={deletePopover}
+									closeCallback={() => {
+										setDeletePopover(null);
+									}}
+									title={'Delete this comment!'}
+									contents={
+										<Button onClick={handleDeleteClick}>Confirm Delete</Button>
+									}
+								/>
+							)}
 						</LinkContainer>
 					</CommentWrapper>
+
 				</RightContainer>
 			</Container>
 		</>

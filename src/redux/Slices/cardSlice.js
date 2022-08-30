@@ -117,6 +117,21 @@ const cardSlice = createSlice({
                 return label;
             });
         },
+        addComment: (state, action) => {
+            state.activities = action.payload;
+        },
+        deleteComment: (state, action) => {
+            state.activities = state.activities.filter((act) => act._id !== action.payload);
+        },
+        updateComment: (state, action) => {
+            const { commentId, text } = action.payload;
+            state.activities = state.activities.map((activity) => {
+                if (activity._id === commentId) {
+                    activity.text = text;
+                }
+                return activity;
+            });
+        },
 
     }
 });
@@ -132,7 +147,10 @@ export const {
     updateLabelSelection,
     updateLabelSelectionOfCard,
     createLabel,
-    updateCreatedLabelId
+    updateCreatedLabelId,
+    addComment,
+    deleteComment,
+    updateComment,
 } = cardSlice.actions;
 
 //export reducer

@@ -14,8 +14,8 @@ import Comment from '../Comment/Comment';
 import ActivityLog from '../ActivityLog/ActivityLog';
 import Button from '../ReUsableComponents/Button';
 import { useDispatch, useSelector } from 'react-redux';
-import { comment } from '../../../../Services/cardService';
-import { Avatar } from '@mui/material';
+import { comment } from '../../../../services/cardService';
+import {Avatar, CircularProgress} from '@mui/material';
 
 const Activity = () => {
 	const dispatch = useDispatch();
@@ -25,9 +25,12 @@ const Activity = () => {
 	const [focusComment, setFocusComment] = useState(false);
 	const [newComment, setNewComment] = useState('');
 	const [details, setDetails] = useState(false);
+	const [showSave, setShowSave] = useState(true);
 
 	const handleSaveClick = async () => {
+		setShowSave(prev => !prev);
 		await comment(card.cardId, card.listId, card.boardId, newComment, user.name, dispatch);
+		setShowSave(prev => !prev);
 		setNewComment('');
 	};
 
@@ -71,8 +74,8 @@ const Activity = () => {
 						/>
 					</TitleWrapper>
 					<CommentWrapper ref={ref}>
-						<SaveButton disabled={!newComment} onClick={handleSaveClick} show={focusComment}>
-							Save
+						<SaveButton disabled={showSave ? !newComment : true} onClick={handleSaveClick} show={focusComment}>
+							{!showSave ? <CircularProgress color="inherit" size={'1rem'}/> : 'Save'}
 						</SaveButton>
 						<CommentArea
 							value={newComment}
