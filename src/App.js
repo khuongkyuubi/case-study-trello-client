@@ -40,9 +40,9 @@ function App() {
                     <Route path="/home" element={<HomePage/>}/>
                     <Route path="/boards" element={<BoardsPage/>}/>
                     <Route path="/board/:id" element={<Board/>}/>
-                    <Route path="/my-boards" element={<MyBoardsPage />} />
-                    <Route path="/members" element={<BoardMemberHome />} />
-                    <Route path="/setting" element={<SettingHomePage/>} />
+                    <Route path="/my-boards/:idTeam" element={<MyBoardsPage />} />
+                    <Route path="/members/:idTeam" element={<BoardMemberHome />} />
+                    <Route path="/setting/:idTeam" element={<SettingHomePage/>} />
                     <Route path="/boards-create" element={<Boards/>}/>
                 </Route>
                 <Route element={<FreeRoute/>}>

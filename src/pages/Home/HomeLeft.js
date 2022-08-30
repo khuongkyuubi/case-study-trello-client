@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from "styled-components";
 import 'react-dropdown/style.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -13,9 +13,10 @@ import GroupAddOutlinedIcon from "@mui/icons-material/GroupAddOutlined";
 import {getUserFromEmail} from "../../services/userService";
 import {useDispatch, useSelector} from "react-redux";
 import ChipComponent from "../../components/modals/CreateBoardModal/ChipComponent";
-import {createTeam} from "../../services/teamService";
+import {createTeam, getTeams} from "../../services/teamService";
 import {useNavigate} from "react-router-dom";
 import TeamsList from "./TeamsList";
+import {getListTeam} from "../../services/boardInTeamService";
 
 const ContentLeft2 = styled.div`
   width: 30%;
@@ -226,13 +227,12 @@ const Close = styled.div`
 
 
 const HomeLeft = () => {
-    const navigate = useNavigate()
     const dispatch = useDispatch();
     const [memberInput, setMemberInput] = useState("");
     const [members, setMembers] = useState([]);
     const [createWorkSpace, setCreateWorkSpace] = useState(false)
     const [form, setForm] = useState({})
-    const {teamsData} = useSelector(state => state.team)
+    const {listTeamData} = useSelector(state => state.boardInTeam)
 
     const handleChange = (e) => {
         setForm({
@@ -262,6 +262,10 @@ const HomeLeft = () => {
         await createTeam(data, dispatch)
     }
 
+    useEffect(() => {
+        getListTeam(false,dispatch)
+    },[dispatch])
+
     return (
         <ContentLeft2>
             <DivItem>
@@ -279,11 +283,10 @@ const HomeLeft = () => {
                 </Workspace>
 
                 <ProjectOld>
-                    {teamsData.length > 0 && teamsData.map(team => (
+                    {listTeamData.length > 0 && listTeamData?.map(team => (
                         <TeamsList team={team} key={team._id}/>
                     ))}
                 </ProjectOld>
-
 
             </DivProject>
 
@@ -355,10 +358,7 @@ const HomeLeft = () => {
                 </WrapperWorkSpace>
             </CreateWorkSpace>
             }
-
-
         </ContentLeft2>
     );
 };
-
 export default HomeLeft;

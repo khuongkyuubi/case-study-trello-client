@@ -45,7 +45,7 @@ export const getBoards = async (fromDropDown, dispatch) => {
     try {
         const res = await axios.get(baseUrl + "/boards/");
         setTimeout(() => {
-            dispatch(successFetchingBoardInTeam({ boards: res.data }))
+            // dispatch(successFetchingBoardInTeam({ boards: res.data }))
             dispatch(successFetchingBoards({ boards: res.data }));
         }, 1000);
     } catch (error) {
@@ -74,7 +74,6 @@ export const createBoard = async (props, dispatch) => {
     }
     try {
         const res = await axios.post(baseUrl + "/boards/create", props);
-        console.log(res.data)
         dispatch(addNewBoard(res.data));
         dispatch(successCreatingBoard(res.data));
         dispatch(

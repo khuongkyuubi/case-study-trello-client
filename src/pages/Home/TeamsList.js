@@ -28,6 +28,8 @@ import {changeIsOpenStatus} from "../../redux/Slices/teamSlice";
 export default function TeamsList({team}) {
     const [open, setOpen] = React.useState(team.isOpen);
     const dispatch = useDispatch();
+    console.log(team, "...")
+
 
     const handleClick = () => {
         dispatch(changeIsOpenStatus({teamId: team._id}))
@@ -58,7 +60,8 @@ export default function TeamsList({team}) {
             <Collapse in={open} timeout="auto" unmountOnExit>
 
             <List component="div" disablePadding>
-                <Link to={'/my-boards'} className="my-board">
+
+                <Link to={`/my-boards/${team._id}`} className="my-board">
                     <ListItemButton sx={{pl: 4}} className="NameProject">
                         <ListItemIcon>
                             <AnalyticsIcon/>
@@ -70,7 +73,7 @@ export default function TeamsList({team}) {
                 </Link>
 
 
-                <Link to={'/members'} className="my-board">
+                <Link to={`/members/${team._id}`} className="my-board">
                     <ListItemButton sx={{pl: 4}} className="NameProject">
                         <ListItemIcon>
                             <SupervisedUserCircleIcon/>
@@ -79,7 +82,7 @@ export default function TeamsList({team}) {
                     </ListItemButton>
                 </Link>
 
-                <Link to={'/setting'} className="my-board">
+                <Link to={`/setting/${team._id}`} className="my-board">
                     <ListItemButton sx={{pl: 4}} className="NameProject">
                         <ListItemIcon>
                             <SettingsIcon/>

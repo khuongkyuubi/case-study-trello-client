@@ -1,11 +1,15 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from "styled-components";
 import Navbar from "../../components/Navbar";
 import HomeLeft from "../Home/HomeLeft";
 import {CreateBoards} from "../Boards/BoardsWorkSpace";
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
+import {useSelector} from "react-redux";
+import board from "../BoardPage/Board";
+import {Card, Cards, NameWorkSpaceRecently} from "../Boards/MyBoards";
+import CreateBoardInTeam from "../../components/modals/CreateBoardInTeamModal/CreateBoardInTeam";
 
 const Container = styled.div`
   margin-top: 1rem;
@@ -68,10 +72,22 @@ const DivEmpty = styled.div`
 `
 
 const MyBoardsPage = () => {
+    const {idTeam}=useParams();
     const navigate = useNavigate()
+    const [openModal, setOpenModal] = useState(false);
+
     const handleCreateBoard = () => {
         navigate(`/create-board`)
     }
+
+
+    const {boardsData} = useSelector(state => state.boards)
+    const handleModalClose = () => {
+        setOpenModal(false);
+    };
+
+
+
 
     return (
         <Container>
@@ -82,22 +98,23 @@ const MyBoardsPage = () => {
                 <DivEmpty/>
                 <HomeLeft/>
                 <BoardsContent>
-                    <DivTop>
-                        <YourBoard>
-                            <IconBoard><PersonOutlineIcon/></IconBoard>
-                            <DefaultName>Your boards</DefaultName>
-                        </YourBoard>
 
-                        <DivCard>
-                            <CreateBoards style={{backgroundColor: '#347a8d'}}>
-                                <NameBoard>AlphaWolf_Trello</NameBoard>
-                            </CreateBoards>
+                    {/*<DivTop>*/}
+                    {/*    <YourBoard>*/}
+                    {/*        <IconBoard><PersonOutlineIcon/></IconBoard>*/}
+                    {/*        <DefaultName>Your boards</DefaultName>*/}
+                    {/*    </YourBoard>*/}
 
-                            <CreateBoards onClick={handleCreateBoard}>
-                                Create new board
-                            </CreateBoards>
-                        </DivCard>
-                    </DivTop>
+                    {/*    <DivCard>*/}
+                    {/*        <CreateBoards style={{backgroundColor: '#347a8d'}}>*/}
+                    {/*            <NameBoard>AlphaWolf_Trello</NameBoard>*/}
+                    {/*        </CreateBoards>*/}
+
+                    {/*        <CreateBoards onClick={handleCreateBoard}>*/}
+                    {/*            Create new board*/}
+                    {/*        </CreateBoards>*/}
+                    {/*    </DivCard>*/}
+                    {/*</DivTop>*/}
 
 
                     <DivTop>
@@ -106,20 +123,33 @@ const MyBoardsPage = () => {
                             <DefaultName>All boards in this Workspace</DefaultName>
                         </YourBoard>
 
+
                         <DivCard>
-                            <CreateBoards style={{backgroundColor: '#347a8d'}}>
-                                <NameBoard>AlphaWolf_Trello</NameBoard>
-                            </CreateBoards>
+                            <Cards>
+                                {boardsData.map(boardTeam =>{
+                                    if(boardTeam?.teams===idTeam){
+                                        return (
+                                            <Card
+                                                link={boardTeam.backgroundImageLink}
+                                                isImage={boardTeam.isImage}
+                                                onClick={() => navigate(`/board/${boardTeam._id}`)}
+                                                key={boardTeam._id}
+                                            >
+                                                <NameWorkSpaceRecently>{boardTeam.title}</NameWorkSpaceRecently>
+                                            </Card>
+                                        )}
+                                })}
 
-                            <CreateBoards style={{backgroundColor: '#347a8d'}}>
-                                <NameBoard>AlphaWolf_Trello</NameBoard>
-                            </CreateBoards>
-
-                            <CreateBoards onClick={handleCreateBoard}>
-                                Create new board
-                            </CreateBoards>
+                                <CreateBoards onClick={() => setOpenModal(true)}>
+                                    create new board
+                                </CreateBoards>
+                                {openModal && <CreateBoardInTeam idTeam={idTeam} handleModalClose={handleModalClose}/>}
+                            </Cards>
                         </DivCard>
+
+
                     </DivTop>
+
                 </BoardsContent>
                 <DivEmpty/>
             </Wrapper>

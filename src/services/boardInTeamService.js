@@ -15,6 +15,7 @@ import {
 } from "../redux/Slices/boardSlice";
 
 import board from "../pages/BoardPage/Board";
+import {startCreatingBoard, successCreatingBoard} from "../redux/Slices/boardsSlice";
 // import { addNewBoard } from "../redux/userSlice";
 
 const baseUrl = process.env.REACT_APP_API_ENDPOINT;
@@ -25,23 +26,21 @@ export const createBoardInTeam = async (idTeam,props, dispatch) => {
         ...props,
         idTeam
     }
-    dispatch(startCreatingBoardInTeam());
+
     if (!(props.title && props.backgroundImageLink)) {
-        dispatch(failCreatingBoardInTeam());
         dispatch(
             openAlert({
                 message: "Please enter a title for board!",
                 severity: "warning",
-            })
-        );
+            }));
         return;
     }
     try {
         const res = await axios.post(baseUrl + "/team/create-boards", data);
 
-        // dispatch(addNewBoard(res.data));
 
-        dispatch(successCreatingBoardInTeam(res.data));
+
+        dispatch(successCreatingBoard(res.data));
         dispatch(
             openAlert({
                 message: `${res.data.title} board has been successfully created`,
@@ -88,23 +87,23 @@ export const createBoardInTeam = async (idTeam,props, dispatch) => {
 //     }
 // }
 //
-// export const getListTeam = async (fromDropDown, dispatch) => {
-//     if(!fromDropDown)dispatch(startFetchingBoardInTeam());
-//     try {
-//         const res = await axios.get(baseUrl + "/");
-//         console.log(res.data)
-//         // setTimeout(() => {
-//         //     dispatch(successFetchingBoardInTeam({ boards: res.data }));
-//         // }, 1000);
-//     } catch (error) {
-//         dispatch(failFetchingBoardInTeam());
-//         dispatch(
-//             openAlert({
-//                 message: error?.response?.data?.errMessage
-//                     ? error.response.data.errMessage
-//                     : error.message,
-//                 severity: "error",
-//             })
-//         );
-//     }
-// }
+export const getListTeam = async (fromDropDown, dispatch) => {
+    if(!fromDropDown)dispatch(startFetchingBoardInTeam());
+    try {
+        const res = await axios.get(baseUrl + "/team/");
+
+        setTimeout(() => {
+            dispatch(successFetchingBoardInTeam({ boards: res.data }));
+        }, 1000);
+    } catch (error) {
+        dispatch(failFetchingBoardInTeam());
+        dispatch(
+            openAlert({
+                message: error?.response?.data?.errMessage
+                    ? error.response.data.errMessage
+                    : error.message,
+                severity: "error",
+            })
+        );
+    }
+}
