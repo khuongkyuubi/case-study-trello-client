@@ -4,7 +4,7 @@ export const Container = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  font-family: "Times New Roman", Times, serif;
+  //font-family: "Times New Roman", Times, serif;
   justify-content: center;
   margin: 0 auto;
   position: relative;

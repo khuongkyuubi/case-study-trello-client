@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
-// import DropdownMenu from './DropdownMenu';
 import SearchBar from './NavbarComponents/SearchBar';
 import {xs} from '../BreakPoints';
 import ProfileBox from './NavbarComponents/ProfileBox';

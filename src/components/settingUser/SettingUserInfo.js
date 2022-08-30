@@ -7,11 +7,12 @@ import {FormControl, IconButton, InputAdornment, OutlinedInput, Stack} from "@mu
 import {useEffect, useLayoutEffect, useState} from "react";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
 import Button from "@mui/material/Button";
-import {updateInfoUser, uploadAvatar} from "../../services/userService";
+import {loadUser, updateInfoUser, uploadAvatar} from "../../services/userService";
 function SettingUserInfo({props}){
     const data = props;
     const dispatch = useDispatch();
     const {userInfo} = useSelector(state => state.user)
+    console.log(userInfo.avatar)
     const [status,setStatus] = useState(false)
     const [values, setValues] = useState({
         name:'',
@@ -42,10 +43,11 @@ function SettingUserInfo({props}){
     const handleChange = (e) => {
         setValues({ ...values, [e.target.name]: e.target.value });
     };
-    const handleSave = (e) => {
+    const handleSave = async (e) => {
         e.preventDefault();
-        updateInfoUser(values,dispatch)
-        uploadAvatar(data,dispatch)
+        await updateInfoUser(values,dispatch)
+        await uploadAvatar(data,dispatch)
+        await loadUser(dispatch)
     }
     const handleClickShowPassword = () => {
         setValues({

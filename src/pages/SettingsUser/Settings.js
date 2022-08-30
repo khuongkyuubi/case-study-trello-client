@@ -24,7 +24,7 @@ import PhotoCamera from '@mui/icons-material/PhotoCamera';
 function Settings() {
     const {userInfo} = useSelector(state => state.user)
     const [avatar,setAvatar] = useState()
-    const [value,setValue] = useState('1')
+    const [value,setValue] = useState('4')
     const data = new FormData();
     useEffect(() =>{
         if(avatar){
