@@ -36,7 +36,7 @@ const LabelsPopover = (props) => {
 		setCardLabel(labels)
 	}, [search, thisCard])
 
-	console.log(cardLabel, "cardLabel")
+
 
 	const handleCreateClick = async (text, color, backColor) => {
 		props.arrowCallback(false);
