@@ -20,7 +20,6 @@ import {successFetchingBoardInTeam} from "../redux/Slices/boardInTeamSlice";
 const baseUrl = process.env.REACT_APP_API_ENDPOINT;
 
 export const getBoard = async (boardId, dispatch) => {
-
     dispatch(setLoading(true));
     try {
         const res = await  axios.get(baseUrl + "/board/" + boardId);

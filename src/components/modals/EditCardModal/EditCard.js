@@ -36,6 +36,7 @@ import AddToCard from "./AddToCard/AddToCard";
 import {Description} from "./Title/styled";
 import Features from "./Features/Features";
 import {getBoard} from "../../../services/boardsService";
+import {getLists} from "../../../services/boardService";
 
 export default function EditCard(props) {
 	const { cardId, listId, boardId } = props.ids;
@@ -47,7 +48,6 @@ export default function EditCard(props) {
 			getCard(cardId, listId, boardId, dispatch, boardLabels);
 		}
 	}, [boardId, cardId, dispatch, listId, props.open]);
-
 
 	return (
 		<div style={{ position: 'relative' }}>

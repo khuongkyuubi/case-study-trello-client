@@ -144,6 +144,21 @@ const listSlice = createSlice({
             });
         },
 
+        deleteLabelOfCard: (state, action) => {
+            const { listId, cardId, labelId } = action.payload;
+            state.allLists = state.allLists.map((list) => {
+                if (list._id === listId) {
+                    list.cards = list.cards.map((card) => {
+                        if (card._id === cardId) {
+                            card.labels = card.labels.filter((label) => label._id !== labelId);
+                        }
+                        return card;
+                    });
+                }
+                return list;
+            });
+        },
+
 
     }
 });
@@ -163,6 +178,7 @@ export const {
     createLabelForCard,
     createCommentsForCard,
     deleteCommentsForCard,
+    deleteLabelOfCard
 } = listSlice.actions;
 
 export default listSlice.reducer;

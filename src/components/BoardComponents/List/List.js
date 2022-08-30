@@ -39,7 +39,6 @@ const List = (props) => {
     const open = Boolean(anchorEl);
     const ref = useRef();
     const [isAdding, setIsAdding] = useState(false);
-
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
