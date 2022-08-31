@@ -7,9 +7,10 @@ import { makeStyles } from '@mui/styles';
 import Tooltip from '@mui/material/Tooltip';
 import Zoom from '@mui/material/Zoom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUserFromEmail } from '../../../../../services/userService';
+import {changeRoleUser, getUserFromEmail} from '../../../../../services/userService';
 import { openAlert } from '../../../../../redux/Slices/alertSlice';
 import { boardMemberAdd } from '../../../../../services/boardService';
+import {useParams} from "react-router-dom";
 
 const useStyles = makeStyles({
 	root: {
@@ -35,12 +36,30 @@ const ChipComponent = (props) => {
 	);
 };
 
-const InviteMembers = () => {
+const roles = [
+	{
+		id:new Date() +4,
+		name:'owner'
+	},
+	{
+		id:new Date() +9,
+		name:'member'
+	}
+]
+
+
+const InviteMembers = ({listMember}) => {
 	const [memberMail, setMemberMail] = useState('');
 	const [members, setMembers] = useState([]);
 	const dispatch = useDispatch();
 	const boardMembers = useSelector((state) => state.board.members);
+	console.log(boardMembers,'boardMembers')
 	const boardId = useSelector(state=>state.board.id);
+
+	const [role,setRole] = useState()
+
+
+
 	const handleAddClick = async () => {
 		const checkMember = boardMembers.filter((m) => m.email === memberMail)[0];
 
@@ -70,6 +89,15 @@ const InviteMembers = () => {
 		await boardMemberAdd(boardId,members,dispatch);
 		setMembers([]);
 	}
+    const {id}=useParams()
+
+	const changeRole = async (e, idMember,idBoard) =>{
+
+		await changeRoleUser(e.target.value, dispatch,idMember,idBoard);
+
+	}
+
+
 
 	return (
 		<Container>
@@ -84,6 +112,27 @@ const InviteMembers = () => {
 				/>
 				<Button title='Add' style={{ flex: '1' }} clickCallback={handleAddClick} />
 			</SearchContainer>
+
+
+			{listMember.map(member => (
+				<div key={member._id}>
+					<span>{member.name}</span>
+					<select defaultValue={member.role} onChange={async(e) => {
+						await changeRole(e, member._id,id)
+					}}   >
+						{roles.map(role =>(
+							<option value={role.name} key={role.id} >{role.name}</option>
+						))}
+
+
+					</select>
+				</div>
+				)
+			)}
+
+
+
+
 			<ChipContainer>
 				{members.map((member) => {
 					return <ChipComponent key={member.email} callback={handleDelete} {...member} />;

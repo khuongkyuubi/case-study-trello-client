@@ -10,6 +10,7 @@ import {
 
 import board from "../pages/BoardPage/Board";
 import {addNewBoard, addNewTeam} from "../redux/userSlice";
+import {useNavigate} from "react-router-dom";
 
 const baseUrl = process.env.REACT_APP_API_ENDPOINT;
 
@@ -54,7 +55,7 @@ export const getTeams = async (fromDropDown, dispatch) => {
         );
     }
 }
-export const createTeam = async (props, dispatch) => {
+export const createTeam = async (props, dispatch,navigate) => {
     dispatch(startCreatingTeam());
     if (!(props.name)) {
         dispatch(failCreatingTeam());
@@ -77,7 +78,7 @@ export const createTeam = async (props, dispatch) => {
             })
         );
         setTimeout(() => {
-            window.location.href = `/home`;
+           navigate(`/home`);
         }, 1000)
 
     } catch (error) {

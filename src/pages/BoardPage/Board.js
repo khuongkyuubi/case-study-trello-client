@@ -79,7 +79,9 @@ const Board = (props) => {
                 isImage={isImage}
                 bgImage={isImage ? backgroundImageLink.split('?')[0] : backgroundImageLink}
             >
+
                 <TopBar listMember={members}/>
+
                 {(loading || loadingListService) && <LoadingScreen/>}
                 <DragDropContext onDragEnd={onDragEnd}>
                     <Droppable droppableId='all-columns' direction='horizontal' type='column'>

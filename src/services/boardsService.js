@@ -24,6 +24,8 @@ export const getBoard = async (boardId, dispatch) => {
     try {
         const res = await  axios.get(baseUrl + "/board/" + boardId);
         dispatch(successFetchingBoard(res.data));
+        console.log(res.data)
+
         setTimeout(()=> {
             dispatch(setLoading(false))
         }, 1000);
@@ -73,7 +75,10 @@ export const createBoard = async (props, dispatch) => {
         return;
     }
     try {
+        console.log(props)
         const res = await axios.post(baseUrl + "/boards/create", props);
+        console.log(res.data)
+
         dispatch(addNewBoard(res.data));
         dispatch(successCreatingBoard(res.data));
         dispatch(

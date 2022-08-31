@@ -234,6 +234,8 @@ const HomeLeft = () => {
     const [createWorkSpace, setCreateWorkSpace] = useState(false)
     const [form, setForm] = useState({})
     const {listTeamData} = useSelector(state => state.boardInTeam)
+    console.log(listTeamData)
+
     const {teamsData}=useSelector(state =>state.team)
 
     const handleChange = (e) => {
@@ -261,12 +263,14 @@ const HomeLeft = () => {
             ...form,
             members
         }
-        await createTeam(data, dispatch)
+        await createTeam(data, dispatch,navigate)
+        setCreateWorkSpace(false)
+
     }
 
     useEffect(() => {
         getListTeam(false,dispatch)
-    },[dispatch])
+    },[dispatch, createWorkSpace])
 
     return (
         <ContentLeft2>

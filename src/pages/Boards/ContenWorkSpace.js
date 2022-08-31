@@ -67,7 +67,7 @@ const ContentWorkSpaces = ({team}) => {
                 <CreateBoards onClick={() => setOpenModal(true)}>
                     create new board
                 </CreateBoards>
-                {openModal && <CreateBoardInTeam idTeam={team._id} handleModalClose={handleModalClose}/>}
+                {openModal && <CreateBoardInTeam idTeam={team._id} callback={handleModalClose} />}
             </Cards>
         </ContentWorkspace>
     );
