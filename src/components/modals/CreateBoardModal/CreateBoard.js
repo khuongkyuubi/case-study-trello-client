@@ -54,6 +54,7 @@ export default function CreateBoard(props) {
           <style.Wrapper>
             <TitleCardComponent
               link={background}
+              defaultTeam = {props.defaultTeam}
               updateback={handleUpdate}
               callback={handleClose}
             />

@@ -24,6 +24,8 @@ export const getBoard = async (boardId, dispatch) => {
     try {
         const res = await  axios.get(baseUrl + "/board/" + boardId);
         dispatch(successFetchingBoard(res.data));
+        console.log(res.data)
+
         setTimeout(()=> {
             dispatch(setLoading(false))
         }, 1000);
@@ -73,6 +75,7 @@ export const createBoard = async (props, dispatch) => {
         return;
     }
     try {
+        console.log(props)
         const res = await axios.post(baseUrl + "/boards/create", props);
         console.log(res.data)
 
@@ -84,7 +87,7 @@ export const createBoard = async (props, dispatch) => {
                 severity: "success",
             })
         );
-        // setTimeout(()=>{window.location.href = `/board/${res.data._id}`;},1000)
+        setTimeout(()=>{window.location.href = `/board/${res.data._id}`;},1000)
 
     } catch (error) {
         dispatch(failCreatingBoard());

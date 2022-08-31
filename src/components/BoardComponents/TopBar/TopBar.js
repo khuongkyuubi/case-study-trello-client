@@ -29,6 +29,7 @@ const TopBar = ({listMember}) => {
     const [invitePopover, setInvitePopover] = React.useState(null);
     const [currentMember, setCurrentMember] = useState({})
     const [listSearch, setListSearch] = useState(listMember);
+    console.log(listMember, "list members")
 
     const dispatch = useDispatch();
     useEffect(() => {
@@ -100,7 +101,7 @@ const TopBar = ({listMember}) => {
                     ))}
 
                     {listMember.length > 4 &&
-                        <div>
+                        <div key={1}>
                             <Avatar
                                 sx={{
                                     '&:hover': {
@@ -171,7 +172,7 @@ const TopBar = ({listMember}) => {
                     }}
                 >
 
-                    <CardDetail member={currentMember}/>
+                    <CardDetail member={currentMember} setAnchorEl2={setAnchorEl2}/>
 
                 </Popover>
 
@@ -186,7 +187,7 @@ const TopBar = ({listMember}) => {
                             setInvitePopover(null);
                         }}
                         title='Invite Members'
-                        contents={<InviteMembers closeCallback={() => {
+                        contents={<InviteMembers listMember={listMember} closeCallback={() => {
                             setInvitePopover(null);
                         }}/>}
                     />

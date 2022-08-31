@@ -15,7 +15,7 @@ const TitleCardComponent = (props) => {
     const [members, setMembers] = useState([]);
     const [title, setTitle] = useState("");
     const {listTeamData} = useSelector(state => state.boardInTeam)
-    const [team, setTeam] = useState('Trello Không gian làm việc')
+    const [team, setTeam] = useState(props.defaultTeam)
     const [visibility, setVisibility] = useState('Workspace')
 
 
@@ -66,10 +66,8 @@ const TitleCardComponent = (props) => {
                     {/*  />*/}
                     {/*</div>*/}
                     <div><span style={{color: '#b9c6cf'}}>Workspace</span>
-                        <style.SelectWorkSpace onChange={(e) => setTeam(e.target.value)}>
-                            <style.OptionWorkSpace value={'Trello Không gian làm việc'}>Trello Không gian làm
-                                việc
-                            </style.OptionWorkSpace>
+                        <style.SelectWorkSpace onChange={(e) => setTeam(e.target.value)} value={team}>
+
                             {listTeamData.map((team) => (
                                 <style.OptionWorkSpace key={team._id}
                                                        value={team._id}>{team.name}</style.OptionWorkSpace>

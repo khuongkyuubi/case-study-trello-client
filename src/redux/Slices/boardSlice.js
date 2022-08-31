@@ -93,6 +93,21 @@ const boardSlice = createSlice({
         deleteLabelBoard: (state, action) => {
             state.labels = state.labels.filter((label) => label._id !== action.payload);
         },
+        changeRole: (state, action) => {
+
+            state.members = state.members.map(member => {
+                if (member._id === action.payload.idMember) {
+                    member.role = action.payload.role;
+                }
+                return member;
+            })
+        },
+
+        deleteMember: (state, action) => {
+            state.members = state.members.filter((members) => members._id !== action.payload.idMember);
+        },
+
+
     },
 });
 
@@ -109,7 +124,9 @@ export const {
     createLabelBoard,
     updateCreatedLabelIdBoard,
     changeIsExpanded,
-    deleteLabelBoard
+    deleteLabelBoard,
+    changeRole,
+    deleteMember
 } = boardSlice.actions;
 
 export default boardSlice.reducer;
