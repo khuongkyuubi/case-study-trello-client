@@ -56,7 +56,7 @@ export const PanelWrapper = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0.5rem;
-  justify-content: space-between;
+  justify-content: flex-end;
 `;
 
 export const TitleInput = styled.input`
@@ -77,6 +77,31 @@ export const TitleInput = styled.input`
     background-color: rgba(255, 255, 255, 0.2);
   }
 `;
+
+export  const SelectWorkSpace=styled.select`
+  width: 90%;
+  color: white;
+  padding: 0.2rem 0.3rem;
+  border-radius: 3px;
+  outline: none;
+  border: none;
+  background-color: rgba(215, 198, 198, 0);
+  transition: 150ms linear;
+  font-weight: 700;
+
+  &::placeholder {
+    font-weight: 700;
+    color: rgba(244, 244, 244, 0.7);
+  }
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+`
+
+export const OptionWorkSpace=styled.option`
+  background-color: rgb(128, 128, 128);
+`
 
 export const MemberWrapper = styled.div`
   display: flex;
