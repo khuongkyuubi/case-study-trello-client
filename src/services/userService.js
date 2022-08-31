@@ -14,6 +14,7 @@ import {
 } from "../redux/Slices/userSlice";
 import {openAlert} from "../redux/Slices/alertSlice";
 import setBearer from "../utils/setBearer";
+import {changeRole} from "../redux/Slices/boardSlice";
 
 const baseUrl = process.env.REACT_APP_API_ENDPOINT + "/user/";
 
@@ -131,47 +132,53 @@ export const getUserFromEmail = async (email, dispatch) => {
     }
 };
 
-export const logOut = async(user, dispatch) =>{
+export const logOut = async (user, dispatch) => {
     dispatch(logout(user))
 }
-export const uploadAvatar = async(data,dispatch)=>{
+export const uploadAvatar = async (data, dispatch) => {
     dispatch(fetchingStart())
-    try{
-        const res = await axios.post(process.env.REACT_APP_API_ENDPOINT+'/uploads/avatar',data);
+    try {
+        const res = await axios.post(process.env.REACT_APP_API_ENDPOINT + '/uploads/avatar', data);
         dispatch(fetchingFinish())
         dispatch(
             openAlert({
-                message:"Update Complete",
+                message: "Update Complete",
                 severity: "success",
                 duration: 500,
                 nextRoute: "/settings"
             })
         );
         return res.data;
-    }catch(error){
+    } catch (error) {
         dispatch(
             openAlert({
                 message: 'Update is not allowed',
                 severity: "error",
             })
         );
-       dispatch(fetchingFinish())
+        dispatch(fetchingFinish())
     }
 }
-export const updateInfoUser = async({name,surname,email,password,newPassword},dispatch) =>{
-    try{
-        const res = await axios.post(baseUrl + 'user-update', {name:name,surname:surname,email,newPassword,password})
+export const updateInfoUser = async ({name, surname, email, password, newPassword}, dispatch) => {
+    try {
+        const res = await axios.post(baseUrl + 'user-update', {
+            name: name,
+            surname: surname,
+            email,
+            newPassword,
+            password
+        })
         dispatch(fetchingFinish())
         dispatch(
             openAlert({
-                message:"Update Complete",
+                message: "Update Complete",
                 severity: "success",
                 duration: 500,
                 nextRoute: "/home"
             })
         )
         return res.data
-    }catch(e){
+    } catch (e) {
         dispatch(
             openAlert({
                 message: 'Password does not match',
@@ -181,6 +188,47 @@ export const updateInfoUser = async({name,surname,email,password,newPassword},di
         dispatch(fetchingFinish())
         return null;
     }
+}
+
+export const changeRoleUser = async (role, dispatch, idMember, idBoard) => {
+    try {
+        const res = await axios.post(baseUrl + 'user-update-role',
+            {
+                role,
+                idMember,
+                idBoard
+            })
+        dispatch(changeRole({
+                role,
+                idMember
+            }
+        ))
+
+        // dispatch(fetchingFinish())
+        // dispatch(
+        //     openAlert({
+        //         message:"Update Complete",
+        //         severity: "success",
+        //         duration: 500,
+        //         nextRoute: "/home"
+        //     })
+        // )
+        // return res.data
+    } catch (e) {
+        dispatch(
+            openAlert({
+                message: 'Password does not match',
+                severity: "error",
+            })
+        );
+        dispatch(fetchingFinish())
+        return null;
+    }
+
+
+    // dispatch(setRoleForUser(role))
+
+
 }
 
 export const getUserInfo = async (dispatch) => {

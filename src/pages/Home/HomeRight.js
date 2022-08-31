@@ -4,6 +4,7 @@ import {Link, useNavigate} from "react-router-dom";
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import AddIcon from '@mui/icons-material/Add';
 import CreateBoard from '../../components/modals/CreateBoardModal/CreateBoard'
+import {useSelector} from "react-redux";
 
 
 const Container = styled.div`
@@ -211,6 +212,8 @@ const HomeRight = () => {
     const navigate = useNavigate();
     const [createBoard, setCreateBoard] = useState(false)
     const [openModal, setOpenModal] = useState(false);
+    const {userInfo} = useSelector(state => state.user);
+    console.log(userInfo.defaultTeam);
 
     const handleClick = (e) => {
         navigate(`/board/${e.target.id}`)
@@ -265,7 +268,8 @@ const HomeRight = () => {
                     <TitleCreate >Create a board</TitleCreate>
                 </ButtonCreate>
             </CreateBoardWrapper>
-            {openModal && <CreateBoard callback={handleModalClose} />}
+
+            {openModal && <CreateBoard defaultTeam={userInfo.defaultTeam} callback={handleModalClose} />}
 
             <DivBottom>
 

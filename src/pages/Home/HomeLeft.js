@@ -227,14 +227,16 @@ const Close = styled.div`
 
 
 const HomeLeft = () => {
-    const navigate = useNavigate()
+    const navigate=useNavigate()
     const dispatch = useDispatch();
     const [memberInput, setMemberInput] = useState("");
     const [members, setMembers] = useState([]);
     const [createWorkSpace, setCreateWorkSpace] = useState(false)
     const [form, setForm] = useState({})
     const {listTeamData} = useSelector(state => state.boardInTeam)
-    const {teamsData} = useSelector(state => state.team)
+    console.log(listTeamData)
+
+    const {teamsData}=useSelector(state =>state.team)
 
     const handleChange = (e) => {
         setForm({
@@ -261,12 +263,14 @@ const HomeLeft = () => {
             ...form,
             members
         }
-        await createTeam(data, dispatch)
+        await createTeam(data, dispatch,navigate)
+        setCreateWorkSpace(false)
+
     }
 
     useEffect(() => {
-        getListTeam(false, dispatch)
-    }, [dispatch])
+        getListTeam(false,dispatch)
+    },[dispatch, createWorkSpace])
 
     return (
         <ContentLeft2>
@@ -295,71 +299,71 @@ const HomeLeft = () => {
 
             {
                 createWorkSpace && <CreateWorkSpace>
-                    <WrapperWorkSpace>
-                        <LeftCreateSPace>
-                            <Close onClick={() => setCreateWorkSpace(false)}>X</Close>
-                            <ContentWorkSpace>
-                                <Tittle>Let's build a Workspace</Tittle>
-                                <Desc1>
-                                    Boost your productivity by making it easier for everyone to access boards in one
-                                    location.
-                                </Desc1>
+                <WrapperWorkSpace>
+                    <LeftCreateSPace>
+                        <Close onClick={() => setCreateWorkSpace(false)}>X</Close>
+                        <ContentWorkSpace>
+                            <Tittle>Let's build a Workspace</Tittle>
+                            <Desc1>
+                                Boost your productivity by making it easier for everyone to access boards in one
+                                location.
+                            </Desc1>
 
-                                <WorkspaceName>Workspace name</WorkspaceName>
-                                <InputName placeholder="Taco's Co." name="name" onChange={handleChange}></InputName>
-                                <Desc2>This is the name of your company, team or organization.</Desc2>
+                            <WorkspaceName>Workspace name</WorkspaceName>
+                            <InputName placeholder="Taco's Co." name="name" onChange={handleChange}></InputName>
+                            <Desc2>This is the name of your company, team or organization.</Desc2>
 
-                                <WorkspaceDesc>Workspace description</WorkspaceDesc>
-                                <TextArea name="description" onChange={handleChange}
-                                          placeholder="Our team organizes everything here." rows="4"></TextArea>
-                                <Desc3>Get your members on board with a few words about your Workspace.</Desc3>
+                            <WorkspaceDesc>Workspace description</WorkspaceDesc>
+                            <TextArea name="description" onChange={handleChange}
+                                      placeholder="Our team organizes everything here." rows="4"></TextArea>
+                            <Desc3>Get your members on board with a few words about your Workspace.</Desc3>
 
 
-                                <style.MemberWrapper>
-                                    <style.MemberInputWrapper>
-                                        <style.MemberIcon>
-                                            <GroupAddOutlinedIcon fontSize="small"/>
-                                        </style.MemberIcon>
-                                        <style.MemberInput
+                            <style.MemberWrapper>
+                                <style.MemberInputWrapper>
+                                    <style.MemberIcon>
+                                        <GroupAddOutlinedIcon fontSize="small"/>
+                                    </style.MemberIcon>
+                                    <style.MemberInput
 
-                                            placeholder="Invite to board with email"
-                                            value={memberInput}
-                                            type="email"
-                                            onChange={(e) => setMemberInput(e.target.value)}
+                                        placeholder="Invite to board with email"
+                                        value={memberInput}
+                                        type="email"
+                                        onChange={(e) => setMemberInput(e.target.value)}
+                                    />
+                                </style.MemberInputWrapper>
+                                <style.AddButton onClick={() => handleClick()}>
+                                    <AddIcon fontSize="small"/>
+                                </style.AddButton>
+                            </style.MemberWrapper>
+
+                            <style.ChipWrapper>
+                                {members.map((member) => {
+                                    return (
+                                        <ChipComponent
+                                            key={member.email}
+                                            callback={handleDelete}
+                                            {...member}
                                         />
-                                    </style.MemberInputWrapper>
-                                    <style.AddButton onClick={() => handleClick()}>
-                                        <AddIcon fontSize="small"/>
-                                    </style.AddButton>
-                                </style.MemberWrapper>
-
-                                <style.ChipWrapper>
-                                    {members.map((member) => {
-                                        return (
-                                            <ChipComponent
-                                                key={member.email}
-                                                callback={handleDelete}
-                                                {...member}
-                                            />
-                                        );
-                                    })}
-                                </style.ChipWrapper>
+                                    );
+                                })}
+                            </style.ChipWrapper>
 
 
-                                <DivButton>
-                                    <ButtonSubmit onClick={handleCreateTeam}>Create team</ButtonSubmit>
-                                </DivButton>
+                            <DivButton>
+                                <ButtonSubmit onClick={handleCreateTeam}>Create team</ButtonSubmit>
+                            </DivButton>
 
-                            </ContentWorkSpace>
+                        </ContentWorkSpace>
 
-                        </LeftCreateSPace>
+                    </LeftCreateSPace>
 
 
-                        <RightCreateSPace>
-                            <ImageTrello src="https://wiki.tino.org/wp-content/uploads/2021/07/word-image-981.png"/>
-                        </RightCreateSPace>
-                    </WrapperWorkSpace>
-                </CreateWorkSpace>
+                    <RightCreateSPace>
+                        <ImageTrello src="https://wiki.tino.org/wp-content/uploads/2021/07/word-image-981.png"/>
+                    </RightCreateSPace>
+                </WrapperWorkSpace>
+            </CreateWorkSpace>
             }
         </ContentLeft2>
     );
