@@ -65,12 +65,12 @@ const cardSlice = createSlice({
         },
 
         createLabel: (state, action) => {
-            const { _id, text, color, backColor } = action.payload;
-            state.labels.unshift({ _id, text, color, backColor, selected: true });
+            const {_id, text, color, backColor} = action.payload;
+            state.labels.unshift({_id, text, color, backColor, selected: true});
         },
 
         updateLabel: (state, action) => {
-            const { labelId, text, color, backColor } = action.payload;
+            const {labelId, text, color, backColor} = action.payload;
             state.labels = state.labels.map((label) => {
                 if (label._id === labelId) {
                     label.text = text;
@@ -81,7 +81,7 @@ const cardSlice = createSlice({
             });
         },
         updateLabelSelection: (state, action) => {
-            const { labelId, selected } = action.payload;
+            const {labelId, selected} = action.payload;
             state.labels = state.labels.map((label) => {
                 if (label._id === labelId) {
                     label.selected = selected;
@@ -90,7 +90,7 @@ const cardSlice = createSlice({
             });
         },
         updateLabelSelectionOfCard: (state, action) => {
-            const { listId, cardId, labelId, selected } = action.payload;
+            const {listId, cardId, labelId, selected} = action.payload;
             state.checklists = state.checklists.map((list) => {
                 if (list._id === listId) {
                     list.cards = list.cards.map((card) => {
@@ -128,7 +128,7 @@ const cardSlice = createSlice({
             state.activities = state.activities.filter((act) => act._id !== action.payload);
         },
         updateComment: (state, action) => {
-            const { commentId, text } = action.payload;
+            const {commentId, text} = action.payload;
             state.activities = state.activities.map((activity) => {
                 if (activity._id === commentId) {
                     activity.text = text;
@@ -137,14 +137,20 @@ const cardSlice = createSlice({
             });
         },
         updateSetAttachments: (state, action) => {
-        state.attachments = [
-            ...state.attachments,
-            {
-                link: action.payload.link,
-                name: action.payload.name,
-                date: action.payload.date
-            }
-        ]
+            state.attachments =
+                [
+                ...state.attachments,
+                {
+                    link: action.payload.link,
+                    name: action.payload.name,
+                    date: action.payload.date
+                }
+            ]
+        },
+        deleteAttachment: (state, action) => {
+            // state.attachments = state.attachments.filter((act) => act._id !== action.payload.card._id);
+            state.attachments = action.payload.card.attachments;
+            // console.log(state.attachments)
         }
     }
 });
@@ -165,7 +171,8 @@ export const {
     deleteComment,
     updateComment,
     deleteLabel,
-    updateSetAttachments
+    updateSetAttachments,
+    deleteAttachment
 } = cardSlice.actions;
 
 //export reducer

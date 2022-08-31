@@ -146,3 +146,16 @@ export const RedButton = styled(BlueButton)`
 		background-color: #6e2f1a;
 	}
 `;
+export const DeleteButton = styled(BlueButton)`
+	background-color: #b04632;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0.375rem 0.75rem;
+	&:hover {
+		background-color: #933b27;
+	}
+	&:active {
+		background-color: #6e2f1a;
+	}
+`;
