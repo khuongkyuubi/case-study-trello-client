@@ -137,20 +137,15 @@ const cardSlice = createSlice({
             });
         },
         updateSetAttachments: (state, action) => {
-            state.attachments =
-                [
-                ...state.attachments,
-                {
-                    link: action.payload.link,
-                    name: action.payload.name,
-                    date: action.payload.date
-                }
-            ]
+            state.attachments = action.payload.attachments;
         },
         deleteAttachment: (state, action) => {
-            // state.attachments = state.attachments.filter((act) => act._id !== action.payload.card._id);
+            // tae.attachments = state.attachments.filter((act) => act._id !== action.payload.card._id);
             state.attachments = action.payload.card.attachments;
             // console.log(state.attachments)
+        },
+        updateAttachments: (state, action) => {
+            state.attachments = action.payload.card.attachments;
         }
     }
 });
@@ -172,7 +167,8 @@ export const {
     updateComment,
     deleteLabel,
     updateSetAttachments,
-    deleteAttachment
+    deleteAttachment,
+    updateAttachments
 } = cardSlice.actions;
 
 //export reducer

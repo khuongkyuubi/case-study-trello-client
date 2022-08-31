@@ -25,11 +25,11 @@ const Container = styled.div`
 const Nav = styled.div`
   width: 100%;
   position: sticky;
-  flex: 1
+  //flex: 1
 `
 
 const Wrapper = styled.div`
-  flex: 6;
+  //flex: 6;
   display: flex;
   width: 100%;
 `

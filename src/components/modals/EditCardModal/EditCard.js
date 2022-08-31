@@ -44,7 +44,7 @@ export default function EditCard(props) {
 	const dispatch = useDispatch();
 	const thisCard = useSelector((state) => state.card);
 	const boardLabels = useSelector((state) => state.board.labels);
-	console.log(thisCard.attachments, "attachment")
+	// console.log(thisCard.attachments, "attachment")
 	React.useEffect(() => {
 		if (props.open) {
 			getCard(cardId, listId, boardId, dispatch, boardLabels);
