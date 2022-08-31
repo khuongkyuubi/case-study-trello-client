@@ -20,9 +20,13 @@ import LoadingScreen from "../../components/LoadingScreen";
 import {useEffect, useState} from "react";
 import SettingUserInfo from "../../components/settingUser/SettingUserInfo";
 import {IconButton} from "@mui/material";
+import {Avatar as AvatarMui} from "@mui/material";
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 function Settings() {
     const {userInfo} = useSelector(state => state.user)
+    const {name, color} = useSelector((state) => state.user.userInfo);
+    console.log(name, color)
+    // const color = useSelector((state) => state.user.userInfo.color);
     const {listTeamData} = useSelector(state => state.boardInTeam)
     const [avatar,setAvatar] = useState()
     const [value,setValue] = useState('4')
@@ -58,7 +62,10 @@ function Settings() {
                     userInfo ?
                         <TopHeader>
                             <LeftSideHeader>
-                                {avatar ? <Avatar src={avatar.preview}/> : <Avatar src={'http://localhost:5000/avatars/'+userInfo.avatar}/>}
+                                {avatar ? <Avatar src={avatar.preview}/> : <AvatarMui
+                                    alt={name}
+                                    sx={{  height: '140px' ,width: '140px', fontSize: '4rem', bgcolor: color}}
+                                    src={process.env.REACT_APP_AVATAR_ENDPOINT + '/'+userInfo.avatar}/>}
                                 {value==='4'?<ButtonWrapper>
                                     <IconButton color="primary" aria-label="upload picture" component="label">
                                         <input hidden accept="image/*" type="file" onChange={handlePreviewAvatar}/>
