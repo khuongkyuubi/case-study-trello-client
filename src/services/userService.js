@@ -10,7 +10,7 @@ import {
     loadStart,
     fetchingStart,
     fetchingFinish,
-    logout
+    logout, updateUserInfo
 } from "../redux/Slices/userSlice";
 import {openAlert} from "../redux/Slices/alertSlice";
 import setBearer from "../utils/setBearer";
@@ -230,3 +230,12 @@ export const changeRoleUser = async (role, dispatch, idMember, idBoard) => {
 
 
 }
+
+export const getUserInfo = async (dispatch) => {
+    try {
+        const res = await axios.get(baseUrl + "get-user");
+        dispatch(updateUserInfo(res.data));
+    } catch (error) {
+        dispatch(loadFailure());
+    }
+};

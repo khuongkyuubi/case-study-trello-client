@@ -14,18 +14,22 @@ import {useDispatch, useSelector} from "react-redux";
 import {getListTeam} from "../../services/boardInTeamService";
 
 export const Container = styled.div`
-  margin-top: 3rem;
-  display: flex;
-  flex-direction: column;
+  //margin-top: 3rem;
+  //display: flex;
+  //flex-direction: column;
   width: 100%;
-  height: 100vh;
+  //height: 100vh;
+  position: absolute;
+  top: 2.5rem;
+  bottom: 0;
+  overflow-y: auto;
 `
 
 export const Nav = styled.div`
-  flex: 1;
+  //flex: 1;
   width: 100%;
-  height: 100px;
-  position: sticky
+  //height: 100px;
+  //position: sticky
 `
 
 export const WrapperContent = styled.div`
