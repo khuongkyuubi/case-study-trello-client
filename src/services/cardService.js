@@ -11,7 +11,7 @@ import {
     addComment,
     deleteComment,
     updateComment,
-    deleteLabel, updateSetAttachments,
+    deleteLabel, updateSetAttachments, deleteAttachment, updateAttachments,
 } from '../redux/Slices/cardSlice';
 import {
     createLabelBoard, deleteLabelBoard,
@@ -320,6 +320,49 @@ export const attachmentAddFile = async (cardId, file, dispatch) => {
             }
         ))
     } catch (error) {
+        dispatch(
+            openAlert({
+                message: error?.response?.data?.errMessage ? error.response.data.errMessage : error.message,
+                severity: 'error',
+            })
+        )
+    }
+}
+export const attachmentDelete = async(cardId,listId,boardId,attachmentId,dispatch) =>{
+    try{
+    let res = await axios.delete(baseUrl + '/attachment/' + boardId + '/' + listId + '/' + cardId+'/'+attachmentId)
+        // console.log(res.data)
+        dispatch(deleteAttachment(res.data))
+        dispatch(openAlert(
+            {
+                message: 'Success',
+                severity: 'success',
+            }
+        ))
+    }catch (error) {
+        dispatch(
+            openAlert({
+                message: error?.response?.data?.errMessage ? error.response.data.errMessage : error.message,
+                severity: 'error',
+            })
+        )
+    }
+};
+export const attachmentUpdate = async(cardId,listId,boardId,attachmentId,link,linkName,check,dispatch)=>{
+    try{
+        if(linkName === undefined||linkName === null||linkName ===''){
+            linkName = link
+        }
+    let res = await axios.put(baseUrl + '/attachment/' + boardId + '/' + listId + '/' + cardId + '/' + attachmentId,{link,linkName,check});
+        // console.log(res.data)
+        dispatch(updateAttachments(res.data))
+        dispatch(openAlert(
+            {
+                message: 'Success',
+                severity: 'success',
+            }
+        ))
+    }catch (error) {
         dispatch(
             openAlert({
                 message: error?.response?.data?.errMessage ? error.response.data.errMessage : error.message,
