@@ -354,7 +354,7 @@ export const attachmentUpdate = async(cardId,listId,boardId,attachmentId,link,li
             linkName = link
         }
     let res = await axios.put(baseUrl + '/attachment/' + boardId + '/' + listId + '/' + cardId + '/' + attachmentId,{link,linkName,check});
-        console.log(res.data)
+        // console.log(res.data)
         dispatch(updateAttachments(res.data))
         dispatch(openAlert(
             {
