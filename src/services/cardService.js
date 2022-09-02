@@ -25,11 +25,19 @@ import {
 } from '../redux/Slices/boardSlice';
 
 import {
-    createLabelForCard, deleteLabelOfCard,
-    setCardTitle, successCreatingList, successFetchingLists,
+    createLabelForCard,
+    deleteLabelOfCard,
+    setCardTitle,
+    successCreatingList,
+    successFetchingLists,
     updateLabelOfCard,
     updateLabelSelectionOfCard,
-    createCommentsForCard, deleteCommentsForCard, deleteMemberOfCard, updateMemberOfCard,
+    createCommentsForCard,
+    deleteCommentsForCard,
+    deleteMemberOfCard,
+    updateMemberOfCard,
+    addAttachmentForCard,
+    deleteAttachmentOfCard,
 
 } from '../redux/Slices/listSlice';
 import {getLists} from "./boardService";
@@ -296,8 +304,19 @@ export const commentUpdate = async (cardId, listId, boardId, text, commentId, di
 };
 export const attachmentAdd = async (cardId, listId, boardId,link, linkName, dispatch) => {
     try{
-     let res =   await axios.post(baseUrl + '/' + boardId + '/' + listId + '/' + cardId,{link,linkName})
+     let res =   await axios.post(baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/add-attachment',{link,linkName})
         dispatch(updateSetAttachments(res.data))
+        dispatch(
+            addAttachmentForCard({
+                listId,
+                cardId,
+                // link: link,
+                // name: linkName,
+                // _id: res.data.attachmentId,
+                // date: Date(),
+                attachments: res.data.attachments,
+            })
+        );
         dispatch(openAlert(
             {
                 message: 'Success',
@@ -314,10 +333,21 @@ export const attachmentAdd = async (cardId, listId, boardId,link, linkName, disp
     }
 };
 
-export const attachmentAddFile = async (cardId, file, dispatch) => {
+export const attachmentAddFile = async (cardId, listId, file, dispatch) => {
     try {
         let res = await axios.post(process.env.REACT_APP_API_ENDPOINT + '/uploads/cards/'+cardId,  file)
         dispatch(updateSetAttachments(res.data))
+        dispatch(
+            addAttachmentForCard({
+                listId,
+                cardId,
+                // link: link,
+                // name: linkName,
+                // _id: res.data.attachmentId,
+                // date: Date(),
+                attachments: res.data.attachments,
+            })
+        );
         dispatch(openAlert(
             {
                 message: 'Success',
@@ -376,8 +406,18 @@ export const memberDelete = async (cardId, listId, boardId, memberId, memberName
 export const attachmentDelete = async(cardId,listId,boardId,attachmentId,dispatch) =>{
     try{
     let res = await axios.delete(baseUrl + '/attachment/' + boardId + '/' + listId + '/' + cardId+'/'+attachmentId)
-        // console.log(res.data)
         dispatch(deleteAttachment(res.data))
+        dispatch(
+            deleteAttachmentOfCard({
+                listId,
+                cardId,
+                // link: link,
+                // name: linkName,
+                // _id: res.data.attachmentId,
+                // date: Date(),
+                attachments: res.data.card.attachments,
+            })
+        );
         dispatch(openAlert(
             {
                 message: 'Success',

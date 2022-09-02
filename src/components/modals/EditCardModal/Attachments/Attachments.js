@@ -25,7 +25,7 @@ import AddAttachmentPopover from '../Popovers/Attachment/AddAttachmentPopover';
 import DeleteAttachmentPopover from "../Popovers/Attachment/DeleteAttachment";
 
 const Attachments = (props) => {
-	const REGEX = /\|jpeg$|svg$|png$|jpg$|gif$/
+	const REGEX = /jpeg$|svg$|png$|jpg$|gif$/
 	const httpREGEX = new RegExp('http:')
 	const card = useSelector((state) => state.card);
 	// const dispatch = useDispatch();

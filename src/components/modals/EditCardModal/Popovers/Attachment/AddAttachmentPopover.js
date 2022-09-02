@@ -33,7 +33,7 @@ const AddAttachmentPopover = (props) => {
 				data.append("name", filename);
 				data.append("file", file);
 				data.append("data", card.cardId)
-				await attachmentAddFile(card.cardId,data,dispatch);
+				await attachmentAddFile(card.cardId,card.listId,data,dispatch);
 			}
 		}
 		fetchData()
