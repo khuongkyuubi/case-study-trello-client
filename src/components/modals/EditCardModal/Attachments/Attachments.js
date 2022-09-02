@@ -16,25 +16,27 @@ import {
 	AttachmentFooterWrapper,
 	AttachmentDate,
 	AttachmentOperations,
+	ButtonDelete,
 } from './styled';
-// import { attachmentDelete } from '../../../../Services/cardService';
 import BasePopover from '../ReUsableComponents/BasePopover';
 import EditAttachmentPopover from '../Popovers/Attachment/EditAttachmentPopover';
 import moment from 'moment';
 import AddAttachmentPopover from '../Popovers/Attachment/AddAttachmentPopover';
+import DeleteAttachmentPopover from "../Popovers/Attachment/DeleteAttachment";
 
 const Attachments = (props) => {
 	const REGEX = /\|jpeg$|svg$|png$|jpg$|gif$/
+	const httpREGEX = new RegExp('http:')
 	const card = useSelector((state) => state.card);
 	// const dispatch = useDispatch();
 	const [editPopover, setEditPopover] = useState(null);
 	const [popoverComponent, setPopoverComponent] = useState(null);
 	const [attachmentPopover, setAttachmentPopover] = useState(null);
+	const [deletePopover, setDeletePopover] = useState(null);
 
-	const handleDeleteClick =  (attachmentId) => {
-		console.log(attachmentId)
-		// await attachmentDelete(card.cardId, card.listId, card.boardId, attachmentId, dispatch);
-	};
+
+	// console.log(card?.attachments[8]?.link?.split('/')[0])
+	// console.log(httpREGEX.test(card?.attachments[8]?.link?.split('/')[0]))
 	return (
 		<>
 			<Container>
@@ -44,11 +46,11 @@ const Attachments = (props) => {
 					{card.attachments?.map((attachment) => {
 						const validateLink = () => {};
 						validateLink();
+						const url = !httpREGEX.test(attachment?.link?.split('/')[0])?(process.env.REACT_APP_PUBLIC_API_ENDPOINT + '/' + attachment?.link):(attachment?.link);
 						return (
-							<Row key={attachment._id} onClick={() =>  window.open("http://localhost:5000/fileCard/"+attachment?.link,'_blank')}>
-								<FaviconWrapper url={"http://localhost:5000/fileCard/" +attachment?.link}>
-									{/*<AttachmentIcon fontSize='large' />*/}
-									{!REGEX.test(attachment?.link?.split('.')?.pop())?<h3>{attachment?.link?.split('.')?.pop()}</h3>:<AttachmentIcon fontSize='large' />}
+							<Row key={attachment._id} onClick={() =>  window.open(url,'_blank')}>
+								<FaviconWrapper url={process.env.REACT_APP_PUBLIC_API_ENDPOINT+'/' +attachment?.link}>
+									{httpREGEX.test(attachment?.link?.split('/')[0])?<AttachmentIcon fontSize='large'/>:(!REGEX.test(attachment?.link?.split('.')?.pop())?<h3>{attachment?.link?.split('.')?.pop()}</h3>:null)}
 								</FaviconWrapper>
 								<AttachmentRightWrapper>
 									<AttachmentTitleWrapper >
@@ -64,10 +66,12 @@ const Attachments = (props) => {
 										<AttachmentDate>
 											{'Added ' + moment(attachment.date).format('MMM, DD [at] HH.mm')}
 											<AttachmentOperations
-												onClick={(e) => {
-													e.stopPropagation();
-													handleDeleteClick(attachment._id);
-												}}
+												onClick={(e)=>{
+													e.stopPropagation()
+													setDeletePopover(e.currentTarget)
+													setPopoverComponent(attachment)
+												}
+												}
 											>
 												Delete
 											</AttachmentOperations>
@@ -93,6 +97,25 @@ const Attachments = (props) => {
 						title='Add an Attachment'
 					/>
 				</RightWrapper>
+				{
+					deletePopover&&(
+						<BasePopover
+							anchorElement={deletePopover}
+							closeCallback={() => {
+								setDeletePopover(null);
+							}}
+							title='Delete attachment?'
+							contents={
+								<DeleteAttachmentPopover
+									{...popoverComponent}
+									closeCallback={() => {
+										setDeletePopover(null);
+									}}
+								/>
+							}
+						/>
+					)
+				}
 				{editPopover && (
 					<BasePopover
 						anchorElement={editPopover}

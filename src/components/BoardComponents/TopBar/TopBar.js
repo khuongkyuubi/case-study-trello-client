@@ -29,7 +29,7 @@ const TopBar = ({listMember}) => {
     const [invitePopover, setInvitePopover] = React.useState(null);
     const [currentMember, setCurrentMember] = useState({})
     const [listSearch, setListSearch] = useState(listMember);
-    // console.log(listSearch, "list search")
+    // console.log(listMember, "list members")
 
     const dispatch = useDispatch();
     useEffect(() => {
