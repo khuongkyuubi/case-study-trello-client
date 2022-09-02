@@ -24,7 +24,7 @@ export const getBoard = async (boardId, dispatch) => {
     try {
         const res = await  axios.get(baseUrl + "/board/" + boardId);
         dispatch(successFetchingBoard(res.data));
-        console.log(res.data)
+        console.log(res.data, "board data")
 
         setTimeout(()=> {
             dispatch(setLoading(false))

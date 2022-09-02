@@ -17,6 +17,7 @@ import {createTeam, getTeams} from "../../services/teamService";
 import {useNavigate} from "react-router-dom";
 import TeamsList from "./TeamsList";
 import {getListTeam} from "../../services/boardInTeamService";
+import {getBoards} from "../../services/boardsService";
 
 const ContentLeft2 = styled.div`
   width: 30%;
@@ -234,9 +235,11 @@ const HomeLeft = () => {
     const [createWorkSpace, setCreateWorkSpace] = useState(false)
     const [form, setForm] = useState({})
     const {listTeamData} = useSelector(state => state.boardInTeam)
-    console.log(listTeamData)
+    // console.log(listTeamData)
 
     const {teamsData}=useSelector(state =>state.team)
+    const boards =useSelector(state =>state.boards)
+    // console.log(boards)
 
     const handleChange = (e) => {
         setForm({
@@ -270,7 +273,12 @@ const HomeLeft = () => {
 
     useEffect(() => {
         getListTeam(false,dispatch)
+        getBoards(false, dispatch)
     },[dispatch, createWorkSpace])
+
+    // useEffect(() => {
+    //     getBoards(false, dispatch)
+    // }, [dispatch])
 
     return (
         <ContentLeft2>

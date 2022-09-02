@@ -23,6 +23,7 @@ const initialState = {
         {bg: '#ff78cb', hbg: '#c75bad'},
     ],
     isExpandedLabels: false,
+    teams: [],
 };
 
 const boardSlice = createSlice({
@@ -43,6 +44,7 @@ const boardSlice = createSlice({
             state.description = action.payload.description;
             state.labels = action.payload.labels;
             state.isExpandedLabels = action.payload.isExpandedLabels ?? true;
+            state.teams = action.payload.teams;
         },
         updateTitle: (state, action) => {
             state.title = action.payload;
