@@ -29,7 +29,7 @@ const TopBar = ({listMember}) => {
     const [invitePopover, setInvitePopover] = React.useState(null);
     const [currentMember, setCurrentMember] = useState({})
     const [listSearch, setListSearch] = useState(listMember);
-    console.log(listMember, "list members")
+    // console.log(listSearch, "list search")
 
     const dispatch = useDispatch();
     useEffect(() => {
@@ -79,7 +79,7 @@ const TopBar = ({listMember}) => {
                     onBlur={handleTitleChange}
                 />
                 <span style={{color: "white", fontSize: "1.25rem"}}>|</span>
-                <AvatarGroup s x={{
+                <AvatarGroup sx={{
                     '& .MuiAvatar-root': {width: 25, height: 25, fontSize: "0.75rem"},
                 }}>
                     {listMember.map((member, index) => (
@@ -129,7 +129,7 @@ const TopBar = ({listMember}) => {
                                 <hr/>
                                 <SearchInput listMember={listMember} setListSearch={setListSearch}/>
                                 <hr/>
-                                <AvatarGroup max={listSearch.length}>
+                                <AvatarGroup max={listSearch.length < 2 ? 2 : listSearch.length }>
                                     <div style={{
                                         width: '100%', display: 'flex', alignItems: 'center',
                                         flexWrap: 'wrap'

@@ -11,7 +11,7 @@ import {
     addComment,
     deleteComment,
     updateComment,
-    deleteLabel, updateSetAttachments,
+    deleteLabel, updateSetAttachments, addMember, deleteMember,
 } from '../redux/Slices/cardSlice';
 import {
     createLabelBoard, deleteLabelBoard,
@@ -24,7 +24,7 @@ import {
     setCardTitle, successCreatingList, successFetchingLists,
     updateLabelOfCard,
     updateLabelSelectionOfCard,
-    createCommentsForCard, deleteCommentsForCard,
+    createCommentsForCard, deleteCommentsForCard, deleteMemberOfCard, updateMemberOfCard,
 
 } from '../redux/Slices/listSlice';
 import {getLists} from "./boardService";
@@ -328,3 +328,43 @@ export const attachmentAddFile = async (cardId, file, dispatch) => {
         )
     }
 }
+
+export const memberAdd = async (cardId, listId, boardId, memberId, memberName, memberColor, dispatch) => {
+    try {
+        dispatch(addMember({ memberId, memberName, memberColor }));
+        dispatch(updateMemberOfCard({ listId, cardId, memberId, memberName, memberColor }));
+
+        submitCall = submitCall.then(() =>
+            axios.post(baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/add-member', {
+                memberId: memberId,
+            })
+        );
+        await submitCall;
+    } catch (error) {
+        dispatch(
+            openAlert({
+                message: error?.response?.data?.errMessage ? error.response.data.errMessage : error.message,
+                severity: 'error',
+            })
+        );
+    }
+};
+
+export const memberDelete = async (cardId, listId, boardId, memberId, memberName, dispatch) => {
+    try {
+        dispatch(deleteMember({ memberId }));
+        dispatch(deleteMemberOfCard({ listId, cardId, memberId }));
+
+        submitCall = submitCall.then(() =>
+            axios.delete(baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/' + memberId + '/delete-member')
+        );
+        await submitCall;
+    } catch (error) {
+        dispatch(
+            openAlert({
+                message: error?.response?.data?.errMessage ? error.response.data.errMessage : error.message,
+                severity: 'error',
+            })
+        );
+    }
+};

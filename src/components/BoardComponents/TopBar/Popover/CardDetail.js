@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import {CardActionArea} from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import {useParams} from "react-router-dom";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {deleteMemberInBoard} from "../../../../services/boardService";
 import {useState} from "react";
 import BasePopover from "../../../modals/EditCardModal/ReUsableComponents/BasePopover";
@@ -15,6 +15,8 @@ import Button from "@mui/material/Button";
 
 export default function CardDetail({member, setAnchorEl2}) {
     const [deletePopover, setDeletePopover] = useState(null);
+    const {allLists} = useSelector((state) => state.list);
+
 
     const handleClickDelete = (e) => {
         setDeletePopover(e.target)
@@ -23,11 +25,11 @@ export default function CardDetail({member, setAnchorEl2}) {
     const {id} = useParams()
 
 
-    const handleDeleteMember = async (idBoard, idMember) => {
+    const handleDeleteMember = async (idBoard, idMember, memberUser) => {
 
 
-        await deleteMemberInBoard(idBoard, idMember, dispatch)
         setAnchorEl2(false)
+        await deleteMemberInBoard(idBoard, idMember, memberUser, allLists, dispatch)
 
     }
 
@@ -95,7 +97,7 @@ export default function CardDetail({member, setAnchorEl2}) {
                                 }}
                                 title={'Delete this member!'}
                                 contents={
-                                    <Button  onClick={() => handleDeleteMember(id, member._id)}>Confirm Delete</Button>
+                                    <Button  onClick={() => handleDeleteMember(id, member._id, member.user)}>Confirm Delete</Button>
                                 }
                             />
                         )}

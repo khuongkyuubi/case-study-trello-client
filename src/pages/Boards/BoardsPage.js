@@ -49,9 +49,9 @@ const DivEmpty = styled.div`
 const BoardsPage = () => {
     const {pending, boardsData} = useSelector((state) => state.boards);
     const dispatch = useDispatch();
-    useEffect(() => {
-        getBoards(false, dispatch);
-    }, [dispatch]);
+    // useEffect(() => {
+    //     getBoards(false, dispatch);
+    // }, [dispatch]);
     return (
         <>
             {pending && <LoadingScreen/>}

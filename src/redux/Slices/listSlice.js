@@ -158,7 +158,35 @@ const listSlice = createSlice({
                 return list;
             });
         },
-
+        updateMemberOfCard: (state, action) => {
+            const {listId, cardId, memberId, memberName, memberColor} = action.payload;
+            state.allLists = state.allLists.map((list) => {
+                if (list._id === listId) {
+                    list.cards = list.cards.map((card) => {
+                        if (card._id === cardId) card.members.unshift({
+                            user: memberId,
+                            name: memberName,
+                            color: memberColor
+                        });
+                        return card;
+                    });
+                }
+                return list;
+            });
+        },
+        deleteMemberOfCard: (state, action) => {
+            const {listId, cardId, memberId} = action.payload;
+            state.allLists = state.allLists.map((list) => {
+                if (list._id === listId) {
+                    list.cards = list.cards.map((card) => {
+                        if (card._id === cardId)
+                            card.members = card.members.filter((member) => member.user !== memberId);
+                        return card;
+                    });
+                }
+                return list;
+            });
+        },
 
     }
 });
@@ -178,7 +206,10 @@ export const {
     createLabelForCard,
     createCommentsForCard,
     deleteCommentsForCard,
-    deleteLabelOfCard
+    deleteLabelOfCard,
+    updateMemberOfCard,
+    deleteMemberOfCard,
+
 } = listSlice.actions;
 
 export default listSlice.reducer;

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {
+    deleteMemberOfCard,
     removeAList,
     setLoading,
     successCreatingList,
@@ -195,17 +196,24 @@ export const updateIsExpandedLabels = async (boardId, dispatch) => {
 
 
 }
-export const deleteMemberInBoard = async (boardId,idMember, dispatch) => {
+export const deleteMemberInBoard = async (boardId,idMember, memberUser, allLists, dispatch) => {
 
     try {
       const res=  await axios.put(`${boardRoute}/${boardId}/delete-member`,
             {
                 idMember,
-                boardId
+                boardId,
+                memberUser
             }
             );
 
         await dispatch(deleteMember({idMember}))
+
+        allLists.map(list => {
+            list.cards.map(card => {
+                dispatch(deleteMemberOfCard({ listId : list._id, cardId : card._id , memberId : memberUser }));
+            })
+        })
         dispatch(
             openAlert({
                 message: res.data.message,

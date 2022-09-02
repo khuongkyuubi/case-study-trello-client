@@ -145,9 +145,18 @@ const cardSlice = createSlice({
                 date: action.payload.date
             }
         ]
-        }
+        },
+        addMember: (state, action) => {
+            const { memberId, memberName, memberColor } = action.payload;
+            state.members.unshift({ user: memberId, name: memberName, color: memberColor });
+        },
+        deleteMember: (state, action) => {
+            const { memberId } = action.payload;
+            state.members = state.members.filter((member) => member.user !== memberId);
+        },
     }
 });
+
 
 
 // export actions
@@ -165,7 +174,10 @@ export const {
     deleteComment,
     updateComment,
     deleteLabel,
-    updateSetAttachments
+    updateSetAttachments,
+    addMember,
+    deleteMember,
+
 } = cardSlice.actions;
 
 //export reducer
