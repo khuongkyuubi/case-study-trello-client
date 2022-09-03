@@ -108,3 +108,9 @@ export const BoardNameInput = styled.input`
 		maxWidth: '8rem',
 	})}
 `;
+
+export const Span = styled.span`
+	color: white;
+	font-size: 1.25rem;
+	font-weight: 100;
+`;

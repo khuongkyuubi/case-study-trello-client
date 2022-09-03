@@ -24,6 +24,10 @@ const initialState = {
     ],
     isExpandedLabels: false,
     teams: [],
+    filter: {
+        members: {noMembers: false},
+        labels: {noLabels: false}
+    }
 };
 
 const boardSlice = createSlice({
@@ -108,6 +112,9 @@ const boardSlice = createSlice({
         deleteMember: (state, action) => {
             state.members = state.members.filter((members) => members._id !== action.payload.idMember);
         },
+        updateFilterMembers: (state, action) => {
+            state.filter.members = action.payload;
+        }
 
 
     },
@@ -128,7 +135,8 @@ export const {
     changeIsExpanded,
     deleteLabelBoard,
     changeRole,
-    deleteMember
+    deleteMember,
+    updateFilterMembers,
 } = boardSlice.actions;
 
 export default boardSlice.reducer;

@@ -20,6 +20,8 @@ import Typography from "@mui/material/Typography";
 import Popover from "@mui/material/Popover";
 import CardDetail from "./Popover/CardDetail";
 import SearchInput from "./Popover/InputSearch";
+import {FilterListOutlined} from "@mui/icons-material";
+import FilterMembers from "../../modals/EditCardModal/Popovers/Filter/FilterMembers";
 
 
 const TopBar = ({listMember}) => {
@@ -29,6 +31,8 @@ const TopBar = ({listMember}) => {
     const [invitePopover, setInvitePopover] = React.useState(null);
     const [currentMember, setCurrentMember] = useState({})
     const [listSearch, setListSearch] = useState(listMember);
+    const [filterPopover, setFilterPopover] = useState(null);
+
     // console.log(listMember, "list members")
 
     const dispatch = useDispatch();
@@ -78,7 +82,8 @@ const TopBar = ({listMember}) => {
                     onChange={(e) => setCurrentTitle(e.target.value)}
                     onBlur={handleTitleChange}
                 />
-                <span style={{color: "white", fontSize: "1.25rem"}}>|</span>
+                {/*<span style={{color: "white", fontSize: "1.25rem"}}>|</span>*/}
+                <style.Span >|</style.Span>
                 <AvatarGroup sx={{
                     '& .MuiAvatar-root': {width: 25, height: 25, fontSize: "0.75rem"},
                 }}>
@@ -195,6 +200,25 @@ const TopBar = ({listMember}) => {
             </style.LeftWrapper>
 
             <style.RightWrapper>
+                <common.Button onClick={event => {
+                    setFilterPopover(event.currentTarget);
+                }}>
+                    <FilterListOutlined sx={{fontSize: '1rem'}}/>
+                    <style.TextSpan>Filter</style.TextSpan>
+                </common.Button>
+                {filterPopover && (
+                    <BasePopover
+                        anchorElement={filterPopover}
+                        closeCallback={() => {
+                            setFilterPopover(null);
+                        }}
+                        title='Filter'
+                        contents={<FilterMembers  closeCallback={() => {
+                            setFilterPopover(null);
+                        }}/>}
+                    />
+                )}
+                <style.Span style={{margin: '0 5px'}}>|</style.Span>
                 <common.Button onClick={() => {
                     setShowDrawer(true)
                 }}>
