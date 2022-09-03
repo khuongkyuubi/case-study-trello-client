@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useMemo} from 'react';
 import * as style from './styled';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
@@ -21,7 +21,10 @@ import Popover from "@mui/material/Popover";
 import CardDetail from "./Popover/CardDetail";
 import SearchInput from "./Popover/InputSearch";
 import {FilterListOutlined} from "@mui/icons-material";
+import CloseIcon from '@mui/icons-material/Close';
 import FilterMembers from "../../modals/EditCardModal/Popovers/Filter/FilterMembers";
+import {ButtonGroup} from "./styled";
+import {updateFilterMembers} from "../../../redux/Slices/boardSlice";
 
 
 const TopBar = ({listMember}) => {
@@ -34,6 +37,8 @@ const TopBar = ({listMember}) => {
     const [filterPopover, setFilterPopover] = useState(null);
 
     // console.log(listMember, "list members")
+    const { filter} = useSelector((state) => state.board);
+    const isFilterMember = useMemo(() => !!Object.values(filter.members).filter(value => value).length , [filter]);
 
     const dispatch = useDispatch();
     useEffect(() => {
@@ -71,6 +76,12 @@ const TopBar = ({listMember}) => {
 
     const open2 = Boolean(anchorEl2);
     const id2 = open2 ? 'simple-popover' : undefined;
+
+    const handleResetFilter = () => {
+        const members = {...filter.members}
+        Object.keys(members).forEach(member => members[member] = false);
+        dispatch(updateFilterMembers(members))
+    }
 
 
     return (
@@ -200,12 +211,21 @@ const TopBar = ({listMember}) => {
             </style.LeftWrapper>
 
             <style.RightWrapper>
-                <common.Button onClick={event => {
+                <style.ButtonGroup>
+                <common.Button isFilterMember={isFilterMember}
+                               filterPopover={filterPopover}
+                               onClick={event => {
                     setFilterPopover(event.currentTarget);
                 }}>
                     <FilterListOutlined sx={{fontSize: '1rem'}}/>
                     <style.TextSpan>Filter</style.TextSpan>
                 </common.Button>
+                { isFilterMember && <style.CloseButton
+                                   isFilterMember={isFilterMember}
+                                   onClick={handleResetFilter}>
+                        <CloseIcon sx={{ fontSize: '1rem'}}/>
+                    </style.CloseButton>}
+                </style.ButtonGroup>
                 {filterPopover && (
                     <BasePopover
                         anchorElement={filterPopover}

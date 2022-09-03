@@ -32,6 +32,8 @@ const FilterMembersPopover = () => {
             [event.target.name]: event.target.checked,
         }))
     };
+
+    console.log(filter.members, "checked list")
     const checkedLength = searchOtherMember.filter(member => filter.members[member.user]).length;
     return (
         <Container>
@@ -57,7 +59,7 @@ const FilterMembersPopover = () => {
                                         />;
                                     })
                             }
-                            {!isShowOtherMembers && !!searchShowMembers.length >= SHOW_MEMBERS_NUMBERS && !searchMember &&
+                            {!isShowOtherMembers && !!searchOtherMember.length  && !searchMember &&
                                 <Button
                                     style={{width: '100%'}}
                                     clickCallback={() => {

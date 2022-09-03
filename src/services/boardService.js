@@ -10,13 +10,15 @@ import {
 } from '../redux/Slices/listSlice';
 import {openAlert} from '../redux/Slices/alertSlice';
 import {
-    addMembers, changeIsExpanded, deleteMember,
+    addMembers, changeIsExpanded, deleteFilterMember, deleteMember,
     setActivityLoading,
     updateActivity,
     updateBackground,
-    updateDescription
+    updateDescription,
+    updateFilterMembers
 } from '../redux/Slices/boardSlice';
 import board from "../pages/BoardPage/Board";
+import initMembersFilter from "../utils/initMembersFilter";
 
 const listRoute = process.env.REACT_APP_API_ENDPOINT + '/list';
 const boardRoute = process.env.REACT_APP_API_ENDPOINT + '/board';
@@ -164,6 +166,7 @@ export const boardMemberAdd = async (boardId, members, dispatch) => {
         });
 
         await dispatch(addMembers(result.data));
+        dispatch(updateFilterMembers(initMembersFilter(result.data)));
         dispatch(
             openAlert({
                 message: 'Members are added to this board successfully',
@@ -208,6 +211,7 @@ export const deleteMemberInBoard = async (boardId,idMember, memberUser, allLists
             );
 
         await dispatch(deleteMember({idMember}))
+        dispatch(deleteFilterMember(memberUser))
 
         allLists.map(list => {
             list.cards.map(card => {

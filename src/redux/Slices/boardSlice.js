@@ -114,8 +114,11 @@ const boardSlice = createSlice({
         },
         updateFilterMembers: (state, action) => {
             state.filter.members = action.payload;
-        }
-
+        },
+        deleteFilterMember: (state, action) => {
+            const {[action.payload] : deleteMember ,...members} = state.filter.members;
+            state.filter.members = members;
+        },
 
     },
 });
@@ -137,6 +140,7 @@ export const {
     changeRole,
     deleteMember,
     updateFilterMembers,
+    deleteFilterMember,
 } = boardSlice.actions;
 
 export default boardSlice.reducer;
