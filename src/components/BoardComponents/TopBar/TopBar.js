@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useMemo} from 'react';
 import * as style from './styled';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
@@ -20,6 +20,11 @@ import Typography from "@mui/material/Typography";
 import Popover from "@mui/material/Popover";
 import CardDetail from "./Popover/CardDetail";
 import SearchInput from "./Popover/InputSearch";
+import {FilterListOutlined} from "@mui/icons-material";
+import CloseIcon from '@mui/icons-material/Close';
+import FilterMembers from "../../modals/EditCardModal/Popovers/Filter/FilterMembers";
+import {ButtonGroup} from "./styled";
+import {updateFilterMembers} from "../../../redux/Slices/boardSlice";
 
 
 const TopBar = ({listMember}) => {
@@ -29,7 +34,11 @@ const TopBar = ({listMember}) => {
     const [invitePopover, setInvitePopover] = React.useState(null);
     const [currentMember, setCurrentMember] = useState({})
     const [listSearch, setListSearch] = useState(listMember);
+    const [filterPopover, setFilterPopover] = useState(null);
+
     // console.log(listMember, "list members")
+    const { filter} = useSelector((state) => state.board);
+    const isFilterMember = useMemo(() => !!Object.values(filter.members).filter(value => value).length , [filter]);
 
     const dispatch = useDispatch();
     useEffect(() => {
@@ -68,6 +77,12 @@ const TopBar = ({listMember}) => {
     const open2 = Boolean(anchorEl2);
     const id2 = open2 ? 'simple-popover' : undefined;
 
+    const handleResetFilter = () => {
+        const members = {...filter.members}
+        Object.keys(members).forEach(member => members[member] = false);
+        dispatch(updateFilterMembers(members))
+    }
+
 
     return (
         <style.TopBar>
@@ -78,7 +93,8 @@ const TopBar = ({listMember}) => {
                     onChange={(e) => setCurrentTitle(e.target.value)}
                     onBlur={handleTitleChange}
                 />
-                <span style={{color: "white", fontSize: "1.25rem"}}>|</span>
+                {/*<span style={{color: "white", fontSize: "1.25rem"}}>|</span>*/}
+                <style.Span >|</style.Span>
                 <AvatarGroup sx={{
                     '& .MuiAvatar-root': {width: 25, height: 25, fontSize: "0.75rem"},
                 }}>
@@ -195,6 +211,34 @@ const TopBar = ({listMember}) => {
             </style.LeftWrapper>
 
             <style.RightWrapper>
+                <style.ButtonGroup>
+                <common.Button isFilterMember={isFilterMember}
+                               filterPopover={filterPopover}
+                               onClick={event => {
+                    setFilterPopover(event.currentTarget);
+                }}>
+                    <FilterListOutlined sx={{fontSize: '1rem'}}/>
+                    <style.TextSpan>Filter</style.TextSpan>
+                </common.Button>
+                { isFilterMember && <style.CloseButton
+                                   isFilterMember={isFilterMember}
+                                   onClick={handleResetFilter}>
+                        <CloseIcon sx={{ fontSize: '1rem'}}/>
+                    </style.CloseButton>}
+                </style.ButtonGroup>
+                {filterPopover && (
+                    <BasePopover
+                        anchorElement={filterPopover}
+                        closeCallback={() => {
+                            setFilterPopover(null);
+                        }}
+                        title='Filter'
+                        contents={<FilterMembers  closeCallback={() => {
+                            setFilterPopover(null);
+                        }}/>}
+                    />
+                )}
+                <style.Span style={{margin: '0 5px'}}>|</style.Span>
                 <common.Button onClick={() => {
                     setShowDrawer(true)
                 }}>

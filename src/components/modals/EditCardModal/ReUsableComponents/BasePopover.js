@@ -68,6 +68,7 @@ export default function BasePopover(props) {
 
 	return (
 		<Popover
+			sx={{marginTop: '0.25rem'}}
 			open={Boolean(anchorElement)}
 			anchorEl={anchorElement}
 			onClose={closeCallback}
