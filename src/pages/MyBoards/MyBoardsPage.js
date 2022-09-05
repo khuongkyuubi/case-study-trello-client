@@ -12,23 +12,28 @@ import {useSelector} from "react-redux";
 import board from "../BoardPage/Board";
 import {Card, Cards, NameWorkSpaceRecently} from "../Boards/MyBoards";
 import CreateBoardInTeam from "../../components/modals/CreateBoardInTeamModal/CreateBoardInTeam";
+import LoadingScreen from "../../components/LoadingScreen";
 
 const Container = styled.div`
-  margin-top: 1rem;
+  //margin-top: 1rem;
   width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+  //height: 100%;
+  //display: flex;
+  //flex-direction: column;
+  position: absolute;
+  top: 2.5rem;
+  bottom: 0;
+  overflow-y: auto;
 `
 const Nav = styled.div`
-  width: 100%;
-  position: sticky;
-  flex: 1
+  //width: 100%;
+  //position: sticky;
+  ////flex: 1
 `
 
 const Wrapper = styled.div`
-  margin-top:3%;
-  flex: 6;
+  //margin-top:3%;
+  //flex: 6;
   display: flex;
   width: 100%;
 `
@@ -82,12 +87,17 @@ const MyBoardsPage = () => {
         navigate(`/create-board`)
     }
 
-    const {boardsData} = useSelector(state => state.boards)
+
+    const {pending, boardsData} = useSelector((state) => state.boards);
     const handleModalClose = () => {
         setOpenModal(false);
     };
 
-    return (
+
+
+    return  (
+        <>
+        {pending && <LoadingScreen/>}
         <Container>
             <Nav>
                 <Navbar/>
@@ -136,6 +146,7 @@ const MyBoardsPage = () => {
                                             </Card>
                                         )}
                                 })}
+
                                 <CreateBoards onClick={() => setOpenModal(true)}>
                                     create new board
                                 </CreateBoards>
@@ -150,6 +161,7 @@ const MyBoardsPage = () => {
                 <DivEmpty/>
             </Wrapper>
         </Container>
+        </>
     );
 };
 

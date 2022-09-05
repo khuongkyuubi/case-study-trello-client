@@ -39,7 +39,7 @@ const Board = (props) => {
         document.title = title + ' | Trello'
     }, [title])
 
-
+    // console.log(allLists, "all list")
     const onDragEnd = async (result) => {
         const {draggableId, source, destination} = result;
         if (!destination) return;

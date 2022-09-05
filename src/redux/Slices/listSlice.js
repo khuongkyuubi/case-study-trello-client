@@ -158,7 +158,67 @@ const listSlice = createSlice({
                 return list;
             });
         },
-
+        updateMemberOfCard: (state, action) => {
+            const {listId, cardId, memberId, memberName, memberColor} = action.payload;
+            state.allLists = state.allLists.map((list) => {
+                if (list._id === listId) {
+                    list.cards = list.cards.map((card) => {
+                        if (card._id === cardId) card.members.unshift({
+                            user: memberId,
+                            name: memberName,
+                            color: memberColor
+                        });
+                        return card;
+                    });
+                }
+                return list;
+            });
+        },
+        deleteMemberOfCard: (state, action) => {
+            const {listId, cardId, memberId} = action.payload;
+            state.allLists = state.allLists.map((list) => {
+                if (list._id === listId) {
+                    list.cards = list.cards.map((card) => {
+                        if (card._id === cardId)
+                            card.members = card.members.filter((member) => member.user !== memberId);
+                        return card;
+                    });
+                }
+                return list;
+            });
+        },
+        addAttachmentForCard: (state, action) => {
+            // const {listId, cardId, link, name, _id, date} = action.payload;
+            const {listId, cardId, attachments} = action.payload;
+            state.allLists = state.allLists.map((list) => {
+                if (list._id === listId) {
+                    list.cards = list.cards.map((card) => {
+                        if (card._id === cardId) {
+                            // card.attachments.push({link: link, name: name, _id: _id, date: date});
+                            card.attachments = attachments;
+                        }
+                        return card;
+                    });
+                }
+                return list;
+            });
+        },
+        deleteAttachmentOfCard: (state, action) => {
+            // const {listId, cardId, attachmentId} = action.payload;
+            const {listId, cardId, attachments} = action.payload;
+            state.allLists = state.allLists.map((list) => {
+                if (list._id === listId) {
+                    list.cards = list.cards.map((card) => {
+                        if (card._id === cardId) {
+                            // card.attachments = card.attachments.filter((attachment) => attachment._id !== attachmentId);
+                            card.attachments = attachments;
+                        }
+                        return card;
+                    });
+                }
+                return list;
+            });
+        },
 
     }
 });
@@ -178,7 +238,12 @@ export const {
     createLabelForCard,
     createCommentsForCard,
     deleteCommentsForCard,
-    deleteLabelOfCard
+    deleteLabelOfCard,
+    updateMemberOfCard,
+    deleteMemberOfCard,
+    addAttachmentForCard,
+    deleteAttachmentOfCard,
+
 } = listSlice.actions;
 
 export default listSlice.reducer;
