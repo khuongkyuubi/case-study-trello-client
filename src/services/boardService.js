@@ -192,13 +192,11 @@ export const updateIsExpandedLabels = async (boardId, dispatch) => {
             })
         );
     }
-
-
 }
-export const deleteMemberInBoard = async (boardId,idMember, dispatch) => {
+export const deleteMemberInBoard = async (idMember,boardId, dispatch) => {
 
     try {
-      const res=  await axios.put(`${boardRoute}/${boardId}/delete-member`,
+      const res=  await axios.put(`${boardRoute}/delete-member-in-board`,
             {
                 idMember,
                 boardId

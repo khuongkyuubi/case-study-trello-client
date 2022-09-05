@@ -61,9 +61,7 @@ const ContentProject = styled.div`
     cursor: pointer;
     border-radius: 5px;
   }
-
 `
-
 
 const NameProject = styled.div`
   font-weight: bold;
@@ -84,7 +82,6 @@ const BoardWorkSpace = () => {
                             <NameProject>Du an C03H_JS</NameProject>
                         </ContentProject>
                     </TitleNameProject>
-
 
                     <Cards>
                         <Card>

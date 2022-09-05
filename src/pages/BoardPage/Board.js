@@ -13,13 +13,20 @@ import List from "../../components/BoardComponents/List/List";
 import AddList from "../../components/BoardComponents/AddList/AddList";
 import {updateCardOrder, updateListOrder} from "../../services/dragAndDropService";
 import {getCard} from "../../services/cardService";
+import {isMemberOfBoard} from "../../utils/checkMemberRoleOfBoard";
+import checkBoardVisibility from "../../utils/checkBoardVisibility";
 
 const Board = (props) => {
     const {id: boardId} = useParams();
     const dispatch = useDispatch();
-    const {backgroundImageLink, isImage, loading, title,members, labels} = useSelector((state) => state.board);
+    const {backgroundImageLink, isImage, loading, title,members, labels,visibility} = useSelector((state) => state.board);
     const {allLists, loadingListService} = useSelector((state) => state.list);
     const [searchString, setSearchString] = useState("");
+    const {userInfo} = useSelector((state) => state.user);
+    const {membersTeam} = useSelector((state) => state.team);
+    const isMember = isMemberOfBoard(userInfo._id, members);
+
+    console.log(visibility,'status board');
 
     //const boardId = props.match.params.id;
 
@@ -36,6 +43,7 @@ const Board = (props) => {
     const onDragEnd = async (result) => {
         const {draggableId, source, destination} = result;
         if (!destination) return;
+        if (!isMember && source.droppableId !== destination.droppableId) return;
         if (result.type === 'column') {
             if (source.index === destination.index) return;
             try {

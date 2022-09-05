@@ -82,14 +82,10 @@ const MyBoardsPage = () => {
         navigate(`/create-board`)
     }
 
-
     const {boardsData} = useSelector(state => state.boards)
     const handleModalClose = () => {
         setOpenModal(false);
     };
-
-
-
 
     return (
         <Container>
@@ -140,7 +136,6 @@ const MyBoardsPage = () => {
                                             </Card>
                                         )}
                                 })}
-
                                 <CreateBoards onClick={() => setOpenModal(true)}>
                                     create new board
                                 </CreateBoards>

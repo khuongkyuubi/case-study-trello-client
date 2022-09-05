@@ -9,6 +9,7 @@ const initialState = {
     lists: [],
     members: [],
     activity: [],
+    visibility:'',
     loading: true,
     description: '',
     activityLoading: false,
@@ -42,6 +43,7 @@ const boardSlice = createSlice({
             state.activity = action.payload.activity;
             state.description = action.payload.description;
             state.labels = action.payload.labels;
+            state.visibility = action.payload.visibility;
             state.isExpandedLabels = action.payload.isExpandedLabels ?? true;
         },
         updateTitle: (state, action) => {
@@ -102,7 +104,6 @@ const boardSlice = createSlice({
                 return member;
             })
         },
-
         deleteMember: (state, action) => {
             state.members = state.members.filter((members) => members._id !== action.payload.idMember);
         },

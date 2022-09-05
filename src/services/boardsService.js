@@ -9,7 +9,8 @@ import {
     startCreatingBoard,
 } from "../redux/Slices/boardsSlice";
 import {
-    setLoading,
+    deleteMember,
+    setLoading, statusBoard,
     successFetchingBoard,
     updateTitle
 } from "../redux/Slices/boardSlice";
@@ -23,6 +24,7 @@ export const getBoard = async (boardId, dispatch) => {
     dispatch(setLoading(true));
     try {
         const res = await  axios.get(baseUrl + "/board/" + boardId);
+
         dispatch(successFetchingBoard(res.data));
         console.log(res.data)
 
@@ -62,9 +64,9 @@ export const getBoards = async (fromDropDown, dispatch) => {
         );
     }
 }
-export const createBoard = async (props, dispatch) => {
+export const createBoard = async (formDataCreateBoard, dispatch) => {
     dispatch(startCreatingBoard());
-    if (!(props.title && props.backgroundImageLink)) {
+    if (!(formDataCreateBoard.title && formDataCreateBoard.backgroundImageLink)) {
         dispatch(failCreatingBoard());
         dispatch(
             openAlert({
@@ -75,11 +77,11 @@ export const createBoard = async (props, dispatch) => {
         return;
     }
     try {
-        console.log(props)
-        const res = await axios.post(baseUrl + "/boards/create", props);
-        console.log(res.data)
 
+        const res = await axios.post(baseUrl + "/boards/create", formDataCreateBoard);
+        console.log(res.data)
         dispatch(addNewBoard(res.data));
+        dispatch(successFetchingBoard(res.data))
         dispatch(successCreatingBoard(res.data));
         dispatch(
             openAlert({
@@ -115,3 +117,4 @@ export const boardTitleUpdate = async (title, boardId, dispatch) => {
         );
     }
 };
+

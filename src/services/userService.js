@@ -47,6 +47,7 @@ export const register = async (
                 })
             );
         } catch (error) {
+            console.log(error.response)
             dispatch(
                 openAlert({
                     message: error?.response?.data?.errMessage[0].msg
@@ -198,6 +199,7 @@ export const changeRoleUser = async (role, dispatch, idMember, idBoard) => {
                 idMember,
                 idBoard
             })
+        console.log(res.data,'.........................................')
         dispatch(changeRole({
                 role,
                 idMember

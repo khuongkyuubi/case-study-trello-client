@@ -16,7 +16,7 @@ import {
 import {ClickableIcon} from '../../../pages/BoardPage/CommonStyled';
 import BottomButtonGroup from '../BottomButtonGroup/BottomButtonGroup';
 // import Card from '../Card/Card';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemText from '@mui/material/ListItemText';
@@ -27,9 +27,16 @@ import {createCard} from '../../../services/listService';
 import {Droppable, Draggable} from 'react-beautiful-dnd';
 import {CircularProgress} from "@mui/material";
 import Card from "../Card/Card";
+import {isMemberOfBoard} from "../../../utils/checkMemberRoleOfBoard";
+
+
 
 
 const List = (props) => {
+    const {userInfo}=useSelector(state=>state.user)
+    const {members}=useSelector(state=>state.board)
+    const isMember=isMemberOfBoard(userInfo._id,members)
+
     const dispatch = useDispatch();
     const [clickTitle, setClickTitle] = useState(false);
     const [clickFooter, setClickFooter] = useState(false);
@@ -59,7 +66,8 @@ const List = (props) => {
     };
 
     const handleOnChangeTitle = (e) => {
-        setCurrentListTitle(e.target.value);
+        if(!isMember) return
+            setCurrentListTitle(e.target.value);
     };
     const handleChangeTitle = async () => {
         if (props.info.title !== currentListTitle)
@@ -160,7 +168,7 @@ const List = (props) => {
                                                         />
                                                     );
                                                 })}
-                                                {provided.placeholder}
+                                                {provided.placeholder }
                                             {clickFooter && (
                                                     <AddTitleCardContainer ref={ref}>
                                                         <TitleNewCardInput
@@ -185,7 +193,11 @@ const List = (props) => {
                                 }}
                             </Droppable>
                             {!clickFooter && (
-                                <FooterButton onClick={() => setClickFooter(true)}>
+                                <FooterButton onClick={() => {
+                                    if(!isMember) return
+                                    setClickFooter(true)}
+                                }
+                                >
                                     <AddIcon fontSize='small'/>
                                     <Span>Add a card</Span>
                                 </FooterButton>
