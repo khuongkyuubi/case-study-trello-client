@@ -5,12 +5,18 @@ import {
     startCreatingTeam,
     successCreatingTeam,
     failCreatingTeam,
-    reset, startFetchingTeams, successFetchingTeams, failFetchingTeams
+    reset,
+    startFetchingTeams,
+    successFetchingTeams,
+    failFetchingTeams,
+    changeRole,
+    successFetchingTeam
 } from "../redux/Slices/teamSlice";
 
 import board from "../pages/BoardPage/Board";
 import {addNewBoard, addNewTeam} from "../redux/userSlice";
 import {useNavigate} from "react-router-dom";
+
 
 const baseUrl = process.env.REACT_APP_API_ENDPOINT;
 
@@ -55,6 +61,29 @@ export const getTeams = async (fromDropDown, dispatch) => {
         );
     }
 }
+
+export const getTeam = async (fromDropDown,idTeam, dispatch) => {
+    if (!fromDropDown) dispatch(startFetchingTeams());
+    try {
+        const res = await axios.get(baseUrl + `/team/${idTeam}`);
+
+        dispatch(successFetchingTeam({team: res.data}));
+
+    } catch (error) {
+        dispatch(failFetchingTeams());
+        dispatch(
+            openAlert({
+                message: error?.response?.data?.errMessage
+                    ? error.response.data.errMessage
+                    : error.message,
+                severity: "error",
+            })
+        );
+    }
+}
+
+
+
 export const createTeam = async (props, dispatch,navigate) => {
     dispatch(startCreatingTeam());
     if (!(props.name)) {
@@ -93,3 +122,42 @@ export const createTeam = async (props, dispatch,navigate) => {
         );
     }
 };
+
+export const changeRoleTeam = async (role, teamId, dispatch) => {
+    dispatch(changeRole({role: role, teamId: teamId}));
+    try {
+        const res = await axios.post(baseUrl + "/team/change-role", {role: role, idTeam: teamId});
+        // setTimeout(() => {
+        //     dispatch(successFetchingTeams({teams: res.data}));
+        // }, 1000);
+    } catch (error) {
+        // dispatch(failFetchingTeams());
+        dispatch(
+            openAlert({
+                message: error?.response?.data?.errMessage
+                    ? error.response.data.errMessage
+                    : error.message,
+                severity: "error",
+            })
+        );
+    }
+}
+
+// export const getAllTeam = async (fromDropDown, dispatch) => {
+//     if (!fromDropDown) dispatch(startFetchingTeams());
+//     try {
+//         const res = await axios.get(baseUrl + "/team/getAll");
+//
+//         dispatch(successFetchingAllTeams({teams: res.data}));
+//     } catch (error) {
+//         dispatch(failFetchingTeams());
+//         dispatch(
+//             openAlert({
+//                 message: error?.response?.data?.errMessage
+//                     ? error.response.data.errMessage
+//                     : error.message,
+//                 severity: "error",
+//             })
+//         );
+//     }
+// }

@@ -7,6 +7,7 @@ import NestedList from "./MenuWorkSpaces";
 import BasicList from "./ListButton";
 
 import * as style from "../../components/modals/modalCreateBoard/Styled";
+import {teamRoles} from "../../utils/roles"
 
 
 import GroupAddOutlinedIcon from "@mui/icons-material/GroupAddOutlined";
@@ -166,6 +167,22 @@ const InputName = styled.input`
   border-color: #f5f6f8;
 
 `
+
+const SelectRoles = styled.select`
+  margin-top: 3px;
+  width: 100%;
+  padding: 5px;
+  border-radius: 4px;
+  border-color: #f5f6f8;
+`
+const OptionRoles = styled.option`
+  width: 100%;
+  padding: 5px;
+  border-color: #f5f6f8;
+  background-color: white;
+  
+`
+
 const Desc2 = styled.div`
   font-size: 10px;
   margin-top: 3px;
@@ -233,10 +250,11 @@ const HomeLeft = () => {
     const [members, setMembers] = useState([]);
     const [createWorkSpace, setCreateWorkSpace] = useState(false)
     const [form, setForm] = useState({})
-    const {listTeamData} = useSelector(state => state.boardInTeam)
-    console.log(listTeamData)
+    const {listTeamData} = useSelector(state => state.boardInTeam);
+    const [roleTeam, setRoleTeam] = useState("Private")
 
     const {teamsData}=useSelector(state =>state.team)
+
 
     const handleChange = (e) => {
         setForm({
@@ -244,6 +262,8 @@ const HomeLeft = () => {
             [e.target.name]: e.target.value
         })
     }
+    const rolesTeam = Object.values(teamRoles);
+
 
     const handleClick = async () => {
         const newMember = await getUserFromEmail(memberInput, dispatch);
@@ -261,7 +281,8 @@ const HomeLeft = () => {
     const handleCreateTeam = async () => {
         const data = {
             ...form,
-            members
+            members,
+            roleTeam
         }
         await createTeam(data, dispatch,navigate)
         setCreateWorkSpace(false)
@@ -316,7 +337,16 @@ const HomeLeft = () => {
                             <WorkspaceDesc>Workspace description</WorkspaceDesc>
                             <TextArea name="description" onChange={handleChange}
                                       placeholder="Our team organizes everything here." rows="4"></TextArea>
+
+                            <WorkspaceDesc>Visibility</WorkspaceDesc>
+                            <SelectRoles name="role" onChange={(e)=>setRoleTeam(e.target.value)}>
+                                {rolesTeam.map((role, index) => (
+                                    <OptionRoles value={role} key={index} >{role}</OptionRoles>
+                                ))}
+                            </SelectRoles>
+
                             <Desc3>Get your members on board with a few words about your Workspace.</Desc3>
+
 
 
                             <style.MemberWrapper>
@@ -325,7 +355,6 @@ const HomeLeft = () => {
                                         <GroupAddOutlinedIcon fontSize="small"/>
                                     </style.MemberIcon>
                                     <style.MemberInput
-
                                         placeholder="Invite to board with email"
                                         value={memberInput}
                                         type="email"

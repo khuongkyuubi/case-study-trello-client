@@ -10,6 +10,7 @@ const initialState = {
     pending: true,
     creating:false,
     defaultTeam: '',
+    team: {}
 };
 
 const teamSlice = createSlice({
@@ -25,6 +26,10 @@ const teamSlice = createSlice({
             }
         );
             state.teamsData = action.payload.teams;
+            state.pending = false;
+        },
+        successFetchingTeam: (state, action) => {
+            state.team = action.payload.team;
             state.pending = false;
         },
         failFetchingTeams: (state) => {
@@ -49,6 +54,15 @@ const teamSlice = createSlice({
                 return team;
             })
         },
+        changeRole: (state, action) => {
+            state.teamsData = state.teamsData.map(team => {
+                if(team._id === action.payload.teamId){
+                    team.role = action.payload.role;
+                }
+                return team;
+            })
+        },
+
         reset:(state)=>{
             state=initialState;
         }
@@ -63,7 +77,9 @@ export const {
     successCreatingTeam,
     changeIsOpenStatus,
     failCreatingTeam,
-    reset
+    reset,
+    successFetchingTeam,
+    changeRole
 } = teamSlice.actions;
 
 export default teamSlice.reducer;

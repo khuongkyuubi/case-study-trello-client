@@ -1,6 +1,6 @@
-import React from 'react';
 import styled from "styled-components";
-import MediaCard from "./CardCenterHome";
+import React from "react";
+import MediaCardPrivateTeam from "./MediaCardPrivateTeam";
 
 const Container = styled.div`
   width: 34%;
@@ -14,14 +14,14 @@ const WrapperMain = styled.div`
 `
 
 
-const HomeCenter = () => {
+const HomeCenterPrivateTeam = () => {
     return (
         <Container>
             <WrapperMain>
-                <MediaCard/>
+                <MediaCardPrivateTeam/>
             </WrapperMain>
         </Container>
     );
 };
 
-export default HomeCenter;
+export default HomeCenterPrivateTeam;

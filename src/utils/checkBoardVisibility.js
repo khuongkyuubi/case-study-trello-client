@@ -1,6 +1,5 @@
 import {boardRoles} from "./roles";
 
-console.log(boardRoles.PRIVATE)
 const checkBoardVisibility = (userId, boardRole, boardMembers, workspaceMembers) => {
     const isMemberOfBoard = boardMembers.includes(userId);
     const isMemberOfWorkspace = workspaceMembers.includes(userId);

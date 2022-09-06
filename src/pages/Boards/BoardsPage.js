@@ -7,6 +7,7 @@ import LoadingScreen from "../../components/LoadingScreen";
 import {useDispatch, useSelector} from "react-redux";
 import BoardsWorkSpace from "./BoardsWorkSpace";
 import {getBoards} from "../../services/boardsService";
+import {getAllTeam, getTeams} from "../../services/teamService";
 
 
 const Container = styled.div`
@@ -25,11 +26,9 @@ const Container = styled.div`
 const Nav = styled.div`
   width: 100%;
   position: sticky;
-  flex: 1
 `
 
 const Wrapper = styled.div`
-  flex: 6;
   display: flex;
   width: 100%;
 `
@@ -52,6 +51,10 @@ const BoardsPage = () => {
     useEffect(() => {
         getBoards(false, dispatch);
     }, [dispatch]);
+    useEffect(  () => {
+        getTeams(false,dispatch);
+        // getAllTeam(false,dispatch);
+    },[])
     return (
         <>
             {pending && <LoadingScreen/>}
