@@ -52,7 +52,7 @@ export const register = async (
                 openAlert({
                     message: error?.response?.data?.errMessage[0].msg
                         ? error.response.data.errMessage[0].msg
-                        : error.message,
+                        : error.response.data.errMessage,
                     severity: "error",
                 })
             );
@@ -83,7 +83,7 @@ export const login = async ({email, password}, dispatch) => {
             openAlert({
                 message: error?.response?.data?.errMessage[0].msg
                     ? error.response.data.errMessage[0].msg
-                    : error.message,
+                    : error.response.data.errMessage,
                 severity: "error",
             })
         );

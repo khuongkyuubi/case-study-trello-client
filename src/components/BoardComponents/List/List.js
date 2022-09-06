@@ -48,7 +48,8 @@ const List = (props) => {
     const [isAdding, setIsAdding] = useState(false);
     const { filter} = useSelector((state) => state.board);
     const isFilterMember = useMemo(() => !!Object.values(filter.members).filter(value => value).length , [filter]);
-
+    const isFilterLabel = useMemo(() => Object.values(filter.labels).includes(true) , [filter]);
+    // console.log(props.info)
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -101,6 +102,12 @@ const List = (props) => {
         }
     }, [clickFooter]);
 
+    // console.log(!props.info.cards[2].labels.find(label => label.selected), "no lable")
+    // console.log(filter.labels, "filter")
+    // console.log(props.info.cards
+    //     .filter(card => props.searchString ? card.title.toLowerCase().includes(props.searchString.toLowerCase()) : true)
+    //     .filter(card => isFilterLabel ? filter.labels.noLabels ? !card.labels.length : card.labels.filter(label => filter.labels[label._id]).length : true)
+    // )
     return (
         <>
             <Draggable draggableId={props.info._id} index={props.index}>
@@ -163,7 +170,8 @@ const List = (props) => {
                                             <CardWrapper dock={clickFooter}>
                                                 {props.info.cards
                                                     .filter(card => props.searchString ? card.title.toLowerCase().includes(props.searchString.toLowerCase()) : true)
-                                                    .filter(card => isFilterMember ? filter.members.noMembers ? !card.members.length : card.members.filter(member => filter.members[member.user]).length : true)
+                                                    .filter(card => isFilterMember ? filter.members.noMembers ? (!card.members.length || card.members.filter(member => filter.members[member.user]).length) : card.members.filter(member => filter.members[member.user]).length : true)
+                                                    .filter(card => isFilterLabel ? filter.labels.noLabels ? (!card.labels.find(label => label.selected) || card.labels.filter(label => label.selected && filter.labels[label._id]).length) : card.labels.filter(label => label.selected && filter.labels[label._id]).length : true)
                                                     .map((card, index) => {
                                                     return (
                                                         <Card
