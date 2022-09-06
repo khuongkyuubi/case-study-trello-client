@@ -38,7 +38,6 @@ import Features from "./Features/Features";
 import {getBoard} from "../../../services/boardsService";
 import {getLists} from "../../../services/boardService";
 import Attachments from "./Attachments/Attachments";
-import Actions from "./Actions/Actions";
 
 export default function EditCard(props) {
 	const { cardId, listId, boardId } = props.ids;
@@ -105,9 +104,9 @@ export default function EditCard(props) {
 							<AddToCardContainer>
 								<AddToCard />
 							</AddToCardContainer>
-							<ActionsContainer>
-								<Actions />
-							</ActionsContainer>
+							{/*<ActionsContainer>*/}
+							{/*	<Actions />*/}
+							{/*</ActionsContainer>*/}
 						</RightContainer>
 					</Wrapper>
 					<CloseIconWrapper onClick={props.callback}>

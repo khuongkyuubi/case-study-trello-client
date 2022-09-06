@@ -52,7 +52,7 @@ const TopBar = ({listMember}) => {
     const [isSearch,setIsSearch] = useState({member:true,
     label:true
     })
-    // console.log(isSearch)
+    console.log(isSearch)
     const dispatch = useDispatch();
     useEffect(() => {
         if (!board.loading)
