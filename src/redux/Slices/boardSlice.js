@@ -92,6 +92,7 @@ const boardSlice = createSlice({
                 }
                 return label;
             });
+
         },
         changeIsExpanded: (state) => {
             state.isExpandedLabels = !state.isExpandedLabels;
@@ -119,7 +120,13 @@ const boardSlice = createSlice({
             const {[action.payload] : deleteMember ,...members} = state.filter.members;
             state.filter.members = members;
         },
-
+        updateFilterLabel: (state, action) => {
+            state.filter.labels = action.payload;
+        },
+        deleteFilterLabel: (state, action) => {
+            const {[action.payload] : deleteLabel ,...labels} = state.filter.labels;
+            state.filter.labels = labels;
+        }
     },
 });
 
@@ -141,6 +148,8 @@ export const {
     deleteMember,
     updateFilterMembers,
     deleteFilterMember,
+    updateFilterLabel,
+    deleteFilterLabel
 } = boardSlice.actions;
 
 export default boardSlice.reducer;

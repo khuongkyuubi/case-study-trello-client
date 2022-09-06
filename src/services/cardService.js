@@ -19,9 +19,9 @@ import {
     updateAttachments,
 } from '../redux/Slices/cardSlice';
 import {
-    createLabelBoard, deleteLabelBoard,
+    createLabelBoard, deleteLabelBoard,deleteFilterLabel,
 
-    updateBoardLabel, updateCreatedLabelIdBoard
+    updateBoardLabel, updateCreatedLabelIdBoard, updateFilterLabel
 } from '../redux/Slices/boardSlice';
 
 import {
@@ -41,6 +41,7 @@ import {
 
 } from '../redux/Slices/listSlice';
 import {getLists} from "./boardService";
+import initLabelsFilter from "../utils/initLabelFilter";
 
 
 const baseUrl = process.env.REACT_APP_API_ENDPOINT + '/card';
@@ -206,6 +207,7 @@ export const labelCreate = async (cardId, listId, boardId, text, color, backColo
 
         dispatch(updateCreatedLabelId(response.data.labelId));
         dispatch(updateCreatedLabelIdBoard(response.data.labelId));
+        dispatch(updateFilterLabel(initLabelsFilter(response.data.card.labels)))
         dispatch(
             createLabelForCard({listId, cardId, _id: response.data.labelId, text, color, backColor, selected: true})
         );
@@ -225,7 +227,7 @@ export const labelDelete = async (cardId, listId, boardId, labelId, dispatch) =>
         dispatch(deleteLabel(labelId));
         dispatch(deleteLabelBoard(labelId));
         dispatch(deleteLabelOfCard({ listId, cardId, labelId }));
-
+        dispatch(deleteFilterLabel(labelId))
         submitCall = submitCall.then(() =>
             axios.delete(baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/' + labelId + '/delete-label')
         );

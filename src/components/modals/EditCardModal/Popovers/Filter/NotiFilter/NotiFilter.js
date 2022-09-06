@@ -1,0 +1,18 @@
+import {Container,Img} from "./styled";
+const NotiFilter = () =>{
+    return(
+        <Container>
+            <svg width="70" height="52" viewBox="0 0 70 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect y="0.00146484" width="64" height="8" rx="2" fill="#EBECF0"/>
+                <rect y="16.001" width="46" height="8" rx="2" fill="#EBECF0"/>
+                <rect y="33.001" width="54" height="8" rx="2" fill="#EBECF0"/>
+                <rect x="36.5" y="10.5" width="31" height="31" rx="15.5" fill="#EFB3AB" fill-opacity="0.3" stroke="#C1C7D0" stroke-width="5"/>
+                <line x1="60.4669" y1="40.6934" x2="65.6934" y2="48.5331" stroke="#C1C7D0" stroke-width="5" stroke-linecap="round"/>
+            </svg>
+        <h5>Notthing found</h5>
+            <p>Couldn’t find any card, member, due date, or label match.</p>
+            <p>Try another search.</p>
+        </Container>
+    )
+}
+export default NotiFilter

@@ -12,12 +12,13 @@ import {
     setLoading,
     successFetchingBoard,
     updateTitle,
-    updateFilterMembers,
+    updateFilterMembers, updateFilterLabel,
 } from "../redux/Slices/boardSlice";
 import board from "../pages/BoardPage/Board";
 import { addNewBoard } from "../redux/userSlice";
 import {successFetchingBoardInTeam} from "../redux/Slices/boardInTeamSlice";
 import initMembersFilter from "../utils/initMembersFilter";
+import initLabelsFilter from "../utils/initLabelFilter";
 
 const baseUrl = process.env.REACT_APP_API_ENDPOINT;
 
@@ -33,6 +34,8 @@ export const getBoard = async (boardId, dispatch) => {
         //     return state;
         // }
         const initMembersFilterState = initMembersFilter(res.data.members);
+        const initLabelsFilterState = initLabelsFilter(res.data.labels);
+        dispatch(updateFilterLabel(initLabelsFilterState))
         dispatch(updateFilterMembers(initMembersFilterState))
 
 
