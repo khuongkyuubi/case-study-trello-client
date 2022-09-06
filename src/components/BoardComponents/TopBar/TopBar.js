@@ -24,7 +24,10 @@ import {FilterListOutlined} from "@mui/icons-material";
 import CloseIcon from '@mui/icons-material/Close';
 import FilterMembers from "../../modals/EditCardModal/Popovers/Filter/FilterMembers";
 import {ButtonGroup} from "./styled";
-import {updateFilterMembers} from "../../../redux/Slices/boardSlice";
+import {updateFilterLabel, updateFilterMembers} from "../../../redux/Slices/boardSlice";
+import FilterLabels from "../../modals/EditCardModal/Popovers/Filter/FilterLabels";
+import {SearchArea} from "../../modals/EditCardModal/Popovers/Filter/styled";
+import NotiFilter from "../../modals/EditCardModal/Popovers/Filter/NotiFilter/NotiFilter";
 
 
 const TopBar = ({listMember}) => {
@@ -35,11 +38,15 @@ const TopBar = ({listMember}) => {
     const [currentMember, setCurrentMember] = useState({})
     const [listSearch, setListSearch] = useState(listMember);
     const [filterPopover, setFilterPopover] = useState(null);
-
+    const [search, setSearch] = useState("");
     // console.log(listMember, "list members")
-    const { filter} = useSelector((state) => state.board);
-    const isFilterMember = useMemo(() => !!Object.values(filter.members).filter(value => value).length , [filter]);
-
+    const {filter} = useSelector((state) => state.board);
+    const isFilterMember = useMemo(() => !!Object.values(filter.members).filter(value => value).length, [filter]);
+    const isFilterLabel = useMemo(() => Object.values(filter.labels).includes(true), [filter]);
+    const [isSearch,setIsSearch] = useState({member:true,
+    label:true
+    })
+    console.log(isSearch)
     const dispatch = useDispatch();
     useEffect(() => {
         if (!board.loading)
@@ -54,6 +61,9 @@ const TopBar = ({listMember}) => {
         setListSearch(listMember);
         setAnchorEl(event.currentTarget);
     };
+    const handleChange = e => {
+        setSearch(e.target.value);
+    }
 
     const handleClose = () => {
         setAnchorEl(null);
@@ -80,7 +90,11 @@ const TopBar = ({listMember}) => {
     const handleResetFilter = () => {
         const members = {...filter.members}
         Object.keys(members).forEach(member => members[member] = false);
-        dispatch(updateFilterMembers(members))
+        dispatch(updateFilterMembers(members));
+        // reset filter.labels
+        const labels = {...filter.labels}
+        Object.keys(labels).forEach(label => labels[label] = false);
+        dispatch(updateFilterLabel(labels));
     }
 
 
@@ -94,7 +108,7 @@ const TopBar = ({listMember}) => {
                     onBlur={handleTitleChange}
                 />
                 {/*<span style={{color: "white", fontSize: "1.25rem"}}>|</span>*/}
-                <style.Span >|</style.Span>
+                <style.Span>|</style.Span>
                 <AvatarGroup sx={{
                     '& .MuiAvatar-root': {width: 25, height: 25, fontSize: "0.75rem"},
                 }}>
@@ -145,7 +159,7 @@ const TopBar = ({listMember}) => {
                                 <hr/>
                                 <SearchInput listMember={listMember} setListSearch={setListSearch}/>
                                 <hr/>
-                                <AvatarGroup max={listSearch.length < 2 ? 2 : listSearch.length }>
+                                <AvatarGroup max={listSearch.length < 2 ? 2 : listSearch.length}>
                                     <div style={{
                                         width: '100%', display: 'flex', alignItems: 'center',
                                         flexWrap: 'wrap'
@@ -212,18 +226,20 @@ const TopBar = ({listMember}) => {
 
             <style.RightWrapper>
                 <style.ButtonGroup>
-                <common.Button isFilterMember={isFilterMember}
-                               filterPopover={filterPopover}
-                               onClick={event => {
-                    setFilterPopover(event.currentTarget);
-                }}>
-                    <FilterListOutlined sx={{fontSize: '1rem'}}/>
-                    <style.TextSpan>Filter</style.TextSpan>
-                </common.Button>
-                { isFilterMember && <style.CloseButton
-                                   isFilterMember={isFilterMember}
-                                   onClick={handleResetFilter}>
-                        <CloseIcon sx={{ fontSize: '1rem'}}/>
+                    <common.Button isFilterMember={isFilterMember}
+                                   isFilterLabel={isFilterLabel}
+                                   filterPopover={filterPopover}
+                                   onClick={event => {
+                                       setFilterPopover(event.currentTarget);
+                                   }}>
+                        <FilterListOutlined sx={{fontSize: '1rem'}}/>
+                        <style.TextSpan>Filter</style.TextSpan>
+                    </common.Button>
+                    {(isFilterMember || isFilterLabel) && <style.CloseButton
+                        isFilterMember={isFilterMember}
+                        isFilterLabel={isFilterLabel}
+                        onClick={handleResetFilter}>
+                        <CloseIcon sx={{fontSize: '1rem'}}/>
                     </style.CloseButton>}
                 </style.ButtonGroup>
                 {filterPopover && (
@@ -232,10 +248,29 @@ const TopBar = ({listMember}) => {
                         closeCallback={() => {
                             setFilterPopover(null);
                         }}
+                        contents={
+                            <>
+                                <SearchArea value={search} onChange={handleChange} placeholder='Enter a key word ...'/>
+                                <FilterMembers closeCallback={() => {
+                                    setFilterPopover(null);
+                                }}
+                                               checkSearchCallback={(member) => {
+                                                   setIsSearch(prevState => ({...prevState,member:member}))
+                                               }}
+                                               search={search}
+                                />
+                                <FilterLabels closeCallback={() => {
+                                    setFilterPopover(null);
+                                }}
+                                              checkSearchCallback={(label) => {
+                                                  setIsSearch(prevState => ({...prevState,label:label}))
+                                              }}
+                                              search={search}
+                                />
+                                {!(isSearch.label && isSearch.member)&&<NotiFilter/>}
+                            </>
+                        }
                         title='Filter'
-                        contents={<FilterMembers  closeCallback={() => {
-                            setFilterPopover(null);
-                        }}/>}
                     />
                 )}
                 <style.Span style={{margin: '0 5px'}}>|</style.Span>
