@@ -33,6 +33,7 @@ import {getLists, updateIsExpandedLabels} from "../../../services/boardService";
 import {useEffect} from "react";
 import {getBoard} from "../../../services/boardsService";
 import {getCard} from "../../../services/cardService";
+import {isMemberOfBoard} from "../../../utils/checkMemberRoleOfBoard";
 
 const Card = (props) => {
     const [openModal, setOpenModal] = useState(false);
@@ -116,7 +117,7 @@ const Card = (props) => {
                                 </LabelContainer>
                             )}
 
-                            <CardTitle>{card.title}</CardTitle>
+                            <CardTitle >{card.title}</CardTitle>
                             <FooterContainer>
                                 <IconGroupContainer>
                                     <IconGroupWrapper>

@@ -13,15 +13,28 @@ import List from "../../components/BoardComponents/List/List";
 import AddList from "../../components/BoardComponents/AddList/AddList";
 import {updateCardOrder, updateListOrder} from "../../services/dragAndDropService";
 import {getCard} from "../../services/cardService";
+import {isMemberOfBoard} from "../../utils/checkMemberRoleOfBoard";
+import checkBoardVisibility from "../../utils/checkBoardVisibility";
+import {memRoles} from "../../utils/roles";
 
 const Board = (props) => {
     const {id: boardId} = useParams();
     const dispatch = useDispatch();
-    const {backgroundImageLink, isImage, loading, title,members, labels} = useSelector((state) => state.board);
+    const {
+        backgroundImageLink,
+        isImage,
+        loading,
+        title,
+        members,
+        labels,
+        visibility,
+        teams
+    } = useSelector((state) => state.board);
     const {allLists, loadingListService} = useSelector((state) => state.list);
     const [searchString, setSearchString] = useState("");
-
-    //const boardId = props.match.params.id;
+    const {userInfo} = useSelector((state) => state.user);
+    const isMember = isMemberOfBoard(userInfo._id, members);
+     const result=checkBoardVisibility(userInfo._id, visibility, members, teams.members)
 
     useEffect(() => {
         getBoard(boardId, dispatch);
@@ -36,6 +49,7 @@ const Board = (props) => {
     const onDragEnd = async (result) => {
         const {draggableId, source, destination} = result;
         if (!destination) return;
+        if (!isMember && source.droppableId !== destination.droppableId) return;
         if (result.type === 'column') {
             if (source.index === destination.index) return;
             try {
@@ -73,8 +87,13 @@ const Board = (props) => {
         }
     };
     return (
+
+
         <>
             <Navbar searchString={searchString} isTranslucent={true} setSearchString={setSearchString}/>
+
+            {result
+            ?
             <style.Container
                 isImage={isImage}
                 bgImage={isImage ? backgroundImageLink.split('?')[0] : backgroundImageLink}
@@ -109,8 +128,18 @@ const Board = (props) => {
                 </DragDropContext>
 
             </style.Container>
+                :
+                <style.Container>
+                    <img src="https://st.depositphotos.com/1575949/4950/v/950/depositphotos_49506497-stock-illustration-error-red-stamp-text.jpg"
+                         alt=""
+                         width="100%"
+                         height="500px"
+                    />
+                </style.Container>
+            }
 
         </>
+
     )
 
 
