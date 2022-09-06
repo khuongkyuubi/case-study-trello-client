@@ -122,9 +122,9 @@ export const getUserFromEmail = async (email, dispatch) => {
     } catch (error) {
         dispatch(
             openAlert({
-                message: error?.response?.data?.errMessage
-                    ? error.response.data.errMessage
-                    : error.message,
+                message: error?.response?.data?.errMessage[0].msg
+                    ? error.response.data.errMessage[0].msg
+                    : error.response.data.errMessage,
                 severity: "error",
             })
         );

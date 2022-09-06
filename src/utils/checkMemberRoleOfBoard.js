@@ -1,7 +1,8 @@
 import {memRoles} from "./roles";
 
+//isMemberAdminOfBoard
 export const isMemberOfBoard = (userId, boardMembers) => {
-    const user = boardMembers.find(member => member.user === userId )
+    const user = boardMembers.find(member => member.user === userId)
     switch (user?.role) {
         case memRoles.ADMIN :
             return true;
@@ -15,7 +16,7 @@ export const isMemberOfBoard = (userId, boardMembers) => {
 }
 
 export const isAdminOfBoard = (userId, boardMembers) => {
-    const user = boardMembers.find(member => member.user === userId )
+    const user = boardMembers.find(member => member.user === userId)
     switch (user?.role) {
         case memRoles.ADMIN :
             return true;
@@ -23,6 +24,19 @@ export const isAdminOfBoard = (userId, boardMembers) => {
             return false;
     }
 }
+
+export const isMemberOrViewerOfBoard = (userId, boardMembers) => {
+    const user = boardMembers.find(member => member.user === userId)
+    switch (user?.role) {
+        case memRoles.MEMBER :
+            return true;
+        case memRoles.VIEWER :
+            return true;
+        default:
+            return false;
+    }
+}
+
 
 export const isAddToBoard = (userId, boardMembers) => {
     return boardMembers.find(member => member.user === userId);

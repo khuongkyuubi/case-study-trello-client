@@ -90,7 +90,7 @@ export const createBoard = async (formDataCreateBoard, dispatch) => {
     try {
 
         const res = await axios.post(baseUrl + "/boards/create", formDataCreateBoard);
-        console.log(res.data)
+        // console.log(res.data)
         dispatch(addNewBoard(res.data));
         dispatch(successFetchingBoard(res.data))
         dispatch(successCreatingBoard(res.data));

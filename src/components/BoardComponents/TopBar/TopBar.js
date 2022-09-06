@@ -25,6 +25,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import FilterMembers from "../../modals/EditCardModal/Popovers/Filter/FilterMembers";
 import {ButtonGroup} from "./styled";
 import {updateFilterMembers} from "../../../redux/Slices/boardSlice";
+import {isMemberOfBoard} from "../../../utils/checkMemberRoleOfBoard";
 
 
 const TopBar = ({listMember}) => {
@@ -35,6 +36,10 @@ const TopBar = ({listMember}) => {
     const [currentMember, setCurrentMember] = useState({})
     const [listSearch, setListSearch] = useState(listMember);
     const [filterPopover, setFilterPopover] = useState(null);
+    const {userInfo} = useSelector((state) => state.user);
+    const {members} = useSelector((state) => state.board);
+    const isMember = isMemberOfBoard(userInfo._id, members);
+
 
     // console.log(listMember, "list members")
     const { filter} = useSelector((state) => state.board);
@@ -87,12 +92,23 @@ const TopBar = ({listMember}) => {
     return (
         <style.TopBar>
             <style.LeftWrapper>
+                {isMember &&
                 <style.BoardNameInput
                     placeholder='Board Name'
                     value={currentTitle}
-                    onChange={(e) => setCurrentTitle(e.target.value)}
+                    onChange={(e) =>{
+                        setCurrentTitle(e.target.value)
+                    }
+                }
                     onBlur={handleTitleChange}
                 />
+                }
+                 {!isMember &&
+                <style.BoardNameInputs
+                    placeholder='Board Name'
+                    value={currentTitle}
+                />
+                }
                 {/*<span style={{color: "white", fontSize: "1.25rem"}}>|</span>*/}
                 <style.Span >|</style.Span>
                 <AvatarGroup sx={{

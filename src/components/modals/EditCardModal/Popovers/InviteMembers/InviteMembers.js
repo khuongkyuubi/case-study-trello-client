@@ -17,7 +17,6 @@ import {DeleteMemberOfBoard} from "../../../../../services/boardsService";
 import {isAdminOfBoard} from "../../../../../utils/checkMemberRoleOfBoard";
 import board from "../../../../../pages/BoardPage/Board";
 
-console.log(Object.values(memRoles), "....");
 
 const useStyles = makeStyles({
     root: {
@@ -43,24 +42,12 @@ const ChipComponent = (props) => {
     );
 };
 
-// const roles = [
-// 	{
-// 		id:new Date() +4,
-// 		name:'owner'
-// 	},
-// 	{
-// 		id:new Date() +9,
-// 		name:'member'
-// 	}
-// ]
-
-
 const InviteMembers = ({listMember}) => {
     const [memberMail, setMemberMail] = useState('');
     const [members, setMembers] = useState([]);
     const dispatch = useDispatch();
-    const boardMembers = useSelector((state) => state.board.members);
     const boardId = useSelector(state => state.board.id);
+    const boardMembers = useSelector((state) => state.board.members);
     const {userInfo} = useSelector(state => state.user);
     const isAdminInBoard=isAdminOfBoard(userInfo._id,boardMembers)
 
@@ -96,25 +83,8 @@ const InviteMembers = ({listMember}) => {
     const {id} = useParams()
 
     const changeRole = async (e, idMember, idBoard) => {
-
         await changeRoleUser(e.target.value, dispatch, idMember, idBoard);
-
     }
-
-
-    const DeleteMemberInBoard=async (idMember)=>{
-        if(isAdminInBoard){
-            const personDeleted=isAdminOfBoard(idMember,boardMembers)
-            if(personDeleted){
-              alert("you don't have permission to delete")
-            }
-            await deleteMemberInBoard(idMember,boardId,dispatch)
-        }else {
-            alert("you don't have permission to delete")
-        }
-
-    }
-
 
     return (
         <Container>
@@ -134,21 +104,40 @@ const InviteMembers = ({listMember}) => {
             {listMember.map(member => (
                     <div key={member._id} style={{display: 'flex'}}>
                         <span>{member.name}</span>
+
+                        {isAdminInBoard &&
                         <select defaultValue={member.role} onChange={async (e) => {
                             {
                                 await changeRole(e, member._id, id)
                             }
                         }}>
                             {Object.values(memRoles).map((role, index) => {
-                                if(member?.role==='Admin'){
-                               return <option value={role} key={index}  >{role} </option>
-                            }
-                            return <option value={role} key={index} >{role}</option>
+                                if (member?.role === 'Admin') {
+                                    return <option value={role} key={index} disabled>{role} </option>
+                                }
+                                return <option value={role} key={index}>{role}</option>
+
                             })}
-                        </select>
-                            {member?.role!=="Admin" &&
-                                <button onClick={()=>DeleteMemberInBoard(member._id)} >Delete</button>
+                        </select>}
+
+                        {!isAdminInBoard &&
+                        <select defaultValue={member.role} onChange={async (e) => {
+                            {
+                                await changeRole(e, member._id, id)
                             }
+                        }}>
+                            {Object.values(memRoles).map((role, index) => {
+                                if (member?.role === 'Admin') {
+                                    return <option value={role} key={index} disabled>{role} </option>
+                                }
+                                return <option value={role} key={index} disabled>{role}</option>
+
+                            })}
+                        </select>}
+
+
+
+
                     </div>
                 )
             )}

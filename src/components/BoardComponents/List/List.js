@@ -78,6 +78,7 @@ const List = (props) => {
     };
 
     const handleDeleteClick = () => {
+        if(!isMember)return;
         DeleteList(props.info._id, props.info.owner, dispatch);
     };
 
