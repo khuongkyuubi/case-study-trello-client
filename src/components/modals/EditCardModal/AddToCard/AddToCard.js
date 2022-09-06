@@ -8,6 +8,8 @@ import BasePopover from '../ReUsableComponents/BasePopover';
 import MembersPopover from '../Popovers/Members/MembersPopover';
 import LabelsPopover from '../Popovers/Labels/LabelsPopover';
 import AddAttachmentPopover from '../Popovers/Attachment/AddAttachmentPopover';
+import {isMemberOfBoard} from "../../../../utils/checkMemberRoleOfBoard";
+import {useSelector} from "react-redux";
 
 const AddToCard = () => {
 	const [memberPopover, setMemberPopover] = React.useState(null);
@@ -15,14 +17,16 @@ const AddToCard = () => {
 	const [attachmentPopover, setAttachmentPopover] = React.useState(null);
 	const [labelsBackArrow, setLabelsBackArrow] = React.useState(false);
 	const [labelsTitle, setLabelsTitle] = React.useState('Labels');
-	return (
+	const {userInfo} = useSelector(state => state.user)
+	const {members} = useSelector(state => state.board)
+	const isMember = isMemberOfBoard(userInfo._id, members)
+	return isMember && (
 		<Container>
 			<Title>Add to card</Title>
-
 			<Button
 				clickCallback={(event) => setMemberPopover(event.currentTarget)}
 				title='Members'
-				icon={<MemberIcon fontSize='small' />}
+				icon={<MemberIcon fontSize='small'/>}
 			/>
 			{memberPopover && (
 				<BasePopover
@@ -31,14 +35,14 @@ const AddToCard = () => {
 						setMemberPopover(null);
 					}}
 					title='Members'
-					contents={<MembersPopover />}
+					contents={<MembersPopover/>}
 				/>
 			)}
 
 			<Button
 				clickCallback={(event) => setLabelPopover(event.currentTarget)}
 				title='Labels'
-				icon={<LabelIcon fontSize='small' />}
+				icon={<LabelIcon fontSize='small'/>}
 			></Button>
 			{labelPopover && (
 				<BasePopover
@@ -69,7 +73,7 @@ const AddToCard = () => {
 			<Button
 				clickCallback={(event) => setAttachmentPopover(event.currentTarget)}
 				title='Attachment'
-				icon={<AttachmentIcon fontSize='small' />}
+				icon={<AttachmentIcon fontSize='small'/>}
 			/>
 			{attachmentPopover && (
 				<BasePopover
@@ -84,10 +88,8 @@ const AddToCard = () => {
 				/>
 			)}
 
-
-			
 		</Container>
-	);
+	)
 };
 
 export default AddToCard;

@@ -55,9 +55,9 @@ export const getTeams = async (fromDropDown, dispatch) => {
         );
     }
 }
-export const createTeam = async (props, dispatch,navigate) => {
+export const createTeam = async (dataFrom, dispatch,navigate) => {
     dispatch(startCreatingTeam());
-    if (!(props.name)) {
+    if (!(dataFrom.name)) {
         dispatch(failCreatingTeam());
         dispatch(
             openAlert({
@@ -68,7 +68,7 @@ export const createTeam = async (props, dispatch,navigate) => {
         return;
     }
     try {
-        const res = await axios.post(baseUrl + "/team/create", props);
+        const res = await axios.post(baseUrl + "/team/create", dataFrom);
         dispatch(addNewTeam(res.data));
         dispatch(successCreatingTeam(res.data));
         dispatch(

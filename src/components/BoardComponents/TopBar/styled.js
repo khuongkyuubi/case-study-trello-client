@@ -110,6 +110,40 @@ export const BoardNameInput = styled.input`
 	})}
 `;
 
+export const BoardNameInputs = styled.input`
+	height: 1.75rem;
+	background-color: rgba(255, 255, 255, 0);
+	border: none;
+	border-radius: 1px;
+	font-size: 1.25rem;
+	text-align: center;
+	min-width: 6.5rem;
+	max-width: 10rem;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	width: ${(props) => props.value.length * 0.75 + 'rem'};
+	font-weight: 500;
+	color: white;
+	outline: 2px solid rgba(255, 255, 255, 0);
+	transition: 250ms ease;
+	cursor: pointer;
+	&:hover {
+		background-color: rgba(255, 255, 255, 0.25);
+		outline: 2px solid rgba(255, 255, 255, 0.25);
+		cursor: not-allowed;
+	}
+	&::placeholder {
+		color: #d0d0d0;
+	}
+
+	${xs({
+		maxWidth: '8rem',
+	})}
+`;
+
+
+
 export const Span = styled.span`
 	color: white;
 	font-size: 1.25rem;

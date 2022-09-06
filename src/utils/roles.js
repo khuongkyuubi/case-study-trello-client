@@ -3,3 +3,10 @@ export const boardRoles = Object.freeze({
     WORK_SPACE: "Workspace",
     PUBLIC: "Public"
 })
+export const memRoles = Object.freeze({
+    ADMIN: "Admin",
+    MEMBER: "Member",
+    VIEWER:"Viewer"
+})
+
+

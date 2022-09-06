@@ -11,27 +11,39 @@ import {deleteMemberInBoard} from "../../../../services/boardService";
 import {useState} from "react";
 import BasePopover from "../../../modals/EditCardModal/ReUsableComponents/BasePopover";
 import Button from "@mui/material/Button";
+import {isAdminOfBoard, isMemberOrViewerOfBoard, isMemOfBoard} from "../../../../utils/checkMemberRoleOfBoard";
+import checkManyAdminOfBoard from "../../../../utils/checkManyAdminOfBoard";
 
 
 export default function CardDetail({member, setAnchorEl2}) {
     const [deletePopover, setDeletePopover] = useState(null);
     const {allLists} = useSelector((state) => state.list);
-
-
+    const boardMembers = useSelector((state) => state.board.members);
+    const {userInfo} = useSelector(state => state.user);
+    const isAdminInBoard = isAdminOfBoard(userInfo._id, boardMembers)
+    const isMemberOrViewerInBoard = isMemberOrViewerOfBoard(userInfo._id, boardMembers)
     const handleClickDelete = (e) => {
         setDeletePopover(e.target)
     }
     const dispatch = useDispatch();
     const {id} = useParams()
 
-
     const handleDeleteMember = async (idBoard, idMember, memberUser) => {
-
-
         setAnchorEl2(false)
-        await deleteMemberInBoard(idBoard, idMember, memberUser, allLists, dispatch)
-
+        if (isAdminInBoard) {
+            await deleteMemberInBoard(idBoard, idMember, memberUser, allLists, dispatch)
+        } else if (isMemberOrViewerInBoard) {
+           const mem= boardMembers.filter(members=>members._id === idMember)
+            if(mem[0].user===userInfo._id){
+                    await deleteMemberInBoard(idBoard, idMember, memberUser, allLists, dispatch)
+            }else {
+                    alert("dont enough permissions")
+                }
+        } else {
+            alert("dont enough permissions")
+        }
     }
+    const moreThanTwoAdmin=checkManyAdminOfBoard(boardMembers)
 
     return (
         <Card sx={{maxWidth: 350}} className="cardDetail">
@@ -84,10 +96,26 @@ export default function CardDetail({member, setAnchorEl2}) {
                                 View profile
                             </Typography>
                             <hr/>
+
+                            {member.role !== "Admin" &&
+                                <Typography variant="body1" component="div"
+                                            onClick={handleClickDelete}>
+                                    remove
+                                </Typography>
+                            }
+                            {member.role === "Admin" && moreThanTwoAdmin &&
+                                <Typography variant="body1" component="div"
+                                            onClick={handleClickDelete}>
+                                    leave board
+                                </Typography>
+                            }
+
+
                             <Typography variant="body1" component="div"
-                                        onClick={handleClickDelete}>
-                                remove
+                            >
+                                change roles:({member.role})
                             </Typography>
+
                         </CardContent>
                         {deletePopover && (
                             <BasePopover
@@ -97,7 +125,8 @@ export default function CardDetail({member, setAnchorEl2}) {
                                 }}
                                 title={'Delete this member!'}
                                 contents={
-                                    <Button  onClick={() => handleDeleteMember(id, member._id, member.user)}>Confirm Delete</Button>
+                                    <Button onClick={() => handleDeleteMember(id, member._id, member.user)}>Confirm
+                                        Delete</Button>
                                 }
                             />
                         )}

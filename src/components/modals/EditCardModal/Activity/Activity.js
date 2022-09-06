@@ -16,8 +16,13 @@ import Button from '../ReUsableComponents/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { comment } from '../../../../services/cardService';
 import {Avatar, CircularProgress} from '@mui/material';
+import {isMemberOfBoard} from "../../../../utils/checkMemberRoleOfBoard";
 
 const Activity = () => {
+	const {userInfo}=useSelector(state=>state.user)
+    const {members}=useSelector(state=>state.board)
+    const isMember=isMemberOfBoard(userInfo._id,members)
+
 	const dispatch = useDispatch();
 	const ref = useRef();
 	const card = useSelector((state) => state.card);
@@ -79,7 +84,11 @@ const Activity = () => {
 						</SaveButton>
 						<CommentArea
 							value={newComment}
-							onChange={(e) => setNewComment(e.target.value)}
+							onChange={(e) =>{
+								if(!isMember)return;
+								setNewComment(e.target.value)
+							}
+						}
 							focus={focusComment}
 							placeholder='Write a comment...'
 						/>
