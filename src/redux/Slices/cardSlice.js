@@ -163,6 +163,9 @@ const cardSlice = createSlice({
             const { memberId } = action.payload;
             state.members = state.members.filter((member) => member.user !== memberId);
         },
+        updateDescription: (state, action) => {
+            state.description = action.payload.card.description;
+        }
     }
 });
 
@@ -187,6 +190,7 @@ export const {
     deleteMember,
     deleteAttachment,
     updateAttachments,
+    updateDescription
 } = cardSlice.actions;
 
 //export reducer

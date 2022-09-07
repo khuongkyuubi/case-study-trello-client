@@ -16,7 +16,7 @@ import {
     addMember,
     deleteMember,
     deleteAttachment,
-    updateAttachments,
+    updateAttachments, updateDescription,
 } from '../redux/Slices/cardSlice';
 import {
     createLabelBoard, deleteLabelBoard,deleteFilterLabel,
@@ -458,4 +458,24 @@ export const attachmentUpdate = async(cardId,listId,boardId,attachmentId,link,li
         )
     }
 }
-
+export const descriptionUpdate = async (cardId,listId,boardId,description,dispatch) => {
+    try{
+        ///${boardId}/${listId}/${cardId}
+        let res = await axios.put(baseUrl+`/description`,{cardId,listId,boardId,description})
+        console.log(res.data,1)
+        dispatch(updateDescription(res.data))
+        dispatch(openAlert(
+            {
+                message: 'Success',
+                severity: 'success',
+            }
+        ))
+    }catch (error) {
+        dispatch(
+            openAlert({
+                message: error?.response?.data?.errMessage ? error.response.data.errMessage : error.message,
+                severity: 'error',
+            })
+        )
+    }
+}
