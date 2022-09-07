@@ -132,3 +132,19 @@ export const Link = styled.a`
     color: #0052cc;
   }
 `;
+export const WrapPassword = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 20rem;
+  justify-content: right;
+  align-items: center;
+  gap: 1rem;
+  ${md({
+  gap: "0.7rem",
+})}
+  position: relative;
+`;
+export const IconWrap = styled.div`
+  position: absolute;
+  margin: 10px;
+`;
