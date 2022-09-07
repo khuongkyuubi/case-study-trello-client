@@ -25,6 +25,23 @@
 
 }
 
+.Select{
+    padding:5px;
+    border:none;
+    background-color:#f6f6f6
+}
+
+.removeMemberInBoard{
+    color: #b47979;
+    font-size:20px;
+
+}
+.removeMemberInBoard:hover{
+    color: #c72020;
+
+}
+
+
 .selectRole :hover{
     background-color: #b4b4b6 !important;
 }

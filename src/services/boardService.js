@@ -10,7 +10,7 @@ import {
 } from '../redux/Slices/listSlice';
 import {openAlert} from '../redux/Slices/alertSlice';
 import {
-    addMembers, changeIsExpanded, deleteFilterMember, deleteMember,
+    addMembers, changeIsExpanded, changeVisibility, deleteFilterMember, deleteMember,
     setActivityLoading,
     updateActivity,
     updateBackground,
@@ -199,7 +199,6 @@ export const updateIsExpandedLabels = async (boardId, dispatch) => {
 
 }
 export const deleteMemberInBoard = async (boardId,idMember, memberUser, allLists, dispatch) => {
-
     try {
       const res=  await axios.put(`${boardRoute}/${boardId}/delete-member`,
             {
@@ -232,6 +231,32 @@ export const deleteMemberInBoard = async (boardId,idMember, memberUser, allLists
             })
         );
     }
+}
 
+export const changeVisibilityOfBoard = async (valueVisibility,boardId,listMember,dispatch) => {
+    try {
 
+      const res=  await axios.put(`${boardRoute}/change-visibility`,
+            {
+                valueVisibility,
+                boardId,
+                listMember
+            }
+            );
+         await dispatch(changeVisibility(valueVisibility))
+        dispatch(
+            openAlert({
+                message: res.data.message,
+                severity: 'success',
+            })
+        );
+
+    } catch (error) {
+        dispatch(
+            openAlert({
+                message: error?.response?.data?.errMessage ? error.response.data.errMessage : error.message,
+                severity: 'error',
+            })
+        );
+    }
 }

@@ -4,8 +4,9 @@ const initialState = {
     userInfo: null,
     isAuthenticated: null,
     pending: true,
-    loading: true,
+    loading: false,
     token: localStorage.getItem("token"),
+    boards:[],
     teams: [],
     teamFind:{},
 };
@@ -29,7 +30,6 @@ export const userSlice = createSlice({
             state.userInfo = action.payload.user;
             state.token = action.payload.user.token;
             localStorage.setItem("token", action.payload.user.token);
-            // state.teams = action.payload.teams
         },
         loginFailure: (state) => {
             state.pending = false;
@@ -101,7 +101,11 @@ export const userSlice = createSlice({
                 }
                 return member;
             })
-        }
+        },
+        loadBoardSuccess: (state,action) => {
+            state.boards = action.payload;
+        },
+
     },
 });
 
@@ -125,6 +129,7 @@ export const {
     inviteTeamMember,
     addTeamFind,
     updateRoleTeamFind,
-    updateRoleUserRole
+    updateRoleUserRole,
+    loadBoardSuccess,
 } = userSlice.actions;
 export default userSlice.reducer;

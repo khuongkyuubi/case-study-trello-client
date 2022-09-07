@@ -53,7 +53,7 @@ export default function TeamsList({team}) {
                 </ListItemIcon>
 
                 <ListItemText>
-                    <Typography sx={{fontSize:'1rem',fontWeight:'medium'
+                    <Typography noWrap={true} sx={{fontSize:'1rem',fontWeight:'medium'
                     }} >{team?.name}</Typography>
                 </ListItemText>
 

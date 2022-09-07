@@ -122,6 +122,7 @@ const List = (props) => {
                                 <TitlePlaceholder show={clickTitle} onClick={() => setClickTitle(true)}>
                                     {currentListTitle}
                                 </TitlePlaceholder>
+
                                 <TitleInput
                                     onBlur={() => {
                                         setClickTitle(false);
@@ -132,6 +133,8 @@ const List = (props) => {
                                     value={currentListTitle}
                                     onChange={handleOnChangeTitle}
                                 />
+
+
                                 <ClickableIcon
                                     color='#656565'
                                     aria-controls='basic-menu'

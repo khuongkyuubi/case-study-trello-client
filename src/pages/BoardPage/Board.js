@@ -4,7 +4,7 @@ import * as style from './Styled';
 
 import {DragDropContext, Droppable} from "react-beautiful-dnd";
 import LoadingScreen from '../../components/LoadingScreen';
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {getBoard} from "../../services/boardsService";
 import {getLists} from "../../services/boardService";
 import Navbar from "../../components/Navbar";
@@ -18,6 +18,7 @@ import checkBoardVisibility from "../../utils/checkBoardVisibility";
 import {memRoles} from "../../utils/roles";
 
 const Board = (props) => {
+    const navigate = useNavigate()
     const {id: boardId} = useParams();
     const dispatch = useDispatch();
     const {
@@ -28,17 +29,43 @@ const Board = (props) => {
         members,
         labels,
         visibility,
-        teams
+        teams : boardTeams,
+
     } = useSelector((state) => state.board);
     const {allLists, loadingListService} = useSelector((state) => state.list);
     const [searchString, setSearchString] = useState("");
-    const {userInfo} = useSelector((state) => state.user);
+    const {userInfo, boards, teams} = useSelector((state) => state.user);
+
+    const board = boards.filter(board => board._id.toString() === boardId.toString())
     const isMember = isMemberOfBoard(userInfo._id, members);
-     const result=checkBoardVisibility(userInfo._id, visibility, members, teams.members)
+    const [isAccessBoard , setIsAccessBoard] = useState(false)
+
+    // console.log(userInfo._id,'11111',
+    //     visibility,'222222',
+    //     board[0]?.members,'33333',
+    //     team[0]?.members,'444444')
+    //
+    // console.log(loadingListService, loading)
+
+    console.log(members, "member of board")
+
+    useEffect(() => {
+        if((!loading && !loadingListService)) {
+            const result = checkBoardVisibility(userInfo._id, visibility, members, boardTeams.members);
+            result ? setIsAccessBoard(true) : navigate("/");
+            console.log(result)
+            // if(!result) navigate("/")
+        }
+    })
+
+
 
     useEffect(() => {
         getBoard(boardId, dispatch);
         getLists(boardId, dispatch);
+        //   if(!result){
+        //     navigate('/home')
+        // }
     }, [boardId, dispatch]);
 
     useEffect(() => {
@@ -92,7 +119,7 @@ const Board = (props) => {
         <>
             <Navbar searchString={searchString} isTranslucent={true} setSearchString={setSearchString}/>
 
-            {result
+            {(!loading && !loadingListService && isAccessBoard)
             ?
             <style.Container
                 isImage={isImage}
@@ -101,7 +128,7 @@ const Board = (props) => {
 
                 <TopBar listMember={members}/>
 
-                {(loading || loadingListService) && <LoadingScreen/>}
+                {/*{(loading || loadingListService) && <LoadingScreen/>}*/}
                 <DragDropContext onDragEnd={onDragEnd}>
                     <Droppable droppableId='all-columns' direction='horizontal' type='column'>
                         {(provided, snapshot) => {
@@ -129,13 +156,7 @@ const Board = (props) => {
 
             </style.Container>
                 :
-                <style.Container>
-                    <img src="https://st.depositphotos.com/1575949/4950/v/950/depositphotos_49506497-stock-illustration-error-red-stamp-text.jpg"
-                         alt=""
-                         width="100%"
-                         height="500px"
-                    />
-                </style.Container>
+                <LoadingScreen/>
             }
 
         </>

@@ -16,6 +16,10 @@ import {Delete} from "@mui/icons-material";
 import {DeleteMemberOfBoard} from "../../../../../services/boardsService";
 import {isAdminOfBoard} from "../../../../../utils/checkMemberRoleOfBoard";
 import board from "../../../../../pages/BoardPage/Board";
+import "../../../../../Link.css"
+import {FormControl, Select} from "@mui/material";
+import MenuItem from "@mui/material/MenuItem";
+import checkManyAdminOfBoard from "../../../../../utils/checkManyAdminOfBoard";
 
 
 const useStyles = makeStyles({
@@ -85,6 +89,7 @@ const InviteMembers = ({listMember}) => {
     const changeRole = async (e, idMember, idBoard) => {
         await changeRoleUser(e.target.value, dispatch, idMember, idBoard);
     }
+    const moreThanTwoAdmin=checkManyAdminOfBoard(boardMembers)
 
     return (
         <Container>
@@ -102,7 +107,7 @@ const InviteMembers = ({listMember}) => {
 
 
             {listMember.map(member => (
-                    <div key={member._id} style={{display: 'flex'}}>
+                    <div key={member._id} style={{display: 'flex',justifyContent: 'space-between',gap:'0.3rem'}}>
                         <span>{member.name}</span>
 
                         {isAdminInBoard &&
@@ -112,9 +117,13 @@ const InviteMembers = ({listMember}) => {
                             }
                         }}>
                             {Object.values(memRoles).map((role, index) => {
-                                if (member?.role === 'Admin') {
+                                if (member?.role === 'Admin' && !moreThanTwoAdmin) {
                                     return <option value={role} key={index} disabled>{role} </option>
                                 }
+                                //   if (member?.role === 'Admin' && moreThanTwoAdmin) {
+                                //     return <option value={role} key={index} >{role} </option>
+                                // }
+
                                 return <option value={role} key={index}>{role}</option>
 
                             })}
@@ -127,9 +136,9 @@ const InviteMembers = ({listMember}) => {
                             }
                         }}>
                             {Object.values(memRoles).map((role, index) => {
-                                if (member?.role === 'Admin') {
-                                    return <option value={role} key={index} disabled>{role} </option>
-                                }
+                                // if (member?.role === 'Admin') {
+                                //     return <option value={role} key={index} disabled>{role} </option>
+                                // }
                                 return <option value={role} key={index} disabled>{role}</option>
 
                             })}
