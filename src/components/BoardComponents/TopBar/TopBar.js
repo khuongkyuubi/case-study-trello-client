@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useMemo} from 'react';
+import React, {useEffect, useState, useMemo, useLayoutEffect} from 'react';
 import * as style from './styled';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
@@ -120,7 +120,11 @@ const TopBar = ({listMember}) => {
         await changeVisibilityOfBoard(role,board.id,members,dispatch)
         setMenuAlchorEl(null);
     };
-    console.log(visibility)
+    // console.log(visibility)
+    console.log(isMemberOrAdmin, "is admin");
+    useLayoutEffect(()=> {
+        !isMemberOrAdmin && setInvitePopover(null);
+    },[isMemberOrAdmin])
     return (
         <style.TopBar>
             <style.LeftWrapper>
