@@ -72,7 +72,10 @@ const Workspace = styled.div`
 `
 
 const ContentWorkspace = styled.div`
-  margin-left: 8%;
+  margin-left: 9.3%;
+  font-size:16px;
+  font-weight:380;
+  
 `
 const IconWorkspace = styled.button`
   border: none;
@@ -292,7 +295,7 @@ const HomeLeft = () => {
 
             <DivProject>
                 <Workspace>
-                    <ContentWorkspace>workspaces</ContentWorkspace>
+                    <ContentWorkspace>Workspaces</ContentWorkspace>
                     <IconWorkspace>
                         <AddIcon onClick={() => setCreateWorkSpace(true)}/>
                     </IconWorkspace>

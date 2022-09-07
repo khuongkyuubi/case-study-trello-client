@@ -11,11 +11,20 @@ import {deleteMemberInBoard} from "../../../../services/boardService";
 import {useState} from "react";
 import BasePopover from "../../../modals/EditCardModal/ReUsableComponents/BasePopover";
 import Button from "@mui/material/Button";
-import {isAdminOfBoard, isMemberOrViewerOfBoard, isMemOfBoard} from "../../../../utils/checkMemberRoleOfBoard";
+import {
+    isAdminOfBoard,
+    isMemberOfBoard,
+    isMemberOrViewerOfBoard,
+    isMemOfBoard
+} from "../../../../utils/checkMemberRoleOfBoard";
 import checkManyAdminOfBoard from "../../../../utils/checkManyAdminOfBoard";
+import '../../../../Link.css'
+import {ButtonDelete, Text} from "./styled";
+import {openAlert} from "../../../../redux/Slices/alertSlice";
 
 
 export default function CardDetail({member, setAnchorEl2}) {
+    console.log(member,'.....')
     const [deletePopover, setDeletePopover] = useState(null);
     const {allLists} = useSelector((state) => state.list);
     const boardMembers = useSelector((state) => state.board.members);
@@ -27,9 +36,9 @@ export default function CardDetail({member, setAnchorEl2}) {
     }
     const dispatch = useDispatch();
     const {id} = useParams()
-
+    const isMemberOrAdmin = isMemberOfBoard(userInfo._id, boardMembers);
     const handleDeleteMember = async (idBoard, idMember, memberUser) => {
-        setAnchorEl2(false)
+        setAnchorEl2(null)
         if (isAdminInBoard) {
             await deleteMemberInBoard(idBoard, idMember, memberUser, allLists, dispatch)
         } else if (isMemberOrViewerInBoard) {
@@ -37,13 +46,19 @@ export default function CardDetail({member, setAnchorEl2}) {
             if(mem[0].user===userInfo._id){
                     await deleteMemberInBoard(idBoard, idMember, memberUser, allLists, dispatch)
             }else {
-                    alert("dont enough permissions")
+                    // alert("dont enough permissions")
+                dispatch(openAlert({
+                    message: "You have no permissions!",
+                    severity: "error",
+                }))
                 }
         } else {
-            alert("dont enough permissions")
+            dispatch(openAlert({
+                message: "You have no permissions!",
+                severity: "error",
+            }))
         }
     }
-    const moreThanTwoAdmin=checkManyAdminOfBoard(boardMembers)
 
     return (
         <Card sx={{maxWidth: 350}} className="cardDetail">
@@ -78,7 +93,7 @@ export default function CardDetail({member, setAnchorEl2}) {
                                     display: 'flex',
                                     width: '100%',
                                     flexDirection: "column",
-                                    marginTop: '-28%',
+                                    marginTop: '-35%',
                                     marginLeft: '4.5%',
                                     color: '#ffffff'
                                 }}>
@@ -92,28 +107,31 @@ export default function CardDetail({member, setAnchorEl2}) {
 
 
                         <CardContent className='hover'>
-                            <Typography gutterBottom variant="body1" component="div">
-                                View profile
-                            </Typography>
+                            {/*<Typography gutterBottom variant="body1" component="div">*/}
+                            {/*    View profile*/}
+                            {/*</Typography>*/}
                             <hr/>
 
-                            {member.role !== "Admin" &&
-                                <Typography variant="body1" component="div"
-                                            onClick={handleClickDelete}>
-                                    remove
-                                </Typography>
-                            }
-                            {member.role === "Admin" && moreThanTwoAdmin &&
-                                <Typography variant="body1" component="div"
+
+                            {member.user===userInfo._id &&
+
+                                <Text variant="body1" component="div"
                                             onClick={handleClickDelete}>
                                     leave board
-                                </Typography>
+                                </Text>
+                            }
+                            {member.user!==userInfo._id && isMemberOrAdmin &&
+
+                                <Text variant="body1" component="div"
+                                            onClick={handleClickDelete}>
+                                    remove
+                                </Text>
                             }
 
 
-                            <Typography variant="body1" component="div"
+                            <Typography variant="body2" component="div"
                             >
-                                change roles:({member.role})
+                                roles: {member.role}
                             </Typography>
 
                         </CardContent>
@@ -125,8 +143,9 @@ export default function CardDetail({member, setAnchorEl2}) {
                                 }}
                                 title={'Delete this member!'}
                                 contents={
-                                    <Button onClick={() => handleDeleteMember(id, member._id, member.user)}>Confirm
-                                        Delete</Button>
+                                    <ButtonDelete onClick={() => handleDeleteMember(id, member._id, member.user)}>Confirm
+                                        Delete
+                                    </ButtonDelete>
                                 }
                             />
                         )}
