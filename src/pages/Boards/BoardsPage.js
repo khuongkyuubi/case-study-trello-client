@@ -7,15 +7,14 @@ import LoadingScreen from "../../components/LoadingScreen";
 import {useDispatch, useSelector} from "react-redux";
 import BoardsWorkSpace from "./BoardsWorkSpace";
 import {getBoards} from "../../services/boardsService";
-import {getAllTeam, getTeams} from "../../services/teamService";
 
 
 const Container = styled.div`
   //margin-top: 1rem;
   width: 100%;
   //height: 100%;
-  display: flex;
-  flex-direction: column;
+  //display: flex;
+  //flex-direction: column;
   position: absolute;
   top: 2.5rem;
   bottom: 0;
@@ -24,11 +23,13 @@ const Container = styled.div`
 
 `
 const Nav = styled.div`
-  width: 100%;
-  position: sticky;
+  //width: 100%;
+  //position: sticky;
+  //flex: 1
 `
 
 const Wrapper = styled.div`
+  //flex: 6;
   display: flex;
   width: 100%;
 `
@@ -48,13 +49,9 @@ const DivEmpty = styled.div`
 const BoardsPage = () => {
     const {pending, boardsData} = useSelector((state) => state.boards);
     const dispatch = useDispatch();
-    useEffect(() => {
-        getBoards(false, dispatch);
-    }, [dispatch]);
-    useEffect(  () => {
-        getTeams(false,dispatch);
-        // getAllTeam(false,dispatch);
-    },[])
+    // useEffect(() => {
+    //     getBoards(false, dispatch);
+    // }, [dispatch]);
     return (
         <>
             {pending && <LoadingScreen/>}

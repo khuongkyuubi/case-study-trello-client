@@ -11,11 +11,13 @@ import {
 import {
     setLoading,
     successFetchingBoard,
-    updateTitle
+    updateTitle,
+    updateFilterMembers,
 } from "../redux/Slices/boardSlice";
 import board from "../pages/BoardPage/Board";
 import { addNewBoard } from "../redux/userSlice";
 import {successFetchingBoardInTeam} from "../redux/Slices/boardInTeamSlice";
+import initMembersFilter from "../utils/initMembersFilter";
 
 const baseUrl = process.env.REACT_APP_API_ENDPOINT;
 
@@ -24,7 +26,16 @@ export const getBoard = async (boardId, dispatch) => {
     try {
         const res = await  axios.get(baseUrl + "/board/" + boardId);
         dispatch(successFetchingBoard(res.data));
-        console.log(res.data)
+        console.log(res.data, "board data")
+        // const initMembersFilter = (members) => {
+        //     const state = {noMembers: false}
+        //     members.map((member) => state[member.user] = false);
+        //     return state;
+        // }
+        const initMembersFilterState = initMembersFilter(res.data.members);
+        dispatch(updateFilterMembers(initMembersFilterState))
+
+
 
         setTimeout(()=> {
             dispatch(setLoading(false))
@@ -75,10 +86,8 @@ export const createBoard = async (props, dispatch) => {
         return;
     }
     try {
-        console.log(props)
-        const res = await axios.post(baseUrl + "/boards/create", props);
-        console.log(res.data)
 
+        const res = await axios.post(baseUrl + "/boards/create", props);
         dispatch(addNewBoard(res.data));
         dispatch(successCreatingBoard(res.data));
         dispatch(

@@ -40,17 +40,17 @@ const ContentRight2 = styled.div`
 `
 const HomePage = () => {
 
-    const {pending, boardsData} = useSelector((state) => state.boards);
+    // const {pending, boardsData} = useSelector((state) => state.boards);
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        getBoards(false, dispatch)
-    }, [dispatch])
+    // useEffect(() => {
+    //     getBoards(false, dispatch)
+    // }, [dispatch])
 
 
     return (
         <>
-            {pending && <LoadingScreen/>}
+            {/*{pending && <LoadingScreen/>}*/}
             <Container>
                 <Nav>
                     <Navbar/>

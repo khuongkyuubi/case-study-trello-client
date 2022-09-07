@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { xs } from '../../../BreakPoints';
+import {Button} from '../../../pages/BoardPage/CommonStyled';
 
 export const TopBar = styled.div`
 	height: 52px;
@@ -107,4 +108,27 @@ export const BoardNameInput = styled.input`
 	${xs({
 		maxWidth: '8rem',
 	})}
+`;
+
+export const Span = styled.span`
+	color: white;
+	font-size: 1.25rem;
+	font-weight: 100;
+`;
+
+export const ButtonGroup = styled.div`
+    &:after {
+      content: "";
+      clear: both;
+      display: table;
+    }
+`;
+
+export const CloseButton = styled(Button)`
+	border-radius: 0 3px 3px 0;
+	padding : 0 6px;
+	background-color: rgba(255, 255, 255, 0.6);
+	&:hover {
+		background-color: rgba(255, 255, 255, 1);
+	}
 `;

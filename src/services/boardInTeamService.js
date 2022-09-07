@@ -16,6 +16,7 @@ import {
 
 import board from "../pages/BoardPage/Board";
 import {startCreatingBoard, successCreatingBoard} from "../redux/Slices/boardsSlice";
+import {updateTeam} from "../redux/Slices/userSlice";
 // import { addNewBoard } from "../redux/userSlice";
 
 const baseUrl = process.env.REACT_APP_API_ENDPOINT;

@@ -213,7 +213,6 @@ const HomeRight = () => {
     const [createBoard, setCreateBoard] = useState(false)
     const [openModal, setOpenModal] = useState(false);
     const {userInfo} = useSelector(state => state.user);
-    console.log(userInfo.defaultTeam);
 
     const handleClick = (e) => {
         navigate(`/board/${e.target.id}`)

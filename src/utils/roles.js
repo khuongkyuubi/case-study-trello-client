@@ -9,5 +9,11 @@ export const teamRoles = Object.freeze({
     PUBLIC: "Public"
 })
 
+export const roleInTeam = Object.freeze({
+    ADMIN: "Admin",
+    MEMBER: "Member",
+    GUEST: "Guest"
+})
+
 
 

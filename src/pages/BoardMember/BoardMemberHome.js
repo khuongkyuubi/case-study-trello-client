@@ -12,6 +12,8 @@ import ButtonRemove from "./ButtonRemove";
 import {useLocation, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {getListTeam} from "../../services/boardInTeamService";
+import isAdminOfTeam from "../../utils/checkRolesTeam";
+import Member from "./Member";
 
 export const Container = styled.div`
   //margin-top: 3rem;
@@ -156,11 +158,11 @@ const TitleToChoose = styled.div`
 const DivRight = styled.div`
   width: 75%;
 `
-const DivContainerDetailMember = styled.div`
+export const DivContainerDetailMember = styled.div`
   width: 100%;
 `
 
-const WrapperContentRight = styled.div`
+export const WrapperContentRight = styled.div`
   width: 100%;
   margin: 30px 0 0 25px;
 `
@@ -196,7 +198,10 @@ const DescriptionInvite = styled.div`
 `
 
 const DivInputWorkSpace = styled.div`
+  width: 90%;
   margin-left: 2%;
+  display: flex;
+  justify-content: space-between;
 `
 const InputFilter = styled.input`
   padding: 5px 0;
@@ -272,14 +277,15 @@ const ContentInvite = styled.span`
 
 `
 
-const ListFriends = styled.div`
+export const ListFriends = styled.div`
   width: 90%;
   height: 33px;
   display: flex;
 `
 
-const Avatar = styled.div`
-  width: 3%;
+export const Avatar = styled.div`
+  width: 2.75rem;
+  height: 2.75rem;
   background-color: red;
   border-radius: 50%;
   display: flex;
@@ -289,35 +295,35 @@ const Avatar = styled.div`
   font-weight: bold;
 `
 
-const NameAcc = styled.div`
+export const NameAcc = styled.div`
   width: 58%;
   display: flex;
   flex-direction: column;
   margin-left: 10px;
 `
 
-const Account = styled.div`
+export const Account = styled.div`
   font-size: 14px;
   font-weight: bold;
 `
-const Email = styled.div`
+export const Email = styled.div`
   color: #788396;
   font-size: 12px;
 `
 
-const Edit = styled.div`
+export const Edit = styled.div`
   width: 37%;
   display: flex;
 `
 
-const Detail = styled.div`
+export const Detail = styled.div`
   width: 33.33%;
 `
-const Roles = styled.div`
+export const Roles = styled.div`
   width: 33.33%;
 `
 
-const Remove = styled.div`
+export const Remove = styled.div`
   width: 33.33%;
 `
 
@@ -337,13 +343,14 @@ const BoardMemberHome = () => {
     const [backgroundWorkSpace, setBackgroundWorkSpace] = useState('')
     const [backgroundGuests, setBackgroundGuests] = useState('')
     const [backgroundPending, setBackgroundPending] = useState('')
+    const {idTeam} = useParams();
+    const {teams, userInfo, teamFind} = useSelector(state => state.user);
+    const team = teams.filter(team => team._id === idTeam);
     useEffect(() => {
         setBackgroundWorkSpace('#e6eaee')
     }, [])
- const {idTeam} = useParams();
-    const {listTeamData} = useSelector(state => state.boardInTeam)
-    const team = listTeamData.filter(team => team._id === idTeam)
 
+    const isAdmin = isAdminOfTeam(userInfo._id, teamFind?.members);
     const [guests, setGuests] = useState(false)
     const [pendding, setPendding] = useState(false)
     const [workspaces, setWorkSpaces] = useState(true)
@@ -382,10 +389,6 @@ const BoardMemberHome = () => {
         }, 1800)
     }
 
-    useEffect(() => {
-        getListTeam(false, dispatch)
-    }, [dispatch])
-
 
     return (
         <Container>
@@ -397,30 +400,29 @@ const BoardMemberHome = () => {
                     <WrapperTitle>
                         <DivTitle>
                             <IconName>
-                                D
+                                {teamFind?.name.charAt(0).toUpperCase()}
                             </IconName>
 
                             <ContentTitle>
                                 <NameProject>
                                     <DetailName>
-                                        <Name>Dự án C03H_JS</Name>
-                                        <IconEditName><DriveFileRenameOutlineIcon
-                                            style={{color: "#788396", width: "15px", height: "15px"}}/></IconEditName>
+                                        <Name>{teamFind?.name}</Name>
+                                        {/*<IconEditName><DriveFileRenameOutlineIcon*/}
+                                        {/*    style={{color: "#788396", width: "15px", height: "15px"}}/></IconEditName>*/}
                                     </DetailName>
 
                                     <Status>
-                                        <Div1>Premium</Div1>
+                                        {/*<Div1>Premium</Div1>*/}
                                         <Div2>
                                             <LockOpenIcon style={{width: "10px", marginRight: "3px"}}/>
-                                            <span>Private</span>
+                                            <span>{teamFind?.role}</span>
                                         </Div2>
                                     </Status>
                                 </NameProject>
 
-
-                                <InviteMember>
+                                {isAdmin && <InviteMember>
                                     < InviteMemberModal/>
-                                </InviteMember>
+                                </InviteMember>}
                             </ContentTitle>
                         </DivTitle>
                     </WrapperTitle>
@@ -437,15 +439,15 @@ const BoardMemberHome = () => {
                                 <h3>Member</h3>
                                 <TitleToChoose>Members of Workspace boards</TitleToChoose>
                                 <Item onClick={handleWorkSpaces} style={{backgroundColor: backgroundWorkSpace}}>
-                                    <ContentItem>Workspace members<span>({team[0]?.members.length})</span></ContentItem>
+                                    <ContentItem>Workspace members<span>({teamFind?.members.length})</span></ContentItem>
                                 </Item>
-                                <Item onClick={handleGuests} style={{backgroundColor: backgroundGuests}}>
-                                    <ContentItem>Guests</ContentItem>
-                                </Item>
+                                {/*<Item onClick={handleGuests} style={{backgroundColor: backgroundGuests}}>*/}
+                                {/*    <ContentItem>Guests</ContentItem>*/}
+                                {/*</Item>*/}
 
-                                <Item onClick={handlePending} style={{backgroundColor: backgroundPending}}>
-                                    <ContentItem>Pending</ContentItem>
-                                </Item>
+                                {/*<Item onClick={handlePending} style={{backgroundColor: backgroundPending}}>*/}
+                                {/*    <ContentItem>Pending</ContentItem>*/}
+                                {/*</Item>*/}
                             </ChooseMember>
                         </DivWrapper>
                     </DivLeft>
@@ -453,119 +455,122 @@ const BoardMemberHome = () => {
                     {workspaces &&
                         <DivRight>
                             <WrapperContentRight>
-                                <TitleGuests>Workspace members<span>({team[0]?.members.length})</span></TitleGuests>
+                                <TitleGuests>Workspace members<span>({teamFind?.members.length})</span></TitleGuests>
                                 <Descriptions>Workspace members can view and join all Workspace visible boards and
                                     create new boards in the Workspace. Adding new members will automatically update
                                     your billing.</Descriptions>
                             </WrapperContentRight>
 
+                            {/*<DivHr>*/}
+                            {/*    <hr/>*/}
+                            {/*</DivHr>*/}
+
+                            {/*< WrapperContentRight>*/}
+                                {/*<WrapperInvite>*/}
+                                {/*    <InviteLeft>*/}
+                                {/*        <TitleInvite>Invite members to join you</TitleInvite>*/}
+                                {/*        <DescriptionInvite>*/}
+                                {/*            Anyone with a unique link can join this Workspace, with 3 boards. You’ll be*/}
+                                {/*            billed for each member added.*/}
+                                {/*            You can disable, and create a new link for this Workspace at any time.*/}
+                                {/*        </DescriptionInvite>*/}
+                                {/*    </InviteLeft>*/}
+
+                                {/*    <DivInviteLink>*/}
+
+                                {/*        {invite && <InviteRightTop>*/}
+                                {/*            <InviteLinkTop>*/}
+                                {/*                <span style={{color: '#8dbe89', fontSize: '10px'}}>Link copied to success</span>*/}
+                                {/*            </InviteLinkTop>*/}
+                                {/*        </InviteRightTop>*/}
+                                {/*        }*/}
+
+                                {/*        <InviteRightBottom>*/}
+
+                                {/*            <InviteLinkBottom onClick={handleInvite}>*/}
+                                {/*                <ContentInvite>Invite with link</ContentInvite>*/}
+                                {/*            </InviteLinkBottom>*/}
+
+                                {/*        </InviteRightBottom>*/}
+
+                                {/*    </DivInviteLink>*/}
+                                {/*</WrapperInvite>*/}
+                            {/*</WrapperContentRight>*/}
+
+
+                            {/*<DivHr>*/}
+                            {/*    <hr/>*/}
+                            {/*</DivHr>*/}
+                            {/*<DivInputWorkSpace>*/}
+                            {/*    <InputFilter placeholder="Filter by name"/>*/}
+                            {/*    {!isAdmin &&*/}
+                            {/*    <span>x Leave</span>}*/}
+                            {/*</DivInputWorkSpace>*/}
+
                             <DivHr>
                                 <hr/>
                             </DivHr>
 
-                            < WrapperContentRight>
-                                <WrapperInvite>
-                                    <InviteLeft>
-                                        <TitleInvite>Invite members to join you</TitleInvite>
-                                        <DescriptionInvite>
-                                            Anyone with a unique link can join this Workspace, with 3 boards. You’ll be
-                                            billed for each member added.
-                                            You can disable, and create a new link for this Workspace at any time.
-                                        </DescriptionInvite>
-                                    </InviteLeft>
-
-                                    <DivInviteLink>
-
-                                        {invite && <InviteRightTop>
-                                            <InviteLinkTop>
-                                                <span style={{color: '#8dbe89', fontSize: '10px'}}>Link copied to success</span>
-                                            </InviteLinkTop>
-                                        </InviteRightTop>
-                                        }
-
-                                        <InviteRightBottom>
-
-                                            <InviteLinkBottom onClick={handleInvite}>
-                                                <ContentInvite>Invite with link</ContentInvite>
-                                            </InviteLinkBottom>
-
-                                        </InviteRightBottom>
-
-                                    </DivInviteLink>
-                                </WrapperInvite>
-                            </WrapperContentRight>
-
-
-                            <DivHr>
-                                <hr/>
-                            </DivHr>
-                            <DivInputWorkSpace>
-                                <InputFilter placeholder="Filter by name"/>
-                            </DivInputWorkSpace>
-
-                            <DivHr>
-                                <hr/>
-                            </DivHr>
-
-                            {team[0]?.members.map(member => (
-                                < DivContainerDetailMember key={member._id}>
-                                    <WrapperContentRight>
-                                        <ListFriends>
-                                            <Avatar><span>{member.name.charAt(0).toUpperCase()}</span></Avatar>
-                                            <NameAcc>
-                                                <Account>{member.name}</Account>
-                                                <Email>{member.email}</Email>
-                                            </NameAcc>
-                                            <Edit>
-                                                <Detail>
-                                                    <ButtonDetailMember/>
-                                                </Detail>
-                                                <Roles>
-                                                    <ButtonRoles/>
-                                                </Roles>
-                                                <Remove>
-                                                    <ButtonRemove/>
-                                                </Remove>
-
-                                            </Edit>
-                                        </ListFriends>
-                                    </WrapperContentRight>
-                                    <DivHr>
-                                        <hr/>
-                                    </DivHr>
-                                </DivContainerDetailMember>
+                            {teamFind.members.map((member, index) => (
+                                <Member member={member} isAdmin={isAdmin} key={index} idTeam={teamFind._id}/>
+                                // < DivContainerDetailMember key={member._id}>
+                                //     <WrapperContentRight>
+                                //         <ListFriends>
+                                //             <Avatar><span>{member.name.charAt(0).toUpperCase()}</span></Avatar>
+                                //             <NameAcc>
+                                //                 <Account>{member.name}</Account>
+                                //                 <Email>{member.email}</Email>
+                                //             </NameAcc>
+                                //             <Edit>
+                                //                 <Detail>
+                                //                     <ButtonDetailMember/>
+                                //                 </Detail>
+                                //                 <Roles>
+                                //                     <ButtonRoles/>
+                                //                 </Roles>
+                                //                     {isAdmin && <Remove>
+                                //                     <ButtonRemove/>
+                                //                 </Remove>}
+                                //
+                                //             </Edit>
+                                //         </ListFriends>
+                                //     </WrapperContentRight>
+                                //     <DivHr>
+                                //         <hr/>
+                                //     </DivHr>
+                                // </DivContainerDetailMember>
                             ))}
 
 
                         </DivRight>}
 
 
-                    {guests && <DivRight>
-                        <WrapperContentRight>
-                            <TitleGuests>Guests<span>(0)</span></TitleGuests>
-                            <Descriptions>Guests can only view and edit the boards to which they've been
-                                added.</Descriptions>
-                            <InputFilter placeholder="Filter by name"/>
-                        </WrapperContentRight>
-                        <DivHr>
-                            <hr/>
-                        </DivHr>
-                        <TalkWarning>There are no guests in this Workspace.</TalkWarning>
-                    </DivRight>}
+                    {/*{guests && <DivRight>*/}
+                    {/*    <WrapperContentRight>*/}
+                    {/*        <TitleGuests>Guests<span>(0)</span></TitleGuests>*/}
+                    {/*        <Descriptions>Guests can only view and edit the boards to which they've been*/}
+                    {/*            added.</Descriptions>*/}
+                    {/*        <InputFilter placeholder="Filter by name"/>*/}
+                    {/*    </WrapperContentRight>*/}
+                    {/*    <DivHr>*/}
+                    {/*        <hr/>*/}
+                    {/*    </DivHr>*/}
+                    {/*    <TalkWarning>There are no guests in this Workspace.</TalkWarning>*/}
+                    {/*</DivRight>}*/}
 
-                    {pendding && <DivRight>
-                        <WrapperContentRight>
-                            <TitleGuests>Pending<span>(0)</span></TitleGuests>
-                            <Descriptions>These people have requested to join this Workspace. Adding new Workspace
-                                members will automatically update your bill.</Descriptions>
-                            <InputFilter placeholder="Filter by name"/>
-                        </WrapperContentRight>
-                        <DivHr>
-                            <hr/>
-                        </DivHr>
-                        <TalkWarning>There are no pending requests.</TalkWarning>
-                    </DivRight>
-                    }
+                    {/*{pendding && <DivRight>*/}
+                    {/*    <WrapperContentRight>*/}
+                    {/*        <TitleGuests>Pending<span>(0)</span></TitleGuests>*/}
+                    {/*        <Descriptions>These people have requested to join this Workspace. Adding new Workspace*/}
+                    {/*            members will automatically update your bill.</Descriptions>*/}
+                    {/*        <InputFilter placeholder="Filter by name"/>*/}
+                    {/*    </WrapperContentRight>*/}
+                    {/*    <DivHr>*/}
+                    {/*        <hr/>*/}
+                    {/*    </DivHr>*/}
+                    {/*    <TalkWarning>There are no pending requests.</TalkWarning>*/}
+                    {/*</DivRight>*/}
+                    {/*}*/}
                 </DivBottom>
             </WrapperContent>
         </Container>

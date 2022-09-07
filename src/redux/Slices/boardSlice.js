@@ -23,6 +23,11 @@ const initialState = {
         {bg: '#ff78cb', hbg: '#c75bad'},
     ],
     isExpandedLabels: false,
+    teams: [],
+    filter: {
+        members: {noMembers: false},
+        labels: {noLabels: false}
+    }
 };
 
 const boardSlice = createSlice({
@@ -43,6 +48,7 @@ const boardSlice = createSlice({
             state.description = action.payload.description;
             state.labels = action.payload.labels;
             state.isExpandedLabels = action.payload.isExpandedLabels ?? true;
+            state.teams = action.payload.teams;
         },
         updateTitle: (state, action) => {
             state.title = action.payload;
@@ -106,7 +112,13 @@ const boardSlice = createSlice({
         deleteMember: (state, action) => {
             state.members = state.members.filter((members) => members._id !== action.payload.idMember);
         },
-
+        updateFilterMembers: (state, action) => {
+            state.filter.members = action.payload;
+        },
+        deleteFilterMember: (state, action) => {
+            const {[action.payload] : deleteMember ,...members} = state.filter.members;
+            state.filter.members = members;
+        },
 
     },
 });
@@ -126,7 +138,9 @@ export const {
     changeIsExpanded,
     deleteLabelBoard,
     changeRole,
-    deleteMember
+    deleteMember,
+    updateFilterMembers,
+    deleteFilterMember,
 } = boardSlice.actions;
 
 export default boardSlice.reducer;

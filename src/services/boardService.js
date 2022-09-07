@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {
+    deleteMemberOfCard,
     removeAList,
     setLoading,
     successCreatingList,
@@ -9,13 +10,15 @@ import {
 } from '../redux/Slices/listSlice';
 import {openAlert} from '../redux/Slices/alertSlice';
 import {
-    addMembers, changeIsExpanded, deleteMember,
+    addMembers, changeIsExpanded, deleteFilterMember, deleteMember,
     setActivityLoading,
     updateActivity,
     updateBackground,
-    updateDescription
+    updateDescription,
+    updateFilterMembers
 } from '../redux/Slices/boardSlice';
 import board from "../pages/BoardPage/Board";
+import initMembersFilter from "../utils/initMembersFilter";
 
 const listRoute = process.env.REACT_APP_API_ENDPOINT + '/list';
 const boardRoute = process.env.REACT_APP_API_ENDPOINT + '/board';
@@ -163,6 +166,7 @@ export const boardMemberAdd = async (boardId, members, dispatch) => {
         });
 
         await dispatch(addMembers(result.data));
+        dispatch(updateFilterMembers(initMembersFilter(result.data)));
         dispatch(
             openAlert({
                 message: 'Members are added to this board successfully',
@@ -195,17 +199,25 @@ export const updateIsExpandedLabels = async (boardId, dispatch) => {
 
 
 }
-export const deleteMemberInBoard = async (boardId,idMember, dispatch) => {
+export const deleteMemberInBoard = async (boardId,idMember, memberUser, allLists, dispatch) => {
 
     try {
       const res=  await axios.put(`${boardRoute}/${boardId}/delete-member`,
             {
                 idMember,
-                boardId
+                boardId,
+                memberUser
             }
             );
 
         await dispatch(deleteMember({idMember}))
+        dispatch(deleteFilterMember(memberUser))
+
+        allLists.map(list => {
+            list.cards.map(card => {
+                dispatch(deleteMemberOfCard({ listId : list._id, cardId : card._id , memberId : memberUser }));
+            })
+        })
         dispatch(
             openAlert({
                 message: res.data.message,

@@ -26,7 +26,11 @@
 }
 
 .selectRole :hover{
-    background-color: #f5f6f8 !important;
+    background-color: #b4b4b6 !important;
+}
+
+.invite:hover{
+    background-color:#B4B4B6FF !important;
 }
 
 

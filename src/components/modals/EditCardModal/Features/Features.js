@@ -11,7 +11,7 @@ import {
 	CompleteLabel,
 	OverDueLabel,
 } from './styled';
-// import MembersFeature from './MembersFeature';
+import MembersFeature from './MembersFeature';
 import ArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Checkbox from '../ReUsableComponents/Checkbox';
 import { useDispatch, useSelector } from 'react-redux';
@@ -49,12 +49,12 @@ const Features = (props) => {
 	};
 	return (
 		<Container>
-			{/*{card.members.length > 0 && (*/}
-			{/*	<FeatureContainer>*/}
-			{/*		<MembersFeature />*/}
-			{/*	</FeatureContainer>*/}
-			{/*)}*/}
-			{/*{anySelectedLabel().length > 0 && (*/}
+			{card.members.length > 0 && (
+				<FeatureContainer>
+					<MembersFeature />
+				</FeatureContainer>
+			)}
+			{anySelectedLabel().length > 0 && (
 				<FeatureContainer>
 					<Title ref={ref}>Labels</Title>
 					<RowContainer >
@@ -100,7 +100,7 @@ const Features = (props) => {
 						)}
 					</RowContainer>
 				</FeatureContainer>
-			{/*)}*/}
+			)}
 			{/*{(card.date.startDate || card.date.dueDate) && (*/}
 			{/*	<FeatureContainer>*/}
 			{/*		<Title>{card.date.startDate ? (card.date.dueDate ? 'Dates' : 'Start date') : 'Due date'}</Title>*/}

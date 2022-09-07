@@ -137,15 +137,32 @@ const cardSlice = createSlice({
             });
         },
         updateSetAttachments: (state, action) => {
-        state.attachments = [
-            ...state.attachments,
-            {
-                link: action.payload.link,
-                name: action.payload.name,
-                date: action.payload.date
-            }
-        ]
-        }
+            state.attachments = action.payload.attachments;
+            // state.attachments = [
+            //     ...state.attachments,
+            //     {
+            //         link: action.payload.link,
+            //         name: action.payload.name,
+            //         date: action.payload.date
+            //     }
+            // ]
+        },
+        deleteAttachment: (state, action) => {
+            // tae.attachments = state.attachments.filter((act) => act._id !== action.payload.card._id);
+            state.attachments = action.payload.card.attachments;
+            // console.log(state.attachments)
+        },
+        updateAttachments: (state, action) => {
+            state.attachments = action.payload.card.attachments;
+        },
+        addMember: (state, action) => {
+            const { memberId, memberName, memberColor } = action.payload;
+            state.members.unshift({ user: memberId, name: memberName, color: memberColor });
+        },
+        deleteMember: (state, action) => {
+            const { memberId } = action.payload;
+            state.members = state.members.filter((member) => member.user !== memberId);
+        },
     }
 });
 
@@ -165,7 +182,11 @@ export const {
     deleteComment,
     updateComment,
     deleteLabel,
-    updateSetAttachments
+    updateSetAttachments,
+    addMember,
+    deleteMember,
+    deleteAttachment,
+    updateAttachments,
 } = cardSlice.actions;
 
 //export reducer

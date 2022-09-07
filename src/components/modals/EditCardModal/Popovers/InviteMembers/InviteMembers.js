@@ -53,7 +53,6 @@ const InviteMembers = ({listMember}) => {
 	const [members, setMembers] = useState([]);
 	const dispatch = useDispatch();
 	const boardMembers = useSelector((state) => state.board.members);
-	console.log(boardMembers,'boardMembers')
 	const boardId = useSelector(state=>state.board.id);
 
 	const [role,setRole] = useState()

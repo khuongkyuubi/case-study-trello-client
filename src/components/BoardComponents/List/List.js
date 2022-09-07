@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import AddIcon from '@mui/icons-material/Add';
 import {
@@ -16,7 +16,7 @@ import {
 import {ClickableIcon} from '../../../pages/BoardPage/CommonStyled';
 import BottomButtonGroup from '../BottomButtonGroup/BottomButtonGroup';
 // import Card from '../Card/Card';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemText from '@mui/material/ListItemText';
@@ -39,6 +39,9 @@ const List = (props) => {
     const open = Boolean(anchorEl);
     const ref = useRef();
     const [isAdding, setIsAdding] = useState(false);
+    const { filter} = useSelector((state) => state.board);
+    const isFilterMember = useMemo(() => !!Object.values(filter.members).filter(value => value).length , [filter]);
+
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -149,7 +152,10 @@ const List = (props) => {
                                             isDraggingOver={snapshot.isDraggingOver}
                                         >
                                             <CardWrapper dock={clickFooter}>
-                                                {props.info.cards.filter(card => props.searchString ? card.title.toLowerCase().includes(props.searchString.toLowerCase()) : true).map((card, index) => {
+                                                {props.info.cards
+                                                    .filter(card => props.searchString ? card.title.toLowerCase().includes(props.searchString.toLowerCase()) : true)
+                                                    .filter(card => isFilterMember ? filter.members.noMembers ? !card.members.length : card.members.filter(member => filter.members[member.user]).length : true)
+                                                    .map((card, index) => {
                                                     return (
                                                         <Card
                                                             boardId={props.boardId}

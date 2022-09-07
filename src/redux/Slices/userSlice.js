@@ -4,8 +4,10 @@ const initialState = {
     userInfo: null,
     isAuthenticated: null,
     pending: true,
-    loading: false,
+    loading: true,
     token: localStorage.getItem("token"),
+    teams: [],
+    teamFind:{},
 };
 
 export const userSlice = createSlice({
@@ -27,6 +29,7 @@ export const userSlice = createSlice({
             state.userInfo = action.payload.user;
             state.token = action.payload.user.token;
             localStorage.setItem("token", action.payload.user.token);
+            // state.teams = action.payload.teams
         },
         loginFailure: (state) => {
             state.pending = false;
@@ -66,6 +69,38 @@ export const userSlice = createSlice({
         },
         updateUserInfo: (state,action) => {
             state.userInfo = action.payload;
+        },
+        updateTeam: (state,action) => {
+            state.teams = action.payload.teams;
+        },
+        updateTeamCreate: (state,action) => {
+            state.teams.push(action.payload.team)
+        },
+        inviteTeamMember: (state,action) => {
+            state.teamFind.members = action.payload.members;
+        },
+        removeTeamMember: (state,action) => {
+            state.teams = state.teams.map((team)=>{
+                if(team._id === action.payload.teamId){
+                    team.members = team.members.filter((member)=> member._id !== action.payload.idMember)
+                }
+                return team;
+            })
+            state.teamFind.members = state.teamFind.members.filter((member)=>member._id !== action.payload.idMember)
+        },
+        addTeamFind: (state,action) => {
+            state.teamFind = action.payload.team;
+        },
+        updateRoleTeamFind: (state,action) => {
+            state.teamFind.role = action.payload;
+        },
+        updateRoleUserRole: (state,action) => {
+            state.teamFind.members = state.teamFind.members.map((member) =>{
+                if(member._id === action.payload.idMember){
+                    member.role = action.payload.role;
+                }
+                return member;
+            })
         }
     },
 });
@@ -84,5 +119,12 @@ export const {
     fetchingFinish,
     addNewBoard,
     updateUserInfo,
+    updateTeam,
+    updateTeamCreate,
+    removeTeamMember,
+    inviteTeamMember,
+    addTeamFind,
+    updateRoleTeamFind,
+    updateRoleUserRole
 } = userSlice.actions;
 export default userSlice.reducer;

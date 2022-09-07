@@ -18,6 +18,11 @@ import {createTeam, getTeams} from "../../services/teamService";
 import {useNavigate} from "react-router-dom";
 import TeamsList from "./TeamsList";
 import {getListTeam} from "../../services/boardInTeamService";
+import {getBoards} from "../../services/boardsService";
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
 
 const ContentLeft2 = styled.div`
   width: 30%;
@@ -241,7 +246,16 @@ const Close = styled.div`
   font-size: 17px;
   font-weight: bold
 `
-
+const style1 = {
+    width: 'auto',
+    height: 'auto',
+    position: 'absolute',
+    top: '21%',
+    left: '21%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+};
 
 const HomeLeft = () => {
     const navigate=useNavigate()
@@ -250,10 +264,17 @@ const HomeLeft = () => {
     const [members, setMembers] = useState([]);
     const [createWorkSpace, setCreateWorkSpace] = useState(false)
     const [form, setForm] = useState({})
-    const {listTeamData} = useSelector(state => state.boardInTeam);
+    const {listTeamData} = useSelector(state => state.boardInTeam)
+    // console.log(listTeamData)
     const [roleTeam, setRoleTeam] = useState("Private")
 
     const {teamsData}=useSelector(state =>state.team)
+    const {boards} =useSelector(state =>state.boards)
+
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+
 
 
     const handleChange = (e) => {
@@ -286,12 +307,15 @@ const HomeLeft = () => {
         }
         await createTeam(data, dispatch,navigate)
         setCreateWorkSpace(false)
+        setOpen(false)
 
     }
 
     useEffect(() => {
         getListTeam(false,dispatch)
-    },[dispatch, createWorkSpace])
+        getTeams(false,dispatch)
+        getBoards(false, dispatch)
+    },[dispatch])
 
     return (
         <ContentLeft2>
@@ -305,95 +329,107 @@ const HomeLeft = () => {
                 <Workspace>
                     <ContentWorkspace>workspaces</ContentWorkspace>
                     <IconWorkspace>
-                        <AddIcon onClick={() => setCreateWorkSpace(true)}/>
+                        <AddIcon onClick={() => {
+                            setCreateWorkSpace(true)
+                            setOpen(true);
+                        }}/>
                     </IconWorkspace>
                 </Workspace>
 
                 <ProjectOld>
-                    {listTeamData.length > 0 && listTeamData?.map(team => (
-                        <TeamsList team={team} key={team._id}/>
+                    {teamsData?.length > 0 && teamsData?.map((team, index) => (
+                        <TeamsList team={team} key={index}/>
                     ))}
                 </ProjectOld>
-
-
             </DivProject>
 
-            {
-                createWorkSpace && <CreateWorkSpace>
-                <WrapperWorkSpace>
-                    <LeftCreateSPace>
-                        <Close onClick={() => setCreateWorkSpace(false)}>X</Close>
-                        <ContentWorkSpace>
-                            <Tittle>Let's build a Workspace</Tittle>
-                            <Desc1>
-                                Boost your productivity by making it easier for everyone to access boards in one
-                                location.
-                            </Desc1>
-
-                            <WorkspaceName>Workspace name</WorkspaceName>
-                            <InputName placeholder="Taco's Co." name="name" onChange={handleChange}></InputName>
-                            <Desc2>This is the name of your company, team or organization.</Desc2>
-
-                            <WorkspaceDesc>Workspace description</WorkspaceDesc>
-                            <TextArea name="description" onChange={handleChange}
-                                      placeholder="Our team organizes everything here." rows="4"></TextArea>
-
-                            <WorkspaceDesc>Visibility</WorkspaceDesc>
-                            <SelectRoles name="role" onChange={(e)=>setRoleTeam(e.target.value)}>
-                                {rolesTeam.map((role, index) => (
-                                    <OptionRoles value={role} key={index} >{role}</OptionRoles>
-                                ))}
-                            </SelectRoles>
-
-                            <Desc3>Get your members on board with a few words about your Workspace.</Desc3>
+            <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
 
 
+                <Box sx={style1}>
+                    <WrapperWorkSpace >
+                <LeftCreateSPace>
+                    <Close onClick={() => {
+                        setOpen(false);
+                        setCreateWorkSpace(false)}}>X</Close>
+                    <ContentWorkSpace>
+                        <Tittle>Let's build a Workspace</Tittle>
+                        <Desc1>
+                            Boost your productivity by making it easier for everyone to access boards in one
+                            location.
+                        </Desc1>
 
-                            <style.MemberWrapper>
-                                <style.MemberInputWrapper>
-                                    <style.MemberIcon>
-                                        <GroupAddOutlinedIcon fontSize="small"/>
-                                    </style.MemberIcon>
-                                    <style.MemberInput
-                                        placeholder="Invite to board with email"
-                                        value={memberInput}
-                                        type="email"
-                                        onChange={(e) => setMemberInput(e.target.value)}
+                        <WorkspaceName>Workspace name</WorkspaceName>
+                        <InputName placeholder="Taco's Co." name="name" onChange={handleChange}></InputName>
+                        <Desc2>This is the name of your company, team or organization.</Desc2>
+
+                        <WorkspaceDesc>Workspace description</WorkspaceDesc>
+                        <TextArea name="description" onChange={handleChange}
+                                  placeholder="Our team organizes everything here." rows="4"></TextArea>
+
+                        <WorkspaceDesc>Visibility</WorkspaceDesc>
+                        <SelectRoles name="role" onChange={(e)=>setRoleTeam(e.target.value)}>
+                            {rolesTeam.map((role, index) => (
+                                <OptionRoles value={role} key={index} >{role}</OptionRoles>
+                            ))}
+                        </SelectRoles>
+
+                        <Desc3>Get your members on board with a few words about your Workspace.</Desc3>
+
+
+
+                        <style.MemberWrapper>
+                            <style.MemberInputWrapper>
+                                <style.MemberIcon>
+                                    <GroupAddOutlinedIcon fontSize="small"/>
+                                </style.MemberIcon>
+                                <style.MemberInput
+
+                                    placeholder="Invite to board with email"
+                                    value={memberInput}
+                                    type="email"
+                                    onChange={(e) => setMemberInput(e.target.value)}
+                                />
+                            </style.MemberInputWrapper>
+                            <style.AddButton onClick={() => handleClick()}>
+                                <AddIcon fontSize="small"/>
+                            </style.AddButton>
+                        </style.MemberWrapper>
+
+                        <style.ChipWrapper>
+                            {members.map((member) => {
+                                return (
+                                    <ChipComponent
+                                        key={member.email}
+                                        callback={handleDelete}
+                                        {...member}
                                     />
-                                </style.MemberInputWrapper>
-                                <style.AddButton onClick={() => handleClick()}>
-                                    <AddIcon fontSize="small"/>
-                                </style.AddButton>
-                            </style.MemberWrapper>
-
-                            <style.ChipWrapper>
-                                {members.map((member) => {
-                                    return (
-                                        <ChipComponent
-                                            key={member.email}
-                                            callback={handleDelete}
-                                            {...member}
-                                        />
-                                    );
-                                })}
-                            </style.ChipWrapper>
+                                );
+                            })}
+                        </style.ChipWrapper>
 
 
-                            <DivButton>
-                                <ButtonSubmit onClick={handleCreateTeam}>Create team</ButtonSubmit>
-                            </DivButton>
+                        <DivButton>
+                            <ButtonSubmit onClick={handleCreateTeam}>Create team</ButtonSubmit>
+                        </DivButton>
 
-                        </ContentWorkSpace>
+                    </ContentWorkSpace>
 
-                    </LeftCreateSPace>
+                </LeftCreateSPace>
 
 
-                    <RightCreateSPace>
-                        <ImageTrello src="https://wiki.tino.org/wp-content/uploads/2021/07/word-image-981.png"/>
-                    </RightCreateSPace>
-                </WrapperWorkSpace>
-            </CreateWorkSpace>
-            }
+                <RightCreateSPace>
+                    <ImageTrello src="https://wiki.tino.org/wp-content/uploads/2021/07/word-image-981.png"/>
+                </RightCreateSPace>
+                    </WrapperWorkSpace>
+                {/*</CreateWorkSpace>*/}
+                </Box>
+            </Modal>
         </ContentLeft2>
     );
 };

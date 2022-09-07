@@ -1,8 +1,7 @@
 import {teamRoles} from "./roles";
 
 const checkTeamVisibility = (userId, workspaceMembers, workspaceRole) => {
-    const user = !! workspaceMembers?.filter(member => member.user.toString() === userId.toString()).length;
-    console.log(user);
+    const user = !! workspaceMembers?.filter(member => member.user === userId.toString()).length;
     switch (workspaceRole) {
         case teamRoles.PRIVATE :
             return user;

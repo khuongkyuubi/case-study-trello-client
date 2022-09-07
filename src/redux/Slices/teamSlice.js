@@ -10,7 +10,8 @@ const initialState = {
     pending: true,
     creating:false,
     defaultTeam: '',
-    team: {}
+    team: [],
+    loading: true,
 };
 
 const teamSlice = createSlice({
@@ -31,7 +32,9 @@ const teamSlice = createSlice({
         successFetchingTeam: (state, action) => {
             state.team = action.payload.team;
             state.pending = false;
+            state.loading = false;
         },
+
         failFetchingTeams: (state) => {
             state.pending = false;
         },
@@ -39,8 +42,12 @@ const teamSlice = createSlice({
             state.creating = true;
         },
         successCreatingTeam: (state, action) => {
-            state.teamsData.push(action.payload);
+            // console.log(action.payload, "team created");
+            state.teamsData.unshift(action.payload);
             state.creating = false;
+        },
+        startFetchingTeamCurrent: (state, action) => {
+            state.loading = true;
         },
         failCreatingTeam: (state) => {
             state.creating = true;
@@ -49,7 +56,6 @@ const teamSlice = createSlice({
             state.teamsData = state.teamsData.map(team => {
                 if(team._id === action.payload.teamId){
                     team.isOpen = !team.isOpen;
-                    // team.isOpen = action.payload.isOpen;
                 }
                 return team;
             })
@@ -62,6 +68,11 @@ const teamSlice = createSlice({
                 return team;
             })
         },
+        inviteMember: (state, action) => {
+            // console.log(action.payload, "invite")
+            state.members = action.payload;
+        },
+
 
         reset:(state)=>{
             state=initialState;
@@ -79,7 +90,9 @@ export const {
     failCreatingTeam,
     reset,
     successFetchingTeam,
-    changeRole
+    changeRole,
+    inviteMember,
+    startFetchingTeamCurrent
 } = teamSlice.actions;
 
 export default teamSlice.reducer;
