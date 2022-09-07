@@ -79,17 +79,20 @@ export const TitleInput = styled.input`
 
 export const MemberWrapper = styled.div`
   display: flex;
-  width: 90%;
+  width: 100%;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   gap: 0.1rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 `;
 
 export const MemberInputWrapper = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
+  height: 2rem;
   align-items: center;
   border-radius: 3px;
   padding-left: 0.4rem;
@@ -127,8 +130,8 @@ export const MemberInput = styled.input`
 export const AddButton = styled.div`
   color: rgba(255, 255, 255, 0.5);
   cursor: pointer;
-  height: 100%;
-  width: 1.7rem;
+  height: 2rem;
+  width: 2rem;
   border-radius: 3px;
   display: flex;
   align-items: center;
@@ -245,11 +248,12 @@ export const DoneIconWrapper = styled.div`
 
 export const ChipWrapper = styled.div`
   background: rgba(0, 0, 0, 0.3);
-  padding: 0 0.5rem 0.5rem 0.5rem;
+  padding: 0.5rem 0.5rem 0.5rem 0.5rem;
   width: 100%;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: flex-start;
   gap: 0.2rem;
+  border-radius: 0.2rem;
 `;

@@ -23,7 +23,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-
+import CloseIcon from '@mui/icons-material/Close';
 const ContentLeft2 = styled.div`
   width: 30%;
   display: flex;
@@ -130,7 +130,7 @@ const CreateWorkSpace = styled.div`
 `
 
 const WrapperWorkSpace = styled.div`
-  height: 550px;
+  height: 575px;
   width: 1000px;
   //margin-top: 5px;
   background-color: #6554a2;;
@@ -154,20 +154,26 @@ const ContentWorkSpace = styled.div`
 
 
 const Tittle = styled.div`
-  color: #091e42;
+  //color: #091e42;
+  color: white;
   font-size: 18px;
   font-weight: bold;
 `
 
 const Desc1 = styled.div`
-  color: #8e98a8;
+  //color: #8e98a8;
+  color: rgba(255, 255, 255, 0.7);
+
+
 `
 
 const WorkspaceName = styled.div`
+  color: white;
   margin-top: 15px;
   font-weight: bold;
 `
 const InputName = styled.input`
+  color: rgba(255, 255, 255, 0.7);
   margin-top: 3px;
   width: 100%;
   padding: 5px;
@@ -193,11 +199,13 @@ const OptionRoles = styled.option`
 
 const Desc2 = styled.div`
   font-size: 10px;
-  margin-top: 3px;
-  color: #7f8285;
+  margin-top: 10px;
+  //color: #7f8285;
+  color: rgba(255, 255, 255, 0.7) ;
 `
 
 const WorkspaceDesc = styled.div`
+  color: rgb(255, 255, 255);
   margin-top: 15px;
 `
 
@@ -205,13 +213,18 @@ const TextArea = styled.textarea`
   border-radius: 4px;
   width: 100%;
   border-color: #f5f6f8;
+  color: rgba(255, 255, 255, 0.7) ;
+
 
 `
 
 const Desc3 = styled.div`
-  color: #7f8285;
+  //color: #7f8285;
   font-size: 10px;
+  margin-top: 10px;
   margin-bottom: 3px;
+  color: rgba(255, 255, 255, 0.7) ;
+
 `
 const DivButton = styled.div`
   display: flex;
@@ -223,9 +236,10 @@ const ButtonSubmit = styled.button`
   margin-top: 8px;
   background-color: #ffffff;
   width: 100%;
-  padding: 7px;
+  padding: 10px;
   border-radius: 4px;
   border-color: #f5f6f8;
+  border: none;
 `
 
 
@@ -235,9 +249,12 @@ const RightCreateSPace = styled.div`
 
 `
 const ImageTrello = styled.img`
-  width: 100%;
-  height: 100%;
+  margin-top: 75px;
+  margin-left: 20px;
+  width: 75%;
+  height: 75%;
   border-radius: 3px;
+  object-fit: contain;
 
 `
 
@@ -291,11 +308,12 @@ const HomeLeft = () => {
 
     const handleClick = async () => {
         const newMember = await getUserFromEmail(memberInput, dispatch);
-        console.log(newMember,'.......')
+        // console.log(newMember,'.......')
         if (newMember == null) return;
         if (members.filter((member) => member.email === newMember.email).length > 0)
             return;
         setMembers([...members, newMember]);
+        setMemberInput("")
     };
 
     const handleDelete = (email) => {
@@ -361,7 +379,7 @@ const HomeLeft = () => {
                 <LeftCreateSPace>
                     <Close onClick={() => {
                         setOpen(false);
-                        setCreateWorkSpace(false)}}>X</Close>
+                        setCreateWorkSpace(false)}}><CloseIcon/></Close>
                     <ContentWorkSpace>
                         <Tittle>Let's build a Workspace</Tittle>
                         <Desc1>
@@ -429,7 +447,8 @@ const HomeLeft = () => {
 
 
                 <RightCreateSPace>
-                    <ImageTrello src="https://wiki.tino.org/wp-content/uploads/2021/07/word-image-981.png"/>
+                    {/*<ImageTrello src="https://wiki.tino.org/wp-content/uploads/2021/07/word-image-981.png"/>*/}
+                    <ImageTrello src="https://images.ctfassets.net/rz1oowkt5gyp/5QIzYxue6b7raOnVFtMyQs/113acb8633ee8f0c9cb305d3a228823c/hero.png?w=1200&fm=webp"/>
                 </RightCreateSPace>
                     </WrapperWorkSpace>
                 {/*</CreateWorkSpace>*/}
