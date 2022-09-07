@@ -1,25 +1,25 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Container, RightContainer, Title, DescriptionInput, DescriptionText } from './styled';
 import DescriptionIcon from '@mui/icons-material/TextSnippetOutlined';
-import BottomButtonGroup from '../../../Pages/BoardPage/BoardComponents/BottomButtonGroup/BottomButtonGroup.js';
+import BottomButtonGroup from '../../../BoardComponents/BottomButtonGroup/BottomButtonGroup';
 import { useDispatch, useSelector } from 'react-redux';
-import { descriptionUpdate } from '../../../../Services/cardService';
+import { descriptionUpdate } from '../../../../services/cardService';
 const Description = () => {
-	const thisCard = useSelector((state) => state.card);
+	const card = useSelector((state) => state.card);
 	const dispatch = useDispatch();
 	const [inputFocus, setInputFocus] = useState(false);
-	const [description, setDescription] = useState(thisCard.description);
+	const [description, setDescription] = useState(card.description);
 	const ref = useRef();
 	const ref2 = useRef();
 
 	const handleSaveClick = async () => {
 		setInputFocus(false);
-		await descriptionUpdate(thisCard.cardId, thisCard.listId, thisCard.boardId, description, dispatch);
+		await descriptionUpdate(card.cardId, card.listId, card.boardId, description, dispatch);
 	};
 
 	useEffect(() => {
-		setDescription(thisCard.description);
-	}, [thisCard.description]);
+		setDescription(card.description);
+	}, [card.description]);
 
 	useEffect(() => {
 		if (inputFocus) {
@@ -30,7 +30,7 @@ const Description = () => {
 	const handleClickOutside = (event) => {
 		if (ref2.current && !ref2.current.contains(event.target)) {
 			setInputFocus(false);
-			setDescription(thisCard.description);
+			setDescription(card.description);
 		} else {
 			setInputFocus(true);
 		}
@@ -63,7 +63,7 @@ const Description = () => {
 					<BottomButtonGroup
 						closeCallback={() => {
 							setInputFocus(false);
-							setDescription(thisCard.description);
+							setDescription(card.description);
 						}}
 						clickCallback={handleSaveClick}
 						title='Save'

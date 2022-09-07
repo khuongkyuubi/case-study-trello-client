@@ -27,9 +27,16 @@ import {createCard} from '../../../services/listService';
 import {Droppable, Draggable} from 'react-beautiful-dnd';
 import {CircularProgress} from "@mui/material";
 import Card from "../Card/Card";
+import {isMemberOfBoard} from "../../../utils/checkMemberRoleOfBoard";
+
+
 
 
 const List = (props) => {
+    const {userInfo}=useSelector(state=>state.user)
+    const {members}=useSelector(state=>state.board)
+    const isMember=isMemberOfBoard(userInfo._id,members)
+
     const dispatch = useDispatch();
     const [clickTitle, setClickTitle] = useState(false);
     const [clickFooter, setClickFooter] = useState(false);
@@ -41,7 +48,8 @@ const List = (props) => {
     const [isAdding, setIsAdding] = useState(false);
     const { filter} = useSelector((state) => state.board);
     const isFilterMember = useMemo(() => !!Object.values(filter.members).filter(value => value).length , [filter]);
-
+    const isFilterLabel = useMemo(() => Object.values(filter.labels).includes(true) , [filter]);
+    // console.log(props.info)
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -62,7 +70,8 @@ const List = (props) => {
     };
 
     const handleOnChangeTitle = (e) => {
-        setCurrentListTitle(e.target.value);
+        if(!isMember) return
+            setCurrentListTitle(e.target.value);
     };
     const handleChangeTitle = async () => {
         if (props.info.title !== currentListTitle)
@@ -70,6 +79,7 @@ const List = (props) => {
     };
 
     const handleDeleteClick = () => {
+        if(!isMember)return;
         DeleteList(props.info._id, props.info.owner, dispatch);
     };
 
@@ -92,6 +102,12 @@ const List = (props) => {
         }
     }, [clickFooter]);
 
+    // console.log(!props.info.cards[2].labels.find(label => label.selected), "no lable")
+    // console.log(filter.labels, "filter")
+    // console.log(props.info.cards
+    //     .filter(card => props.searchString ? card.title.toLowerCase().includes(props.searchString.toLowerCase()) : true)
+    //     .filter(card => isFilterLabel ? filter.labels.noLabels ? !card.labels.length : card.labels.filter(label => filter.labels[label._id]).length : true)
+    // )
     return (
         <>
             <Draggable draggableId={props.info._id} index={props.index}>
@@ -154,7 +170,8 @@ const List = (props) => {
                                             <CardWrapper dock={clickFooter}>
                                                 {props.info.cards
                                                     .filter(card => props.searchString ? card.title.toLowerCase().includes(props.searchString.toLowerCase()) : true)
-                                                    .filter(card => isFilterMember ? filter.members.noMembers ? !card.members.length : card.members.filter(member => filter.members[member.user]).length : true)
+                                                    .filter(card => isFilterMember ? filter.members.noMembers ? (!card.members.length || card.members.filter(member => filter.members[member.user]).length) : card.members.filter(member => filter.members[member.user]).length : true)
+                                                    .filter(card => isFilterLabel ? filter.labels.noLabels ? (!card.labels.find(label => label.selected) || card.labels.filter(label => label.selected && filter.labels[label._id]).length) : card.labels.filter(label => label.selected && filter.labels[label._id]).length : true)
                                                     .map((card, index) => {
                                                     return (
                                                         <Card
@@ -166,7 +183,7 @@ const List = (props) => {
                                                         />
                                                     );
                                                 })}
-                                                {provided.placeholder}
+                                                {provided.placeholder }
                                             {clickFooter && (
                                                     <AddTitleCardContainer ref={ref}>
                                                         <TitleNewCardInput
@@ -191,7 +208,11 @@ const List = (props) => {
                                 }}
                             </Droppable>
                             {!clickFooter && (
-                                <FooterButton onClick={() => setClickFooter(true)}>
+                                <FooterButton onClick={() => {
+                                    if(!isMember) return
+                                    setClickFooter(true)}
+                                }
+                                >
                                     <AddIcon fontSize='small'/>
                                     <Span>Add a card</Span>
                                 </FooterButton>

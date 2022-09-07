@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import BasePopover from '../ReUsableComponents/BasePopover';
 import LabelsPopover from '../Popovers/Labels/LabelsPopover';
 import moment from 'moment';
+import {isMemberOfBoard} from "../../../../utils/checkMemberRoleOfBoard";
 // import { dateCompletedUpdate } from '../../../../Services/cardService';
 // import DatePopover from '../Popovers/Date/DatePopover';
 
@@ -29,7 +30,10 @@ const Features = (props) => {
 	const [labelPopover, setLabelPopover] = React.useState(null);
 	const [labelsBackArrow, setLabelsBackArrow] = React.useState(false);
 	const [labelsTitle, setLabelsTitle] = React.useState('Labels');
-	const [datePopover, setDatePopover] = React.useState(null);	
+	const [datePopover, setDatePopover] = React.useState(null);
+	const {userInfo} = useSelector((state) => state.user);
+	const {members} = useSelector((state) => state.board);
+	const isMember = isMemberOfBoard(userInfo._id, members);
 	useEffect(() => {
 		setDateCheck(card.date.completed);
 	}, [card.date.completed]);
@@ -72,7 +76,11 @@ const Features = (props) => {
 							);
 						})}
 
-						<AddLabel  onClick={(event) => setLabelPopover(event.currentTarget)}>+</AddLabel>
+						<AddLabel  onClick={(event) =>{
+							if(!isMember)return;
+							setLabelPopover(event.currentTarget)
+						}
+						}>+</AddLabel>
 						{labelPopover && (
 							<BasePopover 
 								anchorElement={labelPopover}

@@ -10,7 +10,6 @@ import {
     successFetchingTeam,
     successFetchingTeams,
 } from "../redux/Slices/teamSlice";
-import {addNewTeam} from "../redux/userSlice";
 import {
     addTeamFind,
     inviteTeamMember,
@@ -19,6 +18,9 @@ import {
     updateTeamCreate
 } from "../redux/Slices/userSlice";
 
+import board from "../pages/BoardPage/Board";
+import {addNewBoard, addNewTeam} from "../redux/userSlice";
+import {useNavigate} from "react-router-dom";
 
 const baseUrl = process.env.REACT_APP_API_ENDPOINT;
 
@@ -204,7 +206,7 @@ export const inviteMemberTeam = async (idTeam, members, dispatch) => {
                 severity: 'success',
             })
         );
-        console.log(res.data.members, "...");
+        // console.log(res.data.members, "...");
         dispatch(inviteTeamMember({idTeam: idTeam, members: res.data.members}))
     } catch (error) {
         dispatch(

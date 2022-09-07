@@ -1,4 +1,4 @@
-import {useMemo, useState} from 'react';
+import {useEffect, useMemo, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {FormGroup} from '@mui/material';
 import Button from '../../ReUsableComponents/Button';
@@ -10,34 +10,31 @@ import Box from "@mui/material/Box";
 import MemberCheckbox from "./FilterComponents/MemberCheckbox";
 import {updateFilterMembers} from "../../../../../redux/Slices/boardSlice";
 
-const FilterMembersPopover = () => {
+const FilterMembersPopover = ({search,checkSearchCallback}) => {
     const {members, filter} = useSelector((state) => state.board);
     const dispatch = useDispatch();
-    const [searchMember, setSearchMember] = useState("");
     const [isShowOtherMembers, setIsShowOtherMembers] = useState(false);
     const SHOW_MEMBERS_NUMBERS = 1;
-    const showMember = useMemo(() => members?.filter((member, index) => index < SHOW_MEMBERS_NUMBERS), [members, members]);
-    const moreMembers = useMemo(() => members?.filter((member, index) => index >= SHOW_MEMBERS_NUMBERS), [members, members]);
-    const searchShowMembers = useMemo(() => searchMembers(showMember, searchMember), [members, searchMember]);
-    const searchOtherMember = useMemo(() => searchMembers(moreMembers, searchMember), [members, moreMembers, searchMember]);
-
+    const showMember = useMemo(() => members?.filter((member, index) => index < SHOW_MEMBERS_NUMBERS), [members]);
+    const moreMembers = useMemo(() => members?.filter((member, index) => index >= SHOW_MEMBERS_NUMBERS), [members]);
+    const searchShowMembers = useMemo(() => searchMembers(showMember, search), [members, search]);
+    const searchOtherMember = useMemo(() => searchMembers(moreMembers, search), [members, moreMembers, search]);
     const isFoundMember = !!(searchShowMembers.length || searchOtherMember.length); // no member found
-    const handleChange = e => {
-        setSearchMember(e.target.value);
-    }
-
     const handleChangeCallback = (event) => {
         dispatch(updateFilterMembers({
             ...filter.members,
             [event.target.name]: event.target.checked,
         }))
     };
-
-    console.log(filter.members, "checked list")
+   useEffect(()=>{
+       const sendStatus = ()=>{checkSearchCallback(isFoundMember)}
+       sendStatus()
+   },[isFoundMember])
+    // console.log(filter.members)
+    // console.log(filter.members, "checked list")
     const checkedLength = searchOtherMember.filter(member => filter.members[member.user]).length;
     return (
         <Container>
-            <SearchArea value={searchMember} onChange={handleChange} placeholder='Search member...'/>
             {isFoundMember && (<>
                 <Title>Members</Title>
                 <Box sx={{display: 'flex'}}>
@@ -59,7 +56,7 @@ const FilterMembersPopover = () => {
                                         />;
                                     })
                             }
-                            {!isShowOtherMembers && !!searchOtherMember.length  && !searchMember &&
+                            {!isShowOtherMembers && !!searchOtherMember.length  && !search &&
                                 <Button
                                     style={{width: '100%'}}
                                     clickCallback={() => {
@@ -71,7 +68,7 @@ const FilterMembersPopover = () => {
                                         </ButtonSpan>
                                     }
                                 />}
-                            {(isShowOtherMembers || searchMember) &&
+                            {(isShowOtherMembers || search) &&
                                 <>
                                     {searchOtherMember?.length > 0 &&
                                         searchOtherMember

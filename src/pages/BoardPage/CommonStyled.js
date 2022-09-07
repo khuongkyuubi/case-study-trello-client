@@ -17,11 +17,11 @@ export const Button = styled.button`
 	border-radius: 3px;
 	cursor: pointer;
 	transition: 250ms ease;
-  ${props => (props.isFilterMember || props.filterPopover) && 'background-color: rgba(255, 255, 255, 0.7); color: #172b4d;'};
-  ${props => props.isFilterMember && 'border-radius: 3px 0 0 3px;'};
+  ${props => (props.isFilterMember || props.filterPopover || props.isFilterLabel) && 'background-color: rgba(255, 255, 255, 0.7); color: #172b4d;'};
+  ${props => (props.isFilterMember || props.isFilterLabel) && 'border-radius: 3px 0 0 3px;'};
   &:hover {
 		background-color: rgba(255, 255, 255, 0.5);
-    ${props => props.isFilterMember && 'background-color: rgba(255, 255, 255, 1);'};
+    ${props => (props.isFilterMember || props.isFilterLabel) && 'background-color: rgba(255, 255, 255, 1);'};
 	}
   &:not(:last-child) {
     border-right: none; /* Prevent double borders */

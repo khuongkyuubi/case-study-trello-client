@@ -288,6 +288,7 @@ const HomeLeft = () => {
 
     const handleClick = async () => {
         const newMember = await getUserFromEmail(memberInput, dispatch);
+        console.log(newMember,'.......')
         if (newMember == null) return;
         if (members.filter((member) => member.email === newMember.email).length > 0)
             return;
@@ -305,6 +306,7 @@ const HomeLeft = () => {
             members,
             roleTeam
         }
+        // console.log(data)
         await createTeam(data, dispatch,navigate)
         setCreateWorkSpace(false)
         setOpen(false)

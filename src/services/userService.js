@@ -48,11 +48,12 @@ export const register = async (
                 })
             );
         } catch (error) {
+            console.log(error.response)
             dispatch(
                 openAlert({
                     message: error?.response?.data?.errMessage[0].msg
                         ? error.response.data.errMessage[0].msg
-                        : error.message,
+                        : error.response.data.errMessage,
                     severity: "error",
                 })
             );
@@ -83,7 +84,7 @@ export const login = async ({email, password}, dispatch) => {
             openAlert({
                 message: error?.response?.data?.errMessage[0].msg
                     ? error.response.data.errMessage[0].msg
-                    : error.message,
+                    : error.response.data.errMessage,
                 severity: "error",
             })
         );
@@ -124,9 +125,9 @@ export const getUserFromEmail = async (email, dispatch) => {
     } catch (error) {
         dispatch(
             openAlert({
-                message: error?.response?.data?.errMessage
-                    ? error.response.data.errMessage
-                    : error.message,
+                message: error?.response?.data?.errMessage[0].msg
+                    ? error.response.data.errMessage[0].msg
+                    : error.response.data.errMessage,
                 severity: "error",
             })
         );
@@ -201,6 +202,7 @@ export const changeRoleUser = async (role, dispatch, idMember, idBoard) => {
                 idMember,
                 idBoard
             })
+        console.log(res.data,'.........................................')
         dispatch(changeRole({
                 role,
                 idMember

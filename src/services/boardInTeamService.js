@@ -40,7 +40,6 @@ export const createBoardInTeam = async (idTeam,props, dispatch) => {
         const res = await axios.post(baseUrl + "/team/create-boards", data);
 
 
-
         dispatch(successCreatingBoard(res.data));
         dispatch(
             openAlert({

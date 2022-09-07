@@ -17,3 +17,11 @@ export const roleInTeam = Object.freeze({
 
 
 
+
+export const memRoles = Object.freeze({
+    ADMIN: "Admin",
+    MEMBER: "Member",
+    VIEWER:"Viewer"
+})
+
+

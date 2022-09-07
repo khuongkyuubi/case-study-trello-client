@@ -71,3 +71,16 @@ export const MemberName = styled.div``;
 export const ButtonSpan = styled.span`
   
 `;
+export const LabelWrapper = styled.div`
+background-color: ${props => props.bg.color};
+  width:200px !important;
+  height: 2rem;
+  border-radius:3px;
+  padding: 3px;
+  &:hover {
+    background-color:  ${(props) => props.bg.backColor};
+  }
+`;
+export const LabelName = styled.div`
+  color:white;
+`;

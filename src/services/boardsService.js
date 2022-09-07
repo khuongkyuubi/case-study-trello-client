@@ -9,15 +9,17 @@ import {
     startCreatingBoard,
 } from "../redux/Slices/boardsSlice";
 import {
-    setLoading,
+    deleteMember,
+    setLoading, statusBoard,
     successFetchingBoard,
     updateTitle,
-    updateFilterMembers,
+    updateFilterMembers, updateFilterLabel,
 } from "../redux/Slices/boardSlice";
 import board from "../pages/BoardPage/Board";
 import { addNewBoard } from "../redux/userSlice";
 import {successFetchingBoardInTeam} from "../redux/Slices/boardInTeamSlice";
 import initMembersFilter from "../utils/initMembersFilter";
+import initLabelsFilter from "../utils/initLabelFilter";
 
 const baseUrl = process.env.REACT_APP_API_ENDPOINT;
 
@@ -25,6 +27,7 @@ export const getBoard = async (boardId, dispatch) => {
     dispatch(setLoading(true));
     try {
         const res = await  axios.get(baseUrl + "/board/" + boardId);
+
         dispatch(successFetchingBoard(res.data));
         console.log(res.data, "board data")
         // const initMembersFilter = (members) => {
@@ -33,6 +36,8 @@ export const getBoard = async (boardId, dispatch) => {
         //     return state;
         // }
         const initMembersFilterState = initMembersFilter(res.data.members);
+        const initLabelsFilterState = initLabelsFilter(res.data.labels);
+        dispatch(updateFilterLabel(initLabelsFilterState))
         dispatch(updateFilterMembers(initMembersFilterState))
 
 
@@ -73,9 +78,9 @@ export const getBoards = async (fromDropDown, dispatch) => {
         );
     }
 }
-export const createBoard = async (props, dispatch) => {
+export const createBoard = async (formDataCreateBoard, dispatch) => {
     dispatch(startCreatingBoard());
-    if (!(props.title && props.backgroundImageLink)) {
+    if (!(formDataCreateBoard.title && formDataCreateBoard.backgroundImageLink)) {
         dispatch(failCreatingBoard());
         dispatch(
             openAlert({
@@ -87,8 +92,10 @@ export const createBoard = async (props, dispatch) => {
     }
     try {
 
-        const res = await axios.post(baseUrl + "/boards/create", props);
+        const res = await axios.post(baseUrl + "/boards/create", formDataCreateBoard);
+        // console.log(res.data)
         dispatch(addNewBoard(res.data));
+        dispatch(successFetchingBoard(res.data))
         dispatch(successCreatingBoard(res.data));
         dispatch(
             openAlert({
@@ -124,3 +131,4 @@ export const boardTitleUpdate = async (title, boardId, dispatch) => {
         );
     }
 };
+

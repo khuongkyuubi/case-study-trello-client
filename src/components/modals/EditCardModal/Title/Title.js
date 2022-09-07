@@ -1,10 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import {Container, IconWrapper, RightContainer, TitleInput, Description, Link} from './styled';
+import {Container, IconWrapper, RightContainer, TitleInput, DescriptionWrapper, Link} from './styled';
 import TitleIcon from '@mui/icons-material/ChromeReaderMode';
 import {titleUpdate} from '../../../../services/cardService';
 import {useDispatch, useSelector} from 'react-redux';
+import {isMemberOfBoard} from "../../../../utils/checkMemberRoleOfBoard";
 
 const Title = () => {
+    const {userInfo}=useSelector(state =>state.user)
+    const {members}=useSelector(state =>state.board)
+    const isMember = isMemberOfBoard(userInfo._id,members)
+
     const dispatch = useDispatch();
     const card = useSelector((state) => state.card);
     const [title, setTitle] = useState('');
@@ -25,12 +30,16 @@ const Title = () => {
             <RightContainer>
                 <TitleInput
                     value={title}
-                    onChange={(e) => setTitle(e.target.value)}
+                    onChange={(e) =>{
+                        if(!isMember)return;
+                        setTitle(e.target.value)
+                    }
+                }
                     onBlur={handleTitleAccept}
                 />
-                <Description>
+                <DescriptionWrapper>
                     in list <Link>{card.listTitle}</Link>
-                </Description>
+                </DescriptionWrapper>
             </RightContainer>
         </Container>
     );
