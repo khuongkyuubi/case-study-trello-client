@@ -24,11 +24,15 @@ import {FilterListOutlined} from "@mui/icons-material";
 import CloseIcon from '@mui/icons-material/Close';
 import FilterMembers from "../../modals/EditCardModal/Popovers/Filter/FilterMembers";
 import {ButtonGroup} from "./styled";
-import {isMemberOfBoard} from "../../../utils/checkMemberRoleOfBoard";
+import {isAdminOfBoard, isMemberOfBoard} from "../../../utils/checkMemberRoleOfBoard";
 import {updateFilterLabel, updateFilterMembers} from "../../../redux/Slices/boardSlice";
 import FilterLabels from "../../modals/EditCardModal/Popovers/Filter/FilterLabels";
 import {SearchArea} from "../../modals/EditCardModal/Popovers/Filter/styled";
 import NotiFilter from "../../modals/EditCardModal/Popovers/Filter/NotiFilter/NotiFilter";
+import {changeVisibilityOfBoard} from "../../../services/boardService";
+import {boardRoles} from "../../../utils/roles";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 
 
 const TopBar = ({listMember}) => {
@@ -41,18 +45,20 @@ const TopBar = ({listMember}) => {
     const [filterPopover, setFilterPopover] = useState(null);
     const {userInfo} = useSelector((state) => state.user);
     const {members} = useSelector((state) => state.board);
-    const isMember = isMemberOfBoard(userInfo._id, members);
-
+    const isMemberOrAdmin = isMemberOfBoard(userInfo._id, members);
+     const isAdmin=isAdminOfBoard(userInfo._id, members)
+    console.log(isAdmin, "isAdmin")
 
     const [search, setSearch] = useState("");
     // console.log(listMember, "list members")
-    const {filter} = useSelector((state) => state.board);
+    const {filter, visibility, teams} = useSelector((state) => state.board);
     const isFilterMember = useMemo(() => !!Object.values(filter.members).filter(value => value).length, [filter]);
     const isFilterLabel = useMemo(() => Object.values(filter.labels).includes(true), [filter]);
     const [isSearch,setIsSearch] = useState({member:true,
     label:true
     })
-    console.log(isSearch)
+    const [menuAnchorEl, setMenuAlchorEl] = useState(null);
+    console.log(teams, "tream")
     const dispatch = useDispatch();
     useEffect(() => {
         if (!board.loading)
@@ -103,11 +109,22 @@ const TopBar = ({listMember}) => {
         dispatch(updateFilterLabel(labels));
     }
 
+    const onChangeVisibilityBoard=async (e)=>{
+        await changeVisibilityOfBoard(e.target.value,board.id,members,dispatch)
+    }
 
+    const handleOpenMenu = (event) => {
+        setMenuAlchorEl(event.currentTarget);
+    };
+    const handleCloseMenu =async (role) => {
+        await changeVisibilityOfBoard(role,board.id,members,dispatch)
+        setMenuAlchorEl(null);
+    };
+    console.log(visibility)
     return (
         <style.TopBar>
             <style.LeftWrapper>
-                {isMember &&
+                {isMemberOrAdmin &&
                 <style.BoardNameInput
                     placeholder='Board Name'
                     value={currentTitle}
@@ -118,14 +135,49 @@ const TopBar = ({listMember}) => {
                     onBlur={handleTitleChange}
                 />
                 }
-                 {!isMember &&
+                 {!isMemberOrAdmin &&
                 <style.BoardNameInputs
                     placeholder='Board Name'
                     value={currentTitle}
                 />
                 }
                 {/*<span style={{color: "white", fontSize: "1.25rem"}}>|</span>*/}
-                <style.Span>|</style.Span>
+                <style.Span >|</style.Span>
+                <Tooltip title="Workspace name">
+                    <common.Button>
+                        {teams?.name}
+                    </common.Button>
+                </Tooltip>
+                <style.Span >|</style.Span>
+
+
+                <Tooltip title="Visibility">
+                 <common.Button
+                    onClick={(e)=> {
+                        isAdmin && handleOpenMenu(e)
+                    }}
+                >
+                    {visibility}
+                </common.Button>
+                </Tooltip>
+
+
+                <Menu
+                        id="basic-menu"
+                        anchorEl={menuAnchorEl}
+                        open={Boolean(menuAnchorEl)}
+                        onClose={setMenuAlchorEl.bind(this,null)}
+                        MenuListProps={{
+                            'aria-labelledby': 'basic-button',
+                        }}
+                    >   { Object.values(boardRoles).map((role, index) => (
+                    <MenuItem key = {index} onClick={handleCloseMenu.bind(this, role)}>{role}</MenuItem>
+                     ))
+
+                      }
+                    </Menu>
+                <style.Span >|</style.Span>
+
                 <AvatarGroup sx={{
                     '& .MuiAvatar-root': {width: 25, height: 25, fontSize: "0.75rem"},
                 }}>
@@ -223,10 +275,13 @@ const TopBar = ({listMember}) => {
 
                 </Popover>
 
-                <style.InviteButton onClick={(event) => setInvitePopover(event.currentTarget)}>
-                    <PersonAddAltIcon/>
-                    <style.TextSpan> Share</style.TextSpan>
-                </style.InviteButton>
+                {isMemberOrAdmin &&
+                    <style.InviteButton onClick={(event) => setInvitePopover(event.currentTarget)}>
+                        <PersonAddAltIcon/>
+                        <style.TextSpan> Share</style.TextSpan>
+                    </style.InviteButton>
+                }
+
                 {invitePopover && (
                     <BasePopover
                         anchorElement={invitePopover}
@@ -284,7 +339,7 @@ const TopBar = ({listMember}) => {
                                               }}
                                               search={search}
                                 />
-                                {!(isSearch.label && isSearch.member)&&<NotiFilter/>}
+                                {!(isSearch.label && isSearch.member) && <NotiFilter/>}
                             </>
                         }
                         title='Filter'

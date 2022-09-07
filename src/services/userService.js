@@ -10,13 +10,14 @@ import {
     loadStart,
     fetchingStart,
     fetchingFinish,
-    logout, updateUserInfo
+    logout, updateUserInfo, loadBoardSuccess, updateTeam
 } from "../redux/Slices/userSlice";
 import {openAlert} from "../redux/Slices/alertSlice";
 import setBearer from "../utils/setBearer";
 import {changeRole} from "../redux/Slices/boardSlice";
 
 const baseUrl = process.env.REACT_APP_API_ENDPOINT + "/user/";
+const baseUrl2 = process.env.REACT_APP_API_ENDPOINT ;
 
 export const register = async (
     {name, surname, email, password, repassword},
@@ -97,6 +98,11 @@ export const loadUser = async (dispatch) => {
     try {
         const res = await axios.get(baseUrl + "get-user");
         dispatch(loadSuccess({user: res.data}));
+        const res2 = await axios.get(baseUrl2 + "/team/");
+           dispatch(updateTeam({teams: res2.data}))
+        const res3= await axios.get(baseUrl2 + "/boards/");
+        dispatch(loadBoardSuccess(res3.data))
+
     } catch (error) {
         dispatch(loadFailure());
     }

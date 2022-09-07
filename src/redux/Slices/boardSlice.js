@@ -127,6 +127,9 @@ const boardSlice = createSlice({
         deleteFilterLabel: (state, action) => {
             const {[action.payload] : deleteLabel ,...labels} = state.filter.labels;
             state.filter.labels = labels;
+        },
+        changeVisibility:(state,action) =>{
+            state.visibility=action.payload
         }
     },
 });
@@ -150,7 +153,8 @@ export const {
     updateFilterMembers,
     deleteFilterMember,
     updateFilterLabel,
-    deleteFilterLabel
+    deleteFilterLabel,
+    changeVisibility
 } = boardSlice.actions;
 
 export default boardSlice.reducer;

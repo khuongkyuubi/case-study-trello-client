@@ -6,6 +6,8 @@ const initialState = {
     pending: true,
     loading: false,
     token: localStorage.getItem("token"),
+    boards:[],
+    teams:[]
 };
 
 export const userSlice = createSlice({
@@ -66,7 +68,14 @@ export const userSlice = createSlice({
         },
         updateUserInfo: (state,action) => {
             state.userInfo = action.payload;
-        }
+        },
+        loadBoardSuccess: (state,action) => {
+            state.boards = action.payload;
+        },
+        updateTeam: (state,action) => {
+            state.teams = action.payload.teams;
+        },
+
     },
 });
 
@@ -84,5 +93,7 @@ export const {
     fetchingFinish,
     addNewBoard,
     updateUserInfo,
+    loadBoardSuccess,
+    updateTeam
 } = userSlice.actions;
 export default userSlice.reducer;
