@@ -45,6 +45,15 @@ const listSlice = createSlice({
                 return list;
             });
         },
+        successDeletingCard:(state, action)=>{
+            const {listId, cardId} = action.payload;
+            state.allLists = state.allLists.map((list) => {
+                if (list._id === listId) {
+                    list.cards = list.cards.filter(card => card._id !== cardId);
+                }
+                return list;
+            });
+        },
         setCardTitle: (state, action) => {
             const {listId, cardId, title} = action.payload;
             state.allLists = state.allLists.map((list) => {
@@ -243,7 +252,7 @@ export const {
     deleteMemberOfCard,
     addAttachmentForCard,
     deleteAttachmentOfCard,
-
+    successDeletingCard
 } = listSlice.actions;
 
 export default listSlice.reducer;

@@ -30,7 +30,7 @@ export const TitleInput = styled.input`
 	}
 `;
 
-export const Description = styled.div`
+export const DescriptionWrapper = styled.div`
 	margin: 0;
 	padding: 0;
 	color: #5e6c84;

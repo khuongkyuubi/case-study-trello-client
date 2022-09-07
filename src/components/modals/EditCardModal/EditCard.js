@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Modal from '@mui/material/Modal';
-// import Actions from './Actions/Actions';
+import Actions from './Actions/Actions';
 import Activity from './Activity/Activity';
 // import AddToCard from './AddToCard/AddToCard';
 // import Checklist from './Checklist/Checklist';
@@ -33,12 +33,12 @@ import {
 	CloseIconWrapper,
 } from './styled';
 import AddToCard from "./AddToCard/AddToCard";
-import {Description} from "./Title/styled";
+import {DescriptionWrapper} from "./Title/styled";
 import Features from "./Features/Features";
 import {getBoard} from "../../../services/boardsService";
 import {getLists} from "../../../services/boardService";
 import Attachments from "./Attachments/Attachments";
-
+import Description from "./Description/Description"
 export default function EditCard(props) {
 	const { cardId, listId, boardId } = props.ids;
 	const dispatch = useDispatch();
@@ -76,7 +76,9 @@ export default function EditCard(props) {
 										</FeaturesContainer>
 									)}
 									<DescriptionContainer>
-										<Description />
+										<DescriptionWrapper >
+											<Description/>
+										</DescriptionWrapper>
 									</DescriptionContainer>
 									{thisCard.attachments.length > 0 && (
 										<AttachmentContainer>
@@ -104,9 +106,9 @@ export default function EditCard(props) {
 							<AddToCardContainer>
 								<AddToCard />
 							</AddToCardContainer>
-							{/*<ActionsContainer>*/}
-							{/*	<Actions />*/}
-							{/*</ActionsContainer>*/}
+							<ActionsContainer>
+								<Actions />
+							</ActionsContainer>
 						</RightContainer>
 					</Wrapper>
 					<CloseIconWrapper onClick={props.callback}>
