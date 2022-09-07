@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Modal from '@mui/material/Modal';
-// import Actions from './Actions/Actions';
+import Actions from './Actions/Actions';
 import Activity from './Activity/Activity';
 // import AddToCard from './AddToCard/AddToCard';
 // import Checklist from './Checklist/Checklist';
@@ -104,9 +104,9 @@ export default function EditCard(props) {
 							<AddToCardContainer>
 								<AddToCard />
 							</AddToCardContainer>
-							{/*<ActionsContainer>*/}
-							{/*	<Actions />*/}
-							{/*</ActionsContainer>*/}
+							<ActionsContainer>
+								<Actions />
+							</ActionsContainer>
 						</RightContainer>
 					</Wrapper>
 					<CloseIconWrapper onClick={props.callback}>
