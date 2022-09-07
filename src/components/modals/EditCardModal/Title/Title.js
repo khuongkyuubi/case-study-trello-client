@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Container, IconWrapper, RightContainer, TitleInput, Description, Link} from './styled';
+import {Container, IconWrapper, RightContainer, TitleInput, DescriptionWrapper, Link} from './styled';
 import TitleIcon from '@mui/icons-material/ChromeReaderMode';
 import {titleUpdate} from '../../../../services/cardService';
 import {useDispatch, useSelector} from 'react-redux';
@@ -37,9 +37,9 @@ const Title = () => {
                 }
                     onBlur={handleTitleAccept}
                 />
-                <Description>
+                <DescriptionWrapper>
                     in list <Link>{card.listTitle}</Link>
-                </Description>
+                </DescriptionWrapper>
             </RightContainer>
         </Container>
     );
