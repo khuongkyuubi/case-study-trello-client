@@ -33,6 +33,7 @@ import {getLists, updateIsExpandedLabels} from "../../../services/boardService";
 import {useEffect} from "react";
 import {getBoard} from "../../../services/boardsService";
 import {getCard} from "../../../services/cardService";
+import {isMemberOfBoard} from "../../../utils/checkMemberRoleOfBoard";
 
 const Card = (props) => {
     const [openModal, setOpenModal] = useState(false);
@@ -40,7 +41,7 @@ const Card = (props) => {
     const isExpandedLabels = useSelector((state) => state.board.isExpandedLabels);
     const dispatch = useDispatch();
     const card = props.info;
-    const comment = card?.activities?.filter((act) => act.isComment).length;
+    const comment = card.activities.filter((act) => act.isComment).length;
     let checks = {c: 0, n: 0};
     card.checklists.map((checklist) => {
         return checklist.items.map((item) => {
@@ -116,7 +117,7 @@ const Card = (props) => {
                                 </LabelContainer>
                             )}
 
-                            <CardTitle>{card.title}</CardTitle>
+                            <CardTitle >{card.title}</CardTitle>
                             <FooterContainer>
                                 <IconGroupContainer>
                                     <IconGroupWrapper>

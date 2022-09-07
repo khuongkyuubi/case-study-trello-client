@@ -3,11 +3,17 @@ import * as style from './styled';
 import AddIcon from '@mui/icons-material/Add';
 import BottomButtonGroup from '../BottomButtonGroup/BottomButtonGroup';
 import {TextSpan} from '../../../pages/BoardPage/CommonStyled';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {createList} from '../../../services/boardService';
 import {Popover, Typography} from "@mui/material";
+import {isMemberOfBoard} from "../../../utils/checkMemberRoleOfBoard";
 
 const AddList = (props) => {
+    const {userInfo}=useSelector(state=>state.user)
+    const {members}=useSelector(state=>state.board)
+    const isMember=isMemberOfBoard(userInfo._id,members)
+
+
     const dispatch = useDispatch();
     const [addList, setAddList] = useState(false);
     const [title, setTitle] = useState('');
@@ -57,8 +63,8 @@ const AddList = (props) => {
         <>
             <style.AddAnotherListContainer>
                 <style.AddAnotherListButton show={false} onClick={(event) => {
+                    if(!isMember) return;
                     handleClick(event)
-
                 }}>
                     <AddIcon/>
                     <TextSpan>Add another List</TextSpan>
