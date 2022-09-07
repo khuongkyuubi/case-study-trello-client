@@ -28,7 +28,9 @@ import {Droppable, Draggable} from 'react-beautiful-dnd';
 import {CircularProgress} from "@mui/material";
 import Card from "../Card/Card";
 import {isMemberOfBoard} from "../../../utils/checkMemberRoleOfBoard";
-
+import io from "socket.io-client";
+let socket;
+const ENDPOINT = process.env.REACT_APP_SERVER_ENDPOINT;
 
 
 
@@ -50,6 +52,17 @@ const List = (props) => {
     const isFilterMember = useMemo(() => !!Object.values(filter.members).filter(value => value).length , [filter]);
     const isFilterLabel = useMemo(() => Object.values(filter.labels).includes(true) , [filter]);
     // console.log(props.info)
+    const board = useSelector((state) => state.board);
+    // console.log(board, "board")
+    useEffect(() => {
+        socket = io(ENDPOINT);
+        socket.emit("join", {rooms: userInfo.boards}, (error) => {
+            if (error) {
+                alert(error);
+            }
+        });
+
+    }, []);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -63,6 +76,16 @@ const List = (props) => {
         await createCard(newCardTitle, props.info._id, props.info.owner, dispatch);
         setIsAdding(prev => !prev);
         ref && ref.current && ref.current.scrollIntoView({behavior: 'smooth'});
+        socket.emit("sendNotify", {sender: userInfo._id, room: board.id,  message:
+                {
+                    user: userInfo.name,
+                    userColor: userInfo.color,
+                    action: "Create A Card",
+                    list: props.info?.title,
+                    card: newCardTitle,
+                    board: board.title,
+                    date: Date.now()
+                }})
     };
     const handleFooterCloseClick = () => {
         setClickFooter(false);

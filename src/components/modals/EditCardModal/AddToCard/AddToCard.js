@@ -35,6 +35,9 @@ const AddToCard = () => {
 						setMemberPopover(null);
 					}}
 					title='Members'
+					PaperProps={{
+						style: { width: '300px' },
+					}}
 					contents={<MembersPopover/>}
 				/>
 			)}

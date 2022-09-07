@@ -7,7 +7,9 @@ import {Avatar} from '@mui/material';
 import Button from '../../ReUsableComponents/Button';
 import {getUserFromEmail} from "../../../../../services/userService";
 import {boardMemberAdd} from "../../../../../services/boardService";
-
+import io from "socket.io-client";
+let socket;
+const ENDPOINT = process.env.REACT_APP_SERVER_ENDPOINT;
 
 const Container = styled.div`
   width: 100%;
@@ -81,6 +83,16 @@ const MemberComponent = (props) => {
     const dispatch = useDispatch();
     const card = useSelector((state) => state.card);
     const {members: boardMembers, teams} = useSelector((state) => state.board);
+    const board = useSelector((state) => state.board);
+    const {userInfo} = useSelector((state) => state.user)
+    useEffect(() => {
+        socket = io(ENDPOINT);
+        socket.emit("join private", {room: props.user}, (error)=> {
+            if (error) {
+                alert(error);
+            }
+        })
+    }, []);
     // check is member of this card
     const isMember = card.members.filter((a) => a.user === props.user).length ? true : false;
     // check is member of this board
@@ -88,6 +100,17 @@ const MemberComponent = (props) => {
     const handleClick = async () => {
         if (isMember) {
             await memberDelete(card.cardId, card.listId, card.boardId, props.user, props.name, dispatch);
+            socket.emit("sendPrivateNotify", {sender: userInfo._id, room: props.user,  message:
+                    {
+                        user: userInfo.name,
+                        userColor: userInfo.color,
+                        action: "Remove A Member To Card",
+                        member: props.name,
+                        color: props.color,
+                        card: card.title,
+                        board: board.title,
+                        date: Date.now()
+                    }})
         } else {
             if (!isMemberOfBoard) {
                 // add member to this board before
@@ -97,7 +120,23 @@ const MemberComponent = (props) => {
                 await boardMemberAdd(card.boardId,members,dispatch);
             }
             await memberAdd(card.cardId, card.listId, card.boardId, props.user, props.name, props.color, dispatch);
+            socket.emit("sendPrivateNotify", {sender: userInfo._id, room: props.user,  message:
+                    {
+                        user: userInfo.name,
+                        userColor: userInfo.color,
+                        action: "Add A Member To Card",
+                        member: props.name,
+                        color: props.color,
+                        card: card.title,
+                        board: board.title,
+                        date: Date.now()
+                    }})
         }
+        socket.emit("leave private", {room: props.user}, (error)=> {
+            if (error) {
+                alert(error);
+            }
+        })
     };
     return (
         <MemberWrapper onClick={handleClick}>
@@ -166,7 +205,7 @@ const MembersPopover = () => {
                                 return <MemberComponent key={member.user} {...member} />;
                             }) :
                         <Button
-                            style={{width: '100%', height: '3rem'}}
+                            style={{width: '100%', height: '2.5rem'}}
                             clickCallback={null}
                             title='No result!'
                         />
@@ -174,7 +213,7 @@ const MembersPopover = () => {
                 </>
             }
             </>) :  <Button
-                style={{maxWidth: '16rem', fontSize: '0.75rem'}}
+                style={{maxWidth: '100%', fontSize: '0.75rem'}}
                 clickCallback={null}
                 title={`Looks like that person isn't a member yet.  
                 Enter their email address to add them to the card and board.`}
