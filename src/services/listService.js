@@ -24,6 +24,7 @@ export const createCard = async (title, listId, boardId, dispatch) => {
 
 export const deleteCard = async( boardId, listId, cardId, dispatch)=>{
     dispatch(setLoading(true));
+    console.log('fix')
     try{
         const updatedList = await axios.delete(baseUrl + `/delete-card`,{data:{boardId, listId, cardId}})
         dispatch(setLoading(false));
