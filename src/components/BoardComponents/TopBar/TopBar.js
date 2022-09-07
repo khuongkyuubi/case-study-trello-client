@@ -47,7 +47,7 @@ const TopBar = ({listMember}) => {
     const {members} = useSelector((state) => state.board);
     const isMemberOrAdmin = isMemberOfBoard(userInfo._id, members);
      const isAdmin=isAdminOfBoard(userInfo._id, members)
-    console.log(isAdmin, "isAdmin")
+    // console.log(isAdmin, "isAdmin")
 
     const [search, setSearch] = useState("");
     // console.log(listMember, "list members")
@@ -58,7 +58,7 @@ const TopBar = ({listMember}) => {
     label:true
     })
     const [menuAnchorEl, setMenuAlchorEl] = useState(null);
-    console.log(teams, "tream")
+    // console.log(teams, "tream")
     const dispatch = useDispatch();
     useEffect(() => {
         if (!board.loading)
@@ -121,7 +121,7 @@ const TopBar = ({listMember}) => {
         setMenuAlchorEl(null);
     };
     // console.log(visibility)
-    console.log(isMemberOrAdmin, "is admin");
+    // console.log(isMemberOrAdmin, "is admin");
     useLayoutEffect(()=> {
         !isMemberOrAdmin && setInvitePopover(null);
     },[isMemberOrAdmin])

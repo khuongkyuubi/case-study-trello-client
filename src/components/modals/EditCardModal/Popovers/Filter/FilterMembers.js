@@ -37,7 +37,7 @@ const FilterMembersPopover = ({search,checkSearchCallback}) => {
         <Container>
             {isFoundMember && (<>
                 <Title>Members</Title>
-                <Box sx={{display: 'flex'}}>
+                <Box sx={{}}>
                     <FormControl sx={{m: 1}} component="fieldset" variant="standard">
                         <FormGroup>
                             <FormControlLabel

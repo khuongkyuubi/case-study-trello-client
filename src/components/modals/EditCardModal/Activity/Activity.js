@@ -17,7 +17,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { comment } from '../../../../services/cardService';
 import {Avatar, CircularProgress} from '@mui/material';
 import {isMemberOfBoard} from "../../../../utils/checkMemberRoleOfBoard";
-
+import io from "socket.io-client";
+let socket;
+const ENDPOINT = process.env.REACT_APP_SERVER_ENDPOINT;
 const Activity = () => {
 	const {userInfo}=useSelector(state=>state.user)
     const {members}=useSelector(state=>state.board)
@@ -31,11 +33,29 @@ const Activity = () => {
 	const [newComment, setNewComment] = useState('');
 	const [details, setDetails] = useState(false);
 	const [showSave, setShowSave] = useState(true);
+	const board = useSelector((state) => state.board);
+	useEffect(() => {
+		socket = io(ENDPOINT);
+		socket.emit("join", {rooms: userInfo.boards}, (error) => {
+			if (error) {
+				alert(error);
+			}
+		});
 
+	}, []);
 	const handleSaveClick = async () => {
 		setShowSave(prev => !prev);
 		await comment(card.cardId, card.listId, card.boardId, newComment, user.name, dispatch);
 		setShowSave(prev => !prev);
+		socket.emit("sendNotify", {sender: userInfo._id, room: card.boardId,  message:
+				{
+					user: user.userInfo.name,
+					userColor: user.userInfo.color,
+					action: `Comment`,
+					card: card.title,
+					board: board.title,
+					date: Date.now()
+				}})
 		setNewComment('');
 	};
 
