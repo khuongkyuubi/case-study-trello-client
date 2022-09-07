@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
-import {DeleteButton} from "../Popovers/Labels/styled";
-import {deleteCard} from "../../../../services/listService";
+import {DeleteButton} from "../../Popovers/Labels/styled";
+import {deleteCard} from "../../../../../services/listService";
 const Container = styled.div`
 	display: flex;
 	flex-direction: column;

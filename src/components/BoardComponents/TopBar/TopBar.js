@@ -267,7 +267,7 @@ const TopBar = ({listMember}) => {
                                               }}
                                               search={search}
                                 />
-                                {!(isSearch.label && isSearch.member)&&<NotiFilter/>}
+                                {!(isSearch.label || isSearch.member)&&<NotiFilter/>}
                             </>
                         }
                         title='Filter'

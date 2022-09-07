@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {deleteCard}  from '../../../../services/listService';
 import BasePopover from "../ReUsableComponents/BasePopover";
 import DeleteAttachmentPopover from "../Popovers/Attachment/DeleteAttachment";
-import DeleteCardPopover from "./DeleteCardPopover";
+import DeleteCardPopover from "./deleteCard/DeleteCardPopover";
 const Actions = () => {
 	const card = useSelector((state) => state.card);
 	const dispatch = useDispatch();
