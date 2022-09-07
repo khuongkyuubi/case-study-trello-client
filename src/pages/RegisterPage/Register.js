@@ -50,7 +50,6 @@ const Register = () => {
                 })
             }
         }, [])
-    console.log(typeInput)
     useEffect(()=>{
         if (userInformations.showPassword) {
             console.log('1')
