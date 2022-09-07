@@ -16,21 +16,22 @@ import Boards from "./pages/BoardsPage";
 import MyBoardsPage from "./pages/MyBoards/MyBoardsPage";
 import BoardMemberHome from "./pages/BoardMember/BoardMemberHome";
 import SettingHomePage from "./pages/SettingPage/SettingHomePage";
-import {getTeams} from "./services/teamService";
-import {useDispatch} from "react-redux";
+import {getAllTeam, getTeams} from "./services/teamService";
+import {useDispatch, useSelector} from "react-redux";
 
 
 import Settings from "./pages/SettingsUser/Settings";
+import ProtectedTeamRoute from "./utils/ProtectTeamRoute";
+import PrivateTeam from "./pages/PrivateTeam";
 
 
 function App() {
     const dispatch = useDispatch();
+    const {userInfo} = useSelector(state => state.user)
     useEffect(() => {
         loadUser(Store.dispatch);
     }, []);
-    useEffect(() => {
-        getTeams(false,dispatch)
-    },[])
+
 
     return (
         <BrowserRouter>
@@ -40,9 +41,12 @@ function App() {
                     <Route path="/home" element={<HomePage/>}/>
                     <Route path="/boards" element={<BoardsPage/>}/>
                     <Route path="/board/:id" element={<Board/>}/>
-                    <Route path="/my-boards/:idTeam" element={<MyBoardsPage />} />
-                    <Route path="/members/:idTeam" element={<BoardMemberHome />} />
-                    <Route path="/setting/:idTeam" element={<SettingHomePage/>} />
+                    <Route element={<ProtectedTeamRoute/>}>
+                        <Route path="/my-boards/:idTeam" element={<MyBoardsPage />} />
+                        <Route path="/members/:idTeam" element={<BoardMemberHome />} />
+                        <Route path="/setting/:idTeam" element={<SettingHomePage/>} />
+                    </Route>
+                    <Route path="/team/private" element={<PrivateTeam/>} />
                     <Route path="/boards-create" element={<Boards/>}/>
                     <Route path="/settings" element={<Settings/>}/>
                 </Route>

@@ -7,7 +7,8 @@ const initialState = {
     loading: false,
     token: localStorage.getItem("token"),
     boards:[],
-    teams:[]
+    teams: [],
+    teamFind:{},
 };
 
 export const userSlice = createSlice({
@@ -69,11 +70,40 @@ export const userSlice = createSlice({
         updateUserInfo: (state,action) => {
             state.userInfo = action.payload;
         },
-        loadBoardSuccess: (state,action) => {
-            state.boards = action.payload;
-        },
         updateTeam: (state,action) => {
             state.teams = action.payload.teams;
+        },
+        updateTeamCreate: (state,action) => {
+            state.teams.push(action.payload.team)
+        },
+        inviteTeamMember: (state,action) => {
+            state.teamFind.members = action.payload.members;
+        },
+        removeTeamMember: (state,action) => {
+            state.teams = state.teams.map((team)=>{
+                if(team._id === action.payload.teamId){
+                    team.members = team.members.filter((member)=> member._id !== action.payload.idMember)
+                }
+                return team;
+            })
+            state.teamFind.members = state.teamFind.members.filter((member)=>member._id !== action.payload.idMember)
+        },
+        addTeamFind: (state,action) => {
+            state.teamFind = action.payload.team;
+        },
+        updateRoleTeamFind: (state,action) => {
+            state.teamFind.role = action.payload;
+        },
+        updateRoleUserRole: (state,action) => {
+            state.teamFind.members = state.teamFind.members.map((member) =>{
+                if(member._id === action.payload.idMember){
+                    member.role = action.payload.role;
+                }
+                return member;
+            })
+        },
+        loadBoardSuccess: (state,action) => {
+            state.boards = action.payload;
         },
 
     },
@@ -93,7 +123,13 @@ export const {
     fetchingFinish,
     addNewBoard,
     updateUserInfo,
+    updateTeam,
+    updateTeamCreate,
+    removeTeamMember,
+    inviteTeamMember,
+    addTeamFind,
+    updateRoleTeamFind,
+    updateRoleUserRole,
     loadBoardSuccess,
-    updateTeam
 } = userSlice.actions;
 export default userSlice.reducer;

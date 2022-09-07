@@ -1,15 +1,15 @@
-import {teamRoles} from "./roles";
+import {roleInTeam} from "./roles";
 
-export const checkTeamVisibility = (userId, workspaceMembers, workspaceRole) => {
-    const user = workspaceMembers.find(member => member.user === userId);
-    switch (workspaceRole) {
-        case teamRoles.PRIVATE:
-            return Boolean(user);
-        case teamRoles.PUBLIC:
+export const isAdminOfTeam = (userId, workspaceMembers,) => {
+    const user = workspaceMembers?.filter(member => member?.user === userId);
+    if(user === undefined) return false
+
+    switch (user[0]?.role) {
+        case roleInTeam.ADMIN:
             return true;
         default:
             return false;
     }
 
 }
-export default checkTeamVisibility;
+export default isAdminOfTeam;

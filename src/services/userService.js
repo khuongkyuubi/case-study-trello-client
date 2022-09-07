@@ -10,13 +10,17 @@ import {
     loadStart,
     fetchingStart,
     fetchingFinish,
-    logout, updateUserInfo, loadBoardSuccess, updateTeam
+    logout,
+    updateUserInfo,
+    updateTeam,
+    loadBoardSuccess
 } from "../redux/Slices/userSlice";
 import {openAlert} from "../redux/Slices/alertSlice";
 import setBearer from "../utils/setBearer";
 import {changeRole} from "../redux/Slices/boardSlice";
 
 const baseUrl = process.env.REACT_APP_API_ENDPOINT + "/user/";
+
 const baseUrl2 = process.env.REACT_APP_API_ENDPOINT ;
 
 export const register = async (

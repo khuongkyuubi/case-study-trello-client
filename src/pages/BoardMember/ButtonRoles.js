@@ -3,15 +3,24 @@ import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
+import {Menu} from "@mui/material";
+import MenuItem from "@mui/material/MenuItem";
+import {useDispatch} from "react-redux";
+import {changeRoleUserTeam} from "../../services/teamService";
 
-export default function ButtonDetailMember() {
+export default function ButtonDetailMember(props) {
     const [anchorEl, setAnchorEl] = React.useState(null);
+    const [roleUser, setRoleUser] = React.useState(props.role);
+    const dispatch = useDispatch();
 
     const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
+        if(props.isAdmin){
+            setAnchorEl(event.currentTarget);
+        }
     };
-
-    const handleClose = () => {
+    const handleChoose = async (e, role) => {
+        await changeRoleUserTeam(props.idMember, props.idTeam, dispatch, role,props.memberUser)
+        setRoleUser(role);
         setAnchorEl(null);
     };
 
@@ -20,40 +29,35 @@ export default function ButtonDetailMember() {
 
     return (
         <div>
-            <Button aria-describedby={id} variant="contained" onClick={handleClick}
+            <Button aria-describedby={id} variant="contained"
+                    aria-controls={open ? 'basic-menu' : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? 'true' : undefined}
+                    onClick={handleClick}
                     style={{
                         backgroundColor: '#e6eaee',
                         border: 'none',
                         color:'black',
                         fontSize:'10px'
                     }}>
-                <span > Normal ...</span>
+                <span >{roleUser}</span>
             </Button>
-            <Popover
-                id={id}
-                open={open}
-                anchorEl={anchorEl}
-                onClose={handleClose}
-                anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'left',
-                }}
-                sx={{width:1400,height:1000,display: 'flex',justifyContent: 'center',ml:'2.5%',mt:0.5,fontSize:"10px"}}
-            >
-                <div style={{marginLeft:"5px"}}>
-
-                <Typography sx={{ h3: 2 ,ml:2,display: 'flex',justifyContent: 'center',color:'#788396',width:"100%"}}>Change permissions</Typography>
-                <hr/>
-                    <span>Admin</span>
-                    <Typography sx={{ p: 1 ,fontSize:"10px"}}>duonga2qp is a member of the following Workspace boards. They were last active </Typography>
-                <div style={{color:'#788396'}}>
-                    <span>Normal</span> <span ><DoneOutlineIcon style={{width:'10Px',marginTop:'2px'}}/></span>
-                    <Typography sx={{ p: 1,fontSize:"10px" }}>View member's Workspace cards</Typography>
-                </div>
-                </div>
 
 
-            </Popover>
+                <Menu
+                    id={id}
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={()=> setAnchorEl(null)}
+                    MenuListProps={{
+                        'aria-labelledby': 'basic-button',
+                    }}
+                >
+                    <MenuItem onClick={e => handleChoose(e, "Admin")}>Admin</MenuItem>
+                    <MenuItem onClick={e => handleChoose(e, "Member")}>Member</MenuItem>
+                </Menu>
+
+
         </div>
     );
 }
