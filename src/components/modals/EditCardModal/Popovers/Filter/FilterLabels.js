@@ -53,7 +53,7 @@ const FilterLabels = ({search,checkSearchCallback}) => {
                                     )
                                 }
                                 {!showMoreLabel &&!!searchOtherLabel&&!search&&<Button
-                                    style={{width: '60%'}}
+                                    style={{width: '100%'}}
                                     clickCallback={() => {
                                         setShowMoreLabels(prev => !prev);
                                     }}

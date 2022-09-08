@@ -9,6 +9,10 @@ import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNone
 import {Card, CardActions, CardContent, CardMedia, Divider, Grid, Paper, Typography} from "@mui/material";
 import styled from 'styled-components';
 import {IconWrapper} from '../Styled'
+import NotifyPopover from "./NotifyComponents/NotifyPopover";
+import BasePopover from "../modals/EditCardModal/ReUsableComponents/BasePopover";
+import {useDispatch, useSelector} from "react-redux";
+import {updateIsOpened} from "../../redux/Slices/userSlice";
 
 
 
@@ -23,8 +27,11 @@ export default function NotifyMenu(props) {
     const navigate = useNavigate();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
+    const {notifications} = useSelector((state)=> state.user)
+    const dispatch = useDispatch();
     const handleClick = async (event) => {
         setAnchorEl(event.currentTarget);
+        dispatch(updateIsOpened(true))
 
     };
 
@@ -41,69 +48,90 @@ export default function NotifyMenu(props) {
             {/*</BootstrapButton>*/}
 
             <IconWrapper
-                isNotify='true'
+                isNotify={!notifications.isOpened}
                 onClick={handleClick}
             >
                 <StyledIcon/>
             </IconWrapper>
 
-            <Paper>
-                <Menu
-                    sx={{
-                        maxWidth: 450,
-                        marginTop: '0.5rem'
+            {/*<Paper>*/}
+            {/*    <Menu*/}
+            {/*        sx={{*/}
+            {/*            maxWidth: 450,*/}
+            {/*            marginTop: '0.5rem'*/}
+            {/*        }}*/}
+            {/*        anchorEl={anchorEl}*/}
+            {/*        open={open}*/}
+            {/*        onClose={handleClose}*/}
+            {/*        transformOrigin={{horizontal: 'center', vertical: 'top'}}*/}
+            {/*        anchorOrigin={{horizontal: 'center', vertical: 'bottom'}}*/}
+            {/*    >*/}
+
+            {/*        <MenuItem*/}
+            {/*            onClick={() => {*/}
+            {/*                setAnchorEl(null);*/}
+            {/*            }}*/}
+            {/*        >*/}
+            {/*            <Grid container justify="space-between">*/}
+            {/*                <Typography inline={"true"} variant="body1" align="center">Notification</Typography>*/}
+            {/*            </Grid>*/}
+            {/*            <Divider/>*/}
+            {/*        </MenuItem>*/}
+
+            {/*        <MenuItem*/}
+            {/*            onClick={() => {*/}
+            {/*                setAnchorEl(null);*/}
+            {/*            }}*/}
+            {/*        >*/}
+            {/*            <Card sx={{maxWidth: "100%"}}>*/}
+            {/*                <CardMedia*/}
+            {/*                    component="img"*/}
+            {/*                    height="auto"*/}
+            {/*                    image="https://a.trellocdn.com/prgb/dist/images/tips/info-image-01@1x.3e2ea266f7e19b3e13a9.png"*/}
+            {/*                    alt="green iguana"*/}
+            {/*                />*/}
+
+            {/*            </Card>*/}
+
+            {/*        </MenuItem>*/}
+            {/*        <MenuItem>*/}
+            {/*            <Typography noWrap variant="h5" component="div" align={'center'}>*/}
+            {/*                Get inspired by dozens of different Trello workflows*/}
+            {/*            </Typography>*/}
+            {/*        </MenuItem>*/}
+            {/*        <MenuItem>*/}
+            {/*            <Typography variant="body2" color="text.secondary">*/}
+            {/*                Get insprired by dozens of different Trello workflows*/}
+            {/*            </Typography>*/}
+
+            {/*        </MenuItem>*/}
+            {/*        <MenuItem>*/}
+            {/*            <Button size="small">Share</Button>*/}
+            {/*            <Button size="small">Learn More</Button>*/}
+            {/*        </MenuItem>*/}
+            {/*    </Menu>*/}
+            {/*</Paper>*/}
+            {anchorEl&&(
+                <BasePopover
+                    anchorElement={anchorEl}
+                    closeCallback={() => {
+                        setAnchorEl(null);
                     }}
-                    anchorEl={anchorEl}
-                    open={open}
-                    onClose={handleClose}
-                    transformOrigin={{horizontal: 'center', vertical: 'top'}}
-                    anchorOrigin={{horizontal: 'center', vertical: 'bottom'}}
-                >
-
-                    <MenuItem
-                        onClick={() => {
-                            setAnchorEl(null);
-                        }}
-                    >
-                        <Grid container justify="space-between">
-                            <Typography inline={"true"} variant="body1" align="center">Notification</Typography>
-                        </Grid>
-                        <Divider/>
-                    </MenuItem>
-
-                    <MenuItem
-                        onClick={() => {
-                            setAnchorEl(null);
-                        }}
-                    >
-                        <Card sx={{maxWidth: "100%"}}>
-                            <CardMedia
-                                component="img"
-                                height="auto"
-                                image="https://a.trellocdn.com/prgb/dist/images/tips/info-image-01@1x.3e2ea266f7e19b3e13a9.png"
-                                alt="green iguana"
-                            />
-
-                        </Card>
-
-                    </MenuItem>
-                    <MenuItem>
-                        <Typography noWrap variant="h5" component="div" align={'center'}>
-                            Get inspired by dozens of different Trello workflows
-                        </Typography>
-                    </MenuItem>
-                    <MenuItem>
-                        <Typography variant="body2" color="text.secondary">
-                            Get insprired by dozens of different Trello workflows
-                        </Typography>
-
-                    </MenuItem>
-                    <MenuItem>
-                        <Button size="small">Share</Button>
-                        <Button size="small">Learn More</Button>
-                    </MenuItem>
-                </Menu>
-            </Paper>
+                    title='Notification'
+                    PaperProps={{
+                        style: { width: '450px' },
+                    }}
+                    contents={
+                        <NotifyPopover/>
+                        // <DeleteAttachmentPopover
+                        //     {...popoverComponent}
+                        //     closeCallback={() => {
+                        //         setDeletePopover(null);
+                        //     }}
+                        // />
+                    }
+                />
+            )}
         </div>
     );
 }

@@ -9,6 +9,10 @@ const initialState = {
     boards:[],
     teams: [],
     teamFind:{},
+    notifications: {
+        isOpened: false,
+        data: []
+    }
 };
 
 export const userSlice = createSlice({
@@ -105,6 +109,16 @@ export const userSlice = createSlice({
         loadBoardSuccess: (state,action) => {
             state.boards = action.payload;
         },
+        updateIsOpened: (state,action) => {
+            state.notifications.isOpened = action.payload
+        },
+        addNotification: (state, action) => {
+            state.notifications.data.unshift(action.payload)
+        },
+        markAsRead: (state, action) => {
+            // state.notifications.data[action.payload.index].isUnread = action.payload.isUnread;
+            state.notifications.data[action.payload.index].isUnread = !state.notifications.data[action.payload.index].isUnread;
+        }
 
     },
 });
@@ -131,5 +145,8 @@ export const {
     updateRoleTeamFind,
     updateRoleUserRole,
     loadBoardSuccess,
+    updateIsOpened,
+    addNotification,
+    markAsRead,
 } = userSlice.actions;
 export default userSlice.reducer;
