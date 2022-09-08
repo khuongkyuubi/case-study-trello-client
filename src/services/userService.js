@@ -57,7 +57,7 @@ export const register = async (
                 })
             );
         } catch (error) {
-            console.log(error.response)
+            // console.log(error.response)
             dispatch(
                 openAlert({
                     message: error?.response?.data?.errMessage[0].msg
@@ -84,7 +84,7 @@ export const login = async ({email, password}, dispatch) => {
                 message,
                 severity: "success",
                 duration: 500,
-                nextRoute: "/boards",
+                // nextRoute: "/home",
             })
         );
     } catch (error) {
