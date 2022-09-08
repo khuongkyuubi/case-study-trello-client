@@ -173,13 +173,11 @@ const WorkspaceName = styled.div`
   font-weight: bold;
 `
 const InputName = styled.input`
-  color: rgba(255, 255, 255, 0.7);
   margin-top: 3px;
   width: 100%;
   padding: 5px;
   border-radius: 4px;
   border-color: #f5f6f8;
-
 `
 
 const SelectRoles = styled.select`
@@ -200,7 +198,6 @@ const OptionRoles = styled.option`
 const Desc2 = styled.div`
   font-size: 10px;
   margin-top: 10px;
-  //color: #7f8285;
   color: rgba(255, 255, 255, 0.7) ;
 `
 
@@ -213,13 +210,9 @@ const TextArea = styled.textarea`
   border-radius: 4px;
   width: 100%;
   border-color: #f5f6f8;
-  color: rgba(255, 255, 255, 0.7) ;
-
-
 `
 
 const Desc3 = styled.div`
-  //color: #7f8285;
   font-size: 10px;
   margin-top: 10px;
   margin-bottom: 3px;

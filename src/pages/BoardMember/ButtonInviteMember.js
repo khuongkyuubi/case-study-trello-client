@@ -41,9 +41,9 @@ export default function KeepMountedModal() {
     const [members, setMembers] = useState([]);
     const dispatch = useDispatch();
     const {idTeam} = useParams();
-    const {teams} = useSelector(state => state.user)
+    const {teams, teamFind} = useSelector(state => state.user)
     const team = teams.filter(team => team._id === idTeam);
-    const teamMembers = team[0].members;
+    const teamMembers = teamFind?.members;
     const handleClick = async () => {
         const checkMember = teamMembers.filter((m) => m.email === memberInput)[0];
         if (checkMember) {
