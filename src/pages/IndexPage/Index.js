@@ -15,11 +15,13 @@ import {
 } from "./Styled";
 import {useSelector} from "react-redux";
 import axios from "axios";
+import {CircularProgress} from "@mui/material";
 
 const Index = () => {
     const url = process.env.REACT_APP_API_ENDPOINT
     let navigate = useNavigate();
-    const [formData,setFormData] =  useState()
+    const [formData,setFormData] =  useState();
+    const [pending, setPending] = useState(false);
     let {userInfo} = useSelector(state => state.user)
     useEffect(() => {
         document.title = "Trello Clone"
@@ -28,7 +30,9 @@ const Index = () => {
     const onSubmit = async(e) =>{
         e.preventDefault();
         try{
+            setPending(true);
             const res = await axios.get(url + '/user/check-email/' + formData);
+            setPending(false);
             const email = res.data.checkMail;
             if (email) {
                 navigate('/login', {state: {email: formData}})
@@ -61,8 +65,8 @@ const Index = () => {
                                 : (
                                     <>
                                         <Form onSubmit={onSubmit}>
-                                            <Input type="email" placeholder='Email' onChange={(e) =>{setFormData(e.target.value)}}/>
-                                            <Button type='submit'>Sign up-It's free</Button>
+                                            <Input disabled={pending} type="email" placeholder='Email' onChange={(e) =>{setFormData(e.target.value)}}/>
+                                            {pending ? <CircularProgress size={"2.5rem"} /> :<Button type='submit'>Sign up-It's free</Button>}
                                         </Form>
                                     </>
                                 )
