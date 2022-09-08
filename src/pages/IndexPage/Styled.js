@@ -65,6 +65,7 @@ export const Text = styled.h3`
 
 
 export const Button = styled.button`
+  flex: 3;
   font-size: 1rem;
   background-color: #0065ff;
   width: 35%;
@@ -103,6 +104,7 @@ export const SvgItem = styled.img`
   })}
 `;
 export const Input = styled.input`
+  flex: 9;
   width: 100%;
   height: 50px;
   outline: none;
@@ -129,4 +131,11 @@ export const Form = styled.form`
   ${md({
   gap: "0.7rem",
 })}
+`;
+
+export const Pending = styled.div`
+  flex: 3;
+  //display: flex;
+  //align-items:center;
+  //justify-content: center;
 `;

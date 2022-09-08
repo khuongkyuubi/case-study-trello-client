@@ -12,6 +12,7 @@ import {
     Text,
     Button,
     SvgItem, Form, Input,
+    Pending,
 } from "./Styled";
 import {useSelector} from "react-redux";
 import axios from "axios";
@@ -66,7 +67,7 @@ const Index = () => {
                                     <>
                                         <Form onSubmit={onSubmit}>
                                             <Input disabled={pending} type="email" placeholder='Email' onChange={(e) =>{setFormData(e.target.value)}}/>
-                                            {pending ? <CircularProgress size={"2.5rem"} /> :<Button type='submit'>Sign up-It's free</Button>}
+                                            {pending ? <Pending><CircularProgress size={"2.5rem"} /></Pending> :<Button type='submit'>Sign up-It's free</Button>}
                                         </Form>
                                     </>
                                 )
