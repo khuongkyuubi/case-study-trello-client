@@ -18,6 +18,7 @@ import checkBoardVisibility from "../../utils/checkBoardVisibility";
 import {memRoles} from "../../utils/roles";
 
 const Board = (props) => {
+
     const navigate = useNavigate()
     const {id: boardId} = useParams();
     const dispatch = useDispatch();

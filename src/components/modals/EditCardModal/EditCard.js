@@ -39,11 +39,15 @@ import {getBoard} from "../../../services/boardsService";
 import {getLists} from "../../../services/boardService";
 import Attachments from "./Attachments/Attachments";
 import Description from "./Description/Description"
+import {isMemberOfBoard} from "../../../utils/checkMemberRoleOfBoard";
 export default function EditCard(props) {
 	const { cardId, listId, boardId } = props.ids;
 	const dispatch = useDispatch();
 	const thisCard = useSelector((state) => state.card);
 	const boardLabels = useSelector((state) => state.board.labels);
+	const {userInfo} = useSelector((state) => state.user);
+	const {members} = useSelector((state) => state.board);
+	const isMemberOrAdmin = isMemberOfBoard(userInfo._id, members);
 	// console.log(thisCard.attachments, "attachment")
 	React.useEffect(() => {
 		if (props.open) {
@@ -77,7 +81,7 @@ export default function EditCard(props) {
 									)}
 									<DescriptionContainer>
 										<DescriptionWrapper >
-											<Description/>
+											{isMemberOrAdmin &&<Description/>}
 										</DescriptionWrapper>
 									</DescriptionContainer>
 									{thisCard.attachments.length > 0 && (
@@ -107,7 +111,7 @@ export default function EditCard(props) {
 								<AddToCard />
 							</AddToCardContainer>
 							<ActionsContainer>
-								<Actions />
+								{isMemberOrAdmin &&<Actions />}
 							</ActionsContainer>
 						</RightContainer>
 					</Wrapper>

@@ -7,7 +7,8 @@ const initialState = {
     loading: false,
     token: localStorage.getItem("token"),
     boards:[],
-    teams:[]
+    teams:[],
+    boardsRecently:[]
 };
 
 export const userSlice = createSlice({
@@ -75,6 +76,10 @@ export const userSlice = createSlice({
         updateTeam: (state,action) => {
             state.teams = action.payload.teams;
         },
+          updateBoardsRecently: (state,action) => {
+            state.boardsRecently = action.payload;
+        },
+
 
     },
 });
@@ -94,6 +99,7 @@ export const {
     addNewBoard,
     updateUserInfo,
     loadBoardSuccess,
-    updateTeam
+    updateTeam,
+    updateBoardsRecently
 } = userSlice.actions;
 export default userSlice.reducer;
