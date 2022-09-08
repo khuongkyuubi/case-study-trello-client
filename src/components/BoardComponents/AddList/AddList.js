@@ -5,14 +5,14 @@ import BottomButtonGroup from '../BottomButtonGroup/BottomButtonGroup';
 import {TextSpan} from '../../../pages/BoardPage/CommonStyled';
 import {useDispatch, useSelector} from 'react-redux';
 import {createList} from '../../../services/boardService';
-import {Popover, Typography} from "@mui/material";
+import {CircularProgress, Popover, Typography} from "@mui/material";
 import {isMemberOfBoard} from "../../../utils/checkMemberRoleOfBoard";
 
 const AddList = (props) => {
     const {userInfo}=useSelector(state=>state.user)
     const {members}=useSelector(state=>state.board)
     const isMember=isMemberOfBoard(userInfo._id,members)
-
+    const [pending, setPending] = useState(false)
 
     const dispatch = useDispatch();
     const [addList, setAddList] = useState(false);
@@ -29,9 +29,11 @@ const AddList = (props) => {
         setAnchorEl(null);
         setTitle('');
     };
-    const handleAddClick = () => {
+    const handleAddClick = async () => {
         setAddList(false);
-        createList(title, props.boardId, dispatch);
+        setPending(true);
+       await createList(title, props.boardId, dispatch);
+        setPending(false);
         setTitle('');
         setAnchorEl(null);
 
@@ -59,7 +61,7 @@ const AddList = (props) => {
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popover' : undefined;
 
-    return (
+    return pending ? (<CircularProgress size={"2rem"} />) : (
         <>
             <style.AddAnotherListContainer>
                 <style.AddAnotherListButton show={false} onClick={(event) => {
