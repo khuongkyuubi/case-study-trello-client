@@ -10,14 +10,19 @@ import {
     loadStart,
     fetchingStart,
     fetchingFinish,
-    logout,
-    updateUserInfo,
-    updateTeam,
-    loadBoardSuccess
+    logout, updateUserInfo, loadBoardSuccess, updateTeam, updateBoardsRecently
 } from "../redux/Slices/userSlice";
 import {openAlert} from "../redux/Slices/alertSlice";
 import setBearer from "../utils/setBearer";
-import {changeRole} from "../redux/Slices/boardSlice";
+import {
+    changeRole,
+    setLoading,
+    successFetchingBoard,
+    updateFilterLabel,
+    updateFilterMembers
+} from "../redux/Slices/boardSlice";
+import initMembersFilter from "../utils/initMembersFilter";
+import initLabelsFilter from "../utils/initLabelFilter";
 
 const baseUrl = process.env.REACT_APP_API_ENDPOINT + "/user/";
 
@@ -251,3 +256,22 @@ export const getUserInfo = async (dispatch) => {
         dispatch(loadFailure());
     }
 };
+
+export const getTwoBoardRecentlyOfUser = async (userId, dispatch) => {
+    dispatch(setLoading(true));
+    try {
+        const res = await  axios.get(baseUrl + userId+ "/get-two-board-recently");
+
+        dispatch(updateBoardsRecently(res.data));
+    } catch (error) {
+        dispatch(setLoading(false));
+        dispatch(
+            openAlert({
+                // custom error will have response.data
+                message: error?.response?.data?.errMessage || error.message,
+                severity: "error",
+            })
+        )
+
+    }
+}

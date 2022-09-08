@@ -21,6 +21,7 @@ let socket;
 const ENDPOINT = process.env.REACT_APP_SERVER_ENDPOINT;
 
 const Board = (props) => {
+
     const navigate = useNavigate()
     const {id: boardId} = useParams();
     const dispatch = useDispatch();

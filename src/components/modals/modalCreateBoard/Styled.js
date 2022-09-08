@@ -247,7 +247,6 @@ export const DoneIconWrapper = styled.div`
 `;
 
 export const ChipWrapper = styled.div`
-  background: rgba(0, 0, 0, 0.3);
   padding: 0.5rem 0.5rem 0.5rem 0.5rem;
   width: 100%;
   display: flex;

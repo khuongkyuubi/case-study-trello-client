@@ -1,6 +1,6 @@
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate, Outlet, useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
+import {useEffect, useLayoutEffect, useState} from "react";
 import checkTeamVisibility from "./checkTeamVisibility";
 import { getTeam} from "../services/teamService";
 import LoadingScreen from "../components/LoadingScreen";
@@ -25,7 +25,7 @@ const ProtectedTeamRoute =  () => {
     //         if(!result) navigate("/")
     //     }
     // })
-    useEffect(() => {
+    useLayoutEffect(() => {
         getTeam(false, idTeam, dispatch);
     },[])
 
