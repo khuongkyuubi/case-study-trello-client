@@ -10,6 +10,8 @@ const initialState = {
     pending: true,
     creating:false,
     defaultTeam: '',
+    team: [],
+    loading: true,
 };
 
 const teamSlice = createSlice({
@@ -27,6 +29,12 @@ const teamSlice = createSlice({
             state.teamsData = action.payload.teams;
             state.pending = false;
         },
+        successFetchingTeam: (state, action) => {
+            state.team = action.payload.team;
+            state.pending = false;
+            state.loading = false;
+        },
+
         failFetchingTeams: (state) => {
             state.pending = false;
         },
@@ -34,8 +42,12 @@ const teamSlice = createSlice({
             state.creating = true;
         },
         successCreatingTeam: (state, action) => {
-            state.teamsData.push(action.payload);
+            // console.log(action.payload, "team created");
+            state.teamsData.unshift(action.payload);
             state.creating = false;
+        },
+        startFetchingTeamCurrent: (state, action) => {
+            state.loading = true;
         },
         failCreatingTeam: (state) => {
             state.creating = true;
@@ -44,11 +56,24 @@ const teamSlice = createSlice({
             state.teamsData = state.teamsData.map(team => {
                 if(team._id === action.payload.teamId){
                     team.isOpen = !team.isOpen;
-                    // team.isOpen = action.payload.isOpen;
                 }
                 return team;
             })
         },
+        changeRole: (state, action) => {
+            state.teamsData = state.teamsData.map(team => {
+                if(team._id === action.payload.teamId){
+                    team.role = action.payload.role;
+                }
+                return team;
+            })
+        },
+        inviteMember: (state, action) => {
+            // console.log(action.payload, "invite")
+            state.members = action.payload;
+        },
+
+
         reset:(state)=>{
             state=initialState;
         }
@@ -63,7 +88,11 @@ export const {
     successCreatingTeam,
     changeIsOpenStatus,
     failCreatingTeam,
-    reset
+    reset,
+    successFetchingTeam,
+    changeRole,
+    inviteMember,
+    startFetchingTeamCurrent
 } = teamSlice.actions;
 
 export default teamSlice.reducer;

@@ -8,7 +8,12 @@ const initialState = {
     token: localStorage.getItem("token"),
     boards:[],
     teams:[],
-    boardsRecently:[]
+    boardsRecently:[],
+    teamFind:{role: "Private"},
+    notifications: {
+        isOpened: false,
+        data: []
+    }
 };
 
 export const userSlice = createSlice({
@@ -70,9 +75,6 @@ export const userSlice = createSlice({
         updateUserInfo: (state,action) => {
             state.userInfo = action.payload;
         },
-        loadBoardSuccess: (state,action) => {
-            state.boards = action.payload;
-        },
         updateTeam: (state,action) => {
             state.teams = action.payload.teams;
         },
@@ -80,6 +82,48 @@ export const userSlice = createSlice({
             state.boardsRecently = action.payload;
         },
 
+        updateTeamCreate: (state,action) => {
+            state.teams.push(action.payload.team)
+        },
+        inviteTeamMember: (state,action) => {
+            state.teamFind.members = action.payload.members;
+        },
+        removeTeamMember: (state,action) => {
+            state.teams = state.teams.map((team)=>{
+                if(team._id === action.payload.teamId){
+                    team.members = team.members.filter((member)=> member._id !== action.payload.idMember)
+                }
+                return team;
+            })
+            state.teamFind.members = state.teamFind.members.filter((member)=>member._id !== action.payload.idMember)
+        },
+        addTeamFind: (state,action) => {
+            state.teamFind = action.payload.team;
+        },
+        updateRoleTeamFind: (state,action) => {
+            state.teamFind.role = action.payload;
+        },
+        updateRoleUserRole: (state,action) => {
+            state.teamFind.members = state.teamFind.members.map((member) =>{
+                if(member._id === action.payload.idMember){
+                    member.role = action.payload.role;
+                }
+                return member;
+            })
+        },
+        loadBoardSuccess: (state,action) => {
+            state.boards = action.payload;
+        },
+        updateIsOpened: (state,action) => {
+            state.notifications.isOpened = action.payload
+        },
+        addNotification: (state, action) => {
+            state.notifications.data.unshift(action.payload)
+        },
+        markAsRead: (state, action) => {
+            // state.notifications.data[action.payload.index].isUnread = action.payload.isUnread;
+            state.notifications.data[action.payload.index].isUnread = !state.notifications.data[action.payload.index].isUnread;
+        }
 
     },
 });
@@ -98,8 +142,17 @@ export const {
     fetchingFinish,
     addNewBoard,
     updateUserInfo,
-    loadBoardSuccess,
     updateTeam,
-    updateBoardsRecently
+    updateTeamCreate,
+    removeTeamMember,
+    inviteTeamMember,
+    addTeamFind,
+    updateRoleTeamFind,
+    updateRoleUserRole,
+    loadBoardSuccess,
+    updateBoardsRecently,
+    updateIsOpened,
+    addNotification,
+    markAsRead,
 } = userSlice.actions;
 export default userSlice.reducer;

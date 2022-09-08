@@ -64,7 +64,7 @@ const ContentWrapper = styled.div`
 `;
 
 export default function BasePopover(props) {
-	const { closeCallback, anchorElement, contents, title, backArrow, backClick } = props;
+	const { closeCallback, anchorElement, contents, title, backArrow, backClick, PaperProps } = props;
 
 	return (
 		<Popover
@@ -76,6 +76,7 @@ export default function BasePopover(props) {
 				vertical: 'bottom',
 				horizontal: 'left',
 			}}
+			PaperProps={PaperProps}
 		>
 			<Container changeWidth={props.width?props.width:'20vw'}>
 				<CloseButton onClick={closeCallback}>

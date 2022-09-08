@@ -86,7 +86,7 @@ export default function EditCard(props) {
 									</DescriptionContainer>
 									{thisCard.attachments.length > 0 && (
 										<AttachmentContainer>
-											<Attachments />
+											<Attachments isMemberOrAdmin={isMemberOrAdmin}/>
 										</AttachmentContainer>
 									)}
 									{/*{thisCard.checklists.length > 0 && (*/}

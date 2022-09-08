@@ -25,6 +25,7 @@ import initMembersFilter from "../utils/initMembersFilter";
 import initLabelsFilter from "../utils/initLabelFilter";
 
 const baseUrl = process.env.REACT_APP_API_ENDPOINT + "/user/";
+
 const baseUrl2 = process.env.REACT_APP_API_ENDPOINT ;
 
 export const register = async (

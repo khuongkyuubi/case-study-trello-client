@@ -37,6 +37,7 @@ const LabelsPopover = (props) => {
 	}, [search, thisCard])
 
 
+
 	const handleCreateClick = async (text, color, backColor) => {
 		props.arrowCallback(false);
 		props.titleCallback('Labels');

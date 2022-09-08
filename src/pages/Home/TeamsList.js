@@ -26,13 +26,13 @@ import {changeIsOpenStatus} from "../../redux/Slices/teamSlice";
 
 
 export default function TeamsList({team}) {
-    const [open, setOpen] = React.useState(team.isOpen);
+    const [open, setOpen] = React.useState(team?.isOpen);
     const dispatch = useDispatch();
 
 
 
     const handleClick = () => {
-        dispatch(changeIsOpenStatus({teamId: team._id}))
+        dispatch(changeIsOpenStatus({teamId: team?._id}))
         setOpen(!open);
     };
 
@@ -44,17 +44,17 @@ export default function TeamsList({team}) {
             sx={{width: '100%', maxWidth: 360}}
             component="nav"
             aria-labelledby="nested-list-subheader"
-            key={team._id}
+            key={team?._id}
         >
 
             <ListItemButton onClick={handleClick} className="NameProject">
                 <ListItemIcon>
-                    <IconProject>{team.name.charAt(0).toUpperCase()}</IconProject>
+                    <IconProject>{team?.name.charAt(0).toUpperCase()}</IconProject>
                 </ListItemIcon>
 
                 <ListItemText>
                     <Typography noWrap={true} sx={{fontSize:'1rem',fontWeight:'medium'
-                    }} >{team.name}</Typography>
+                    }} >{team?.name}</Typography>
                 </ListItemText>
 
                 {open ? <ExpandLess/> : <ExpandMore/>}
@@ -64,7 +64,7 @@ export default function TeamsList({team}) {
 
             <List component="div" disablePadding>
 
-                <Link to={`/my-boards/${team._id}`} className="my-board">
+                <Link to={`/my-boards/${team?._id}`} className="my-board">
                     <ListItemButton sx={{pl: 4}} className="NameProject">
                         <ListItemIcon>
                             <AnalyticsIcon/>
@@ -76,7 +76,7 @@ export default function TeamsList({team}) {
                 </Link>
 
 
-                <Link to={`/members/${team._id}`} className="my-board">
+                <Link to={`/members/${team?._id}`} className="my-board">
                     <ListItemButton sx={{pl: 4}} className="NameProject">
                         <ListItemIcon>
                             <SupervisedUserCircleIcon/>
@@ -85,7 +85,7 @@ export default function TeamsList({team}) {
                     </ListItemButton>
                 </Link>
 
-                <Link to={`/setting/${team._id}`} className="my-board">
+                <Link to={`/setting/${team?._id}`} className="my-board">
                     <ListItemButton sx={{pl: 4}} className="NameProject">
                         <ListItemIcon>
                             <SettingsIcon/>
