@@ -18,9 +18,11 @@ export default function ButtonDetailMember(props) {
             setAnchorEl(event.currentTarget);
         }
     };
+    console.log(props.idMember, "idMember")
     const handleChoose = async (e, role) => {
-        await changeRoleUserTeam(props.idMember, props.idTeam, dispatch, role,props.memberUser)
         setRoleUser(role);
+        console.log(role, 'role')
+        await changeRoleUserTeam(props.idMember, props.idTeam, dispatch, role,props.memberUser)
         setAnchorEl(null);
     };
 

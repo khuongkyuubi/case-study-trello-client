@@ -31,6 +31,8 @@ export default function Member({member, isAdmin, idTeam}){
         setDeletePopover(e.target)
     }
 
+    console.log(member, "member deleted")
+
     return (
         <DivContainerDetailMember >
             <WrapperContentRight>

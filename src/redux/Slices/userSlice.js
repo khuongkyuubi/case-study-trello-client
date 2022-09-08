@@ -97,7 +97,7 @@ export const userSlice = createSlice({
         updateRoleUserRole: (state,action) => {
             state.teamFind.members = state.teamFind.members.map((member) =>{
                 if(member._id === action.payload.idMember){
-                    member.role = action.payload.role;
+                    member.role = action.payload.roleUser;
                 }
                 return member;
             })
