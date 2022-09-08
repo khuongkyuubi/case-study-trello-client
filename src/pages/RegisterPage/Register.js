@@ -22,6 +22,7 @@ import {useEffect} from "react";
 import {IconWrap} from "../LoginPage/Styled";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import {CircularProgress} from "@mui/material";
 
 const Register = () => {
         let navigate = useNavigate();
@@ -41,7 +42,9 @@ const Register = () => {
             showPassword: false,
             showRePassword: false
         });
-        useEffect(() => {
+    const user = useSelector((state) => state.user);
+    console.log(user, "user")
+    useEffect(() => {
             document.title = "Create a Trello Account";
             if (state) {
                 setUserInformations({
@@ -52,14 +55,14 @@ const Register = () => {
         }, [])
     useEffect(()=>{
         if (userInformations.showPassword) {
-            console.log('1')
+            // console.log('1')
             setTypeInput({
                 ...typeInput,
                 password: 'text'
             })
         }
         else{
-            console.log('3')
+            // console.log('3')
             setTypeInput({
                 ...typeInput,
                 password: 'password'
@@ -68,13 +71,13 @@ const Register = () => {
     },[userInformations.showPassword])
         useEffect(() => {
                  if (userInformations.showRePassword) {
-                    console.log('2')
+                    // console.log('2')
                     setTypeInput({
                         ...typeInput,
                         rePassword: 'text'
                     })
                 }else {
-                    console.log('4')
+                    // console.log('4')
                     setTypeInput({
                         ...typeInput,
                         rePassword: 'password'
@@ -116,6 +119,7 @@ const Register = () => {
                             <Form onSubmit={(e) => handleSubmit(e)}>
                                 <Title>Sign up for your account</Title>
                                 <Input
+                                    disabled={user.pending}
                                     type="text"
                                     placeholder="Enter name"
                                     required
@@ -128,6 +132,7 @@ const Register = () => {
                                     }
                                 />
                                 <Input
+                                    disabled={user.pending}
                                     type="text"
                                     placeholder="Enter surname"
                                     required
@@ -140,6 +145,7 @@ const Register = () => {
                                     }
                                 />
                                 <Input
+                                    disabled={user.pending}
                                     type="text"
                                     placeholder="Enter email"
                                     required
@@ -153,6 +159,7 @@ const Register = () => {
                                 />
                                 <WrapPassword>
                                     <Input
+                                        disabled={user.pending}
                                         type={typeInput.password}
                                         placeholder="Enter password"
                                         required
@@ -172,6 +179,7 @@ const Register = () => {
                                 </WrapPassword>
                                 <WrapPassword>
                                     <Input
+                                        disabled={user.pending}
                                         type={typeInput.rePassword}
                                         placeholder="Confirm password"
                                         required
@@ -196,9 +204,10 @@ const Register = () => {
                                     <Link fontSize="0.75rem">Terms of Service</Link> and{" "}
                                     <Link fontSize="0.75rem">Privacy Policy</Link>.
                                 </Text>
+                                {user.pending ? <CircularProgress size={"2rem"} />  :
                                 <Button type="submit" disabled={pending}>
                                     Complete
-                                </Button>
+                                </Button>}
                                 <Hr/>
                                 <Link fontSize="0.85rem" onClick={() => navigate("/login")}>
                                     Already have an account? Log In

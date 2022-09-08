@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {useEffect} from "react";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {useLocation, useNavigate} from "react-router-dom";
 import {login} from "../../services/userService";
 import Background from "../../components/Background";
@@ -20,6 +20,7 @@ import {
     Hr,
     Link, IconWrap, WrapPassword,
 } from "./Styled";
+import {CircularProgress} from "@mui/material";
 
 const Login = () => {
     const {state} = useLocation()
@@ -30,6 +31,7 @@ const Login = () => {
         password: "",
         showPassword: false
     });
+    const user = useSelector((state) => state.user);
     const [typeInput,setTypeInput] = useState('password')
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
@@ -74,6 +76,7 @@ const Login = () => {
                         <Form onSubmit={(e) => handleSubmit(e)}>
                             <Title>Log in to Trello</Title>
                             <Input
+                                disabled={user.pending}
                                 type="text"
                                 placeholder="Enter email"
                                 required
@@ -112,6 +115,7 @@ const Login = () => {
                             {/*/>*/}
                             <WrapPassword>
                                 <Input
+                                    disabled={user.pending}
                                     type={typeInput}
                                     placeholder="Enter password"
                                     required
@@ -127,8 +131,8 @@ const Login = () => {
                                     {userInformations.showPassword?<RemoveRedEyeIcon onClick={handleClickShowPassword}/>:<VisibilityOffIcon onClick={handleClickShowPassword}/>}
                                 </IconWrap>
                             </WrapPassword>
-
-                            <Button>Log in</Button>
+                            {user.pending ? <CircularProgress size={"2rem"} /> :
+                            <Button> Log in</Button>}
                             <Hr/>
                             <Link
                                 fontSize="0.85rem"
