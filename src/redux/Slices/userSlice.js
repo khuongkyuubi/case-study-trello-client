@@ -7,8 +7,9 @@ const initialState = {
     loading: false,
     token: localStorage.getItem("token"),
     boards:[],
-    teams: [],
-    teamFind:{},
+    teams:[],
+    boardsRecently:[],
+    teamFind:{role: "Private"},
     notifications: {
         isOpened: false,
         data: []
@@ -77,6 +78,10 @@ export const userSlice = createSlice({
         updateTeam: (state,action) => {
             state.teams = action.payload.teams;
         },
+          updateBoardsRecently: (state,action) => {
+            state.boardsRecently = action.payload;
+        },
+
         updateTeamCreate: (state,action) => {
             state.teams.push(action.payload.team)
         },
@@ -145,6 +150,7 @@ export const {
     updateRoleTeamFind,
     updateRoleUserRole,
     loadBoardSuccess,
+    updateBoardsRecently,
     updateIsOpened,
     addNotification,
     markAsRead,

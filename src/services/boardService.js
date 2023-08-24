@@ -60,11 +60,11 @@ export const activityUpdate = async (boardId, dispatch) => {
 };
 
 export const createList = async (title, boardId, dispatch) => {
-    dispatch(setLoading(true));
+    // dispatch(setLoading(true));
     try {
         const res = await axios.post(listRoute + '/create', {title: title, boardId: boardId});
         dispatch(successCreatingList(res.data));
-        dispatch(setLoading(false));
+        // dispatch(setLoading(false));
         dispatch(openAlert({
                 message: "Add column successfully!",
                 severity: 'success',
